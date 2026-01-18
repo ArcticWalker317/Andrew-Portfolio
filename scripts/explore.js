@@ -213,35 +213,35 @@
     nodeEls = [];
 
     for (const cfg of NODES) {
-      const a = document.createElement("a");
-      a.className = "bubble node";
-      a.id = cfg.id;
-      a.href = "#";
-      a.setAttribute("role", "button");
-      a.setAttribute("aria-label", cfg.label);
-      a.dataset.nodeId = cfg.id;
+      const div = document.createElement("div");
+      div.className = "bubble node";
+      div.id = cfg.id;
+      div.setAttribute("role", "button");
+      div.setAttribute("tabindex", "0");
+      div.setAttribute("aria-label", cfg.label);
+      div.dataset.nodeId = cfg.id;
 
       if (typeof cfg.size === "number") {
-        a.style.width = `${cfg.size}px`;
-        a.style.height = `${cfg.size}px`;
+        div.style.width = `${cfg.size}px`;
+        div.style.height = `${cfg.size}px`;
       }
 
       if (cfg.image) {
-        a.classList.add("has-image");
+        div.classList.add("has-image");
         const absImg = new URL(cfg.image, document.baseURI).href;
-        a.style.setProperty("--img", `url("${absImg}")`);
+        div.style.setProperty("--img", `url("${absImg}")`);
         const media = document.createElement("div");
         media.className = "node-media";
-        a.appendChild(media);
+        div.appendChild(media);
       }
 
       const title = document.createElement("div");
       title.className = "node-title";
       title.textContent = cfg.label;
-      a.appendChild(title);
+      div.appendChild(title);
 
-      map.appendChild(a);
-      nodeEls.push(a);
+      map.appendChild(div);
+      nodeEls.push(div);
     }
   }
 
@@ -617,11 +617,21 @@
   // ----------------------------
   function attachNodeClickHandlers() {
     nodeEls.forEach((nodeEl) => {
-      nodeEl.addEventListener("click", (e) => {
-        e.preventDefault();
+      nodeEl.addEventListener("click", () => {
         const nodeId = nodeEl.dataset.nodeId;
         if (nodeId) {
           toggleChildNodes(nodeId);
+        }
+      });
+
+      // Handle keyboard interaction (Enter/Space)
+      nodeEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          const nodeId = nodeEl.dataset.nodeId;
+          if (nodeId) {
+            toggleChildNodes(nodeId);
+          }
         }
       });
     });
