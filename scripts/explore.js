@@ -73,6 +73,174 @@
     },
   ];
 
+  /**
+   * =========================
+   * EDIT THIS OBJECT TO ADD/UPDATE POPUP CONTENT
+   * =========================
+   *
+   * Add content for each child node using the child node's ID as the key.
+   *
+   * Two layout options:
+   *
+   * 1. HORIZONTAL GROUPS LAYOUT (Recommended for rich content):
+   *    - sections: Array of horizontal groups with left/right content
+   *    - Each section has a left side (text) and right side (media)
+   *    - Sections stack vertically
+   *
+   * 2. SIMPLE LAYOUT:
+   *    - description: HTML content in a single flow
+   *
+   * Example horizontal groups structure:
+   * "child-id": {
+   *   title: "Project Title",
+   *   sections: [
+   *     {
+   *       left: `<h3>Updates:</h3><p>Latest updates...</p>`,
+   *       right: `<img src="assets/image1.jpg" alt="Image">`
+   *     },
+   *     {
+   *       left: `<h3>To-Do:</h3><ul><li>Task 1</li></ul>`,
+   *       right: `<iframe src="..."></iframe>`
+   *     }
+   *   ]
+   * }
+   *
+   * Example simple structure:
+   * "child-id": {
+   *   title: "Simple Title",
+   *   description: `<p>Your content here...</p>`
+   * }
+   *
+   * CUSTOMIZATION TIPS:
+   * - Title gets an underline automatically
+   * - Each section is a horizontal row (left text + right media)
+   * - Sections stack on top of each other
+   * - You can have as many sections as you want
+   * - On mobile, each section's content stacks vertically
+   * - Use h3 tags for section headers
+   */
+  const POPUP_CONTENT = {
+    "teams-1": {
+      title: "VT BAJA SAE",
+      sections: [
+        {
+          left: `
+            <h3>Updates:</h3>
+            <p>Breadboard works now 👍</p>
+            <p>Range tested - 695m range (range should be higher)</p>
+          `,
+          right: `
+            <img src="assets/me.jpg" alt="BAJA SAE Car">
+          `
+        },
+        {
+          left: `
+            <h3>To-Do:</h3>
+            <ul>
+              <li>Redo Range test with better practices</li>
+              <li>Improve antenna positioning</li>
+            </ul>
+          `,
+          right: `
+            <img src="assets/me.jpg" alt="Team Photo">
+          `
+        }
+      ]
+    },
+    "teams-2": {
+      title: "VT CRO WORKCELL",
+      description: `
+        <p>Description of the VT CRO Workcell project goes here.</p>
+        <p>Add details about what you did, technologies used, and outcomes.</p>
+      `
+    },
+    "teams-3": {
+      title: "HEVT",
+      description: `
+        <p>Description of the HEVT project goes here.</p>
+      `
+    },
+    "teams-4": {
+      title: "VEX ROBOTICS",
+      description: `
+        <p>Description of your VEX Robotics experience goes here.</p>
+      `
+    },
+    "proj-1": {
+      title: "Hand Tracking",
+      sections: [
+        {
+          left: `
+            <h3>Description:</h3>
+            <p>A computer vision project that tracks hand movements in real-time.</p>
+            <h3>Technologies Used:</h3>
+            <ul>
+              <li>Python + OpenCV</li>
+              <li>MediaPipe</li>
+              <li>TensorFlow</li>
+            </ul>
+          `,
+          right: `
+            <img src="assets/me.jpg" alt="Hand tracking demo">
+          `
+        },
+        {
+          left: `
+            <h3>Status:</h3>
+            <p>✅ Completed</p>
+            <h3>Demo:</h3>
+            <p>Watch the video to see it in action →</p>
+          `,
+          right: `
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Demo video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          `
+        }
+      ]
+    },
+    "proj-2": {
+      title: "THE CUBE",
+      description: `
+        <p>Description of THE CUBE project goes here.</p>
+      `
+    },
+    "about-1": {
+      title: "Bio",
+      description: `
+        <p>Write your bio here. Tell your story!</p>
+      `
+    },
+    "about-2": {
+      title: "Resume",
+      description: `
+        <p>Add resume highlights or a link to download your full resume.</p>
+        <a href="#" target="_blank">Download Resume (PDF)</a>
+      `
+    },
+    "about-3": {
+      title: "Contact",
+      description: `
+        <p>Get in touch with me:</p>
+        <ul>
+          <li>Email: your.email@example.com</li>
+          <li>LinkedIn: <a href="#" target="_blank">Your Profile</a></li>
+          <li>GitHub: <a href="#" target="_blank">Your GitHub</a></li>
+        </ul>
+      `
+    },
+    "award-1": {
+      title: "Arduino",
+      description: `
+        <p>Description of your Arduino award.</p>
+      `
+    },
+    "award-2": {
+      title: "Patent",
+      description: `
+        <p>Description of your patent.</p>
+      `
+    }
+  };
+
   // DOM refs
   let nodeEls = [];
   let childNodeEls = new Map(); // parentId -> [childElements]
@@ -83,6 +251,12 @@
   // Lines map: nodeEl -> svgPath
   const lines = new Map();
   const childLines = new Map(); // childEl -> svgPath
+
+  // Popup refs
+  const popup = document.getElementById("description-popup");
+  const popupTitle = document.getElementById("popup-title");
+  const popupBody = document.getElementById("popup-body");
+  const popupClose = document.querySelector(".popup-close");
 
   // ----------------------------
   // Deterministic speck background (unchanged)
@@ -364,6 +538,10 @@
       if (now - animStart < animDuration) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
+
+    // Attach click handlers to child nodes after they're rendered
+    await sleep(100); // Small delay to ensure DOM is ready
+    attachChildNodeClickHandlers();
   }
 
 
@@ -662,6 +840,84 @@
   }
 
   // ----------------------------
+  // Popup functions
+  // ----------------------------
+  function showPopup(childId) {
+    const content = POPUP_CONTENT[childId];
+    if (!content) {
+      console.warn(`No popup content found for child ID: ${childId}`);
+      return;
+    }
+
+    popupTitle.textContent = content.title;
+
+    // Check if using sections layout
+    if (content.sections && Array.isArray(content.sections)) {
+      // Horizontal groups stacked vertically
+      const sectionsHTML = content.sections.map(section => `
+        <div class="popup-section">
+          <div class="popup-section-left">
+            ${section.left || ''}
+          </div>
+          <div class="popup-section-right">
+            ${section.right || ''}
+          </div>
+        </div>
+      `).join('');
+
+      popupBody.innerHTML = `<div class="popup-sections-container">${sectionsHTML}</div>`;
+    } else if (content.leftColumn || content.rightColumn) {
+      // Legacy two-column layout support
+      popupBody.innerHTML = `
+        <div class="popup-two-column">
+          <div class="popup-left">
+            ${content.leftColumn || ''}
+          </div>
+          <div class="popup-right">
+            ${content.rightColumn || ''}
+          </div>
+        </div>
+      `;
+    } else {
+      // Simple single-column layout
+      popupBody.innerHTML = content.description || '';
+    }
+
+    popup.style.display = "flex";
+    // Trigger reflow to enable transition
+    void popup.offsetWidth;
+    popup.classList.add("show");
+  }
+
+  function closePopup() {
+    popup.classList.remove("show");
+    setTimeout(() => {
+      popup.style.display = "none";
+    }, 300); // Match transition duration
+  }
+
+  // Setup close button and overlay click
+  if (popupClose) {
+    popupClose.addEventListener("click", closePopup);
+  }
+
+  if (popup) {
+    popup.addEventListener("click", (e) => {
+      // Close if clicking the overlay (not the content)
+      if (e.target === popup) {
+        closePopup();
+      }
+    });
+  }
+
+  // Close popup with Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && popup.classList.contains("show")) {
+      closePopup();
+    }
+  });
+
+  // ----------------------------
   // Attach click handlers for toggling children
   // ----------------------------
   function attachNodeClickHandlers() {
@@ -683,6 +939,25 @@
           }
         }
       });
+    });
+  }
+
+  // ----------------------------
+  // Attach click handlers for child nodes to show popup
+  // ----------------------------
+  function attachChildNodeClickHandlers() {
+    // This will be called after child nodes are rendered
+    const allChildNodes = document.querySelectorAll(".child-node");
+    allChildNodes.forEach((childEl) => {
+      // Check if already has listener to avoid duplicates
+      if (!childEl.dataset.hasPopupListener) {
+        childEl.dataset.hasPopupListener = "true";
+        childEl.addEventListener("click", (e) => {
+          e.stopPropagation(); // Prevent parent node toggle
+          const childId = childEl.id;
+          showPopup(childId);
+        });
+      }
     });
   }
 
@@ -768,3 +1043,50 @@
   // Responsive: re-init on resize (keeps everything clamped on-screen)
   window.addEventListener("resize", init);
 })();
+
+/**
+ * ===============================================
+ * QUICK CUSTOMIZATION GUIDE
+ * ===============================================
+ *
+ * TO ADD/EDIT POPUP CONTENT:
+ * 1. Scroll to the POPUP_CONTENT object (around line 122)
+ * 2. Find the child node ID (e.g., "teams-1", "proj-1")
+ * 3. Use this template:
+ *
+ *    "your-node-id": {
+ *      title: "Your Title Here",
+ *      sections: [
+ *        {
+ *          left: `
+ *            <h3>Updates:</h3>
+ *            <p>Text content here</p>
+ *          `,
+ *          right: `
+ *            <img src="path/to/image.jpg" alt="Description">
+ *          `
+ *        },
+ *        {
+ *          left: `
+ *            <h3>To-Do:</h3>
+ *            <ul>
+ *              <li>Task 1</li>
+ *              <li>Task 2</li>
+ *            </ul>
+ *          `,
+ *          right: `
+ *            <iframe src="https://youtube.com/embed/..."></iframe>
+ *          `
+ *        }
+ *      ]
+ *    }
+ *
+ * FEATURES:
+ * - Title automatically gets an orange underline
+ * - Horizontal sections (left: text, right: media) stack vertically
+ * - Each section has a subtle divider line
+ * - Add as many sections as you want
+ * - Responsive (each section stacks on mobile)
+ * - Supports images, videos, iframes, lists, and more
+ * - Simple HTML - easy to customize!
+ */
