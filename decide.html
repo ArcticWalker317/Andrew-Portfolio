@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Decide</title>
+    <link rel="stylesheet" href="styles/decide.css" />
+  </head>
+  <body>
+    <main class="screen" aria-label="Choose your path">
+      <div class="choices" id="choices">
+        <div
+          class="choice-bubble float-a"
+          id="guided"
+          role="button"
+          tabindex="0"
+          data-href="guided.html"
+        >
+          <div class="bubble-inner">
+            <div class="photo-layer" aria-hidden="true"></div>
+            <div class="fill-layer" aria-hidden="true"></div>
+            <div class="choice-label">Guided Experience</div>
+          </div>
+        </div>
+
+        <div
+          class="choice-bubble float-b"
+          id="explore"
+          role="button"
+          tabindex="0"
+          data-href="explore.html"
+        >
+          <div class="bubble-inner">
+            <div class="photo-layer" aria-hidden="true"></div>
+            <div class="fill-layer" aria-hidden="true"></div>
+            <div class="choice-label">Explore on your own</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Black screen + pixels spawn here -->
+    <div id="end-screen" aria-hidden="true"></div>
+
+    <script src="scripts/decide.js"></script>
+  </body>
+</html>

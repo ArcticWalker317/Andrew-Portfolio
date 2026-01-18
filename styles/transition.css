@@ -1,0 +1,44 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  overflow: hidden;
+  background: #000;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+#screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  overflow: hidden;
+}
+
+/* Same speck background style as explore */
+#speck-bg {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+#speck-bg .px {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.9);
+  will-change: transform, opacity;
+  opacity: 1;
+}
+
+#speck-bg .px.dim { opacity: 1; }
+#speck-bg .px.tiny { width: 1px; height: 1px; opacity: 1; }
+#speck-bg .px.soft { filter: blur(0.2px); }
