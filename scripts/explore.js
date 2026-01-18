@@ -379,6 +379,59 @@
   }
 
   // ----------------------------
+  // Animate children out (back to parent)
+  // ----------------------------
+  async function animateChildrenOut(parentEl, children) {
+    const parentRect = parentEl.getBoundingClientRect();
+    const mapRect = map.getBoundingClientRect();
+    const parentCenterX = parentRect.left - mapRect.left + parentRect.width / 2;
+    const parentCenterY = parentRect.top - mapRect.top + parentRect.height / 2;
+
+    // Animate lines fading during return
+    const animDuration = 400;
+    const animStart = performance.now();
+    const tick = (now) => {
+      updateChildLines(parentEl, children);
+      if (now - animStart < animDuration) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    // Animate each child back to parent center in reverse order
+    for (let i = children.length - 1; i >= 0; i--) {
+      const { el, cfg } = children[i];
+
+      // Move back to parent center with scale down
+      el.style.transition = "all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
+      el.style.left = `${parentCenterX - (cfg.size || 120) / 2}px`;
+      el.style.top = `${parentCenterY - (cfg.size || 120) / 2}px`;
+      el.style.opacity = "0";
+      el.style.transform = "scale(0)";
+
+      // Fade out the connecting line
+      const path = childLines.get(el);
+      if (path) {
+        path.style.transition = "opacity 0.3s ease";
+        path.style.opacity = "0";
+      }
+
+      await sleep(60);
+    }
+
+    // Wait for animations to complete
+    await sleep(350);
+
+    // Clean up DOM elements
+    for (const { el } of children) {
+      const path = childLines.get(el);
+      if (path) {
+        path.remove();
+        childLines.delete(el);
+      }
+      el.remove();
+    }
+  }
+
+  // ----------------------------
   // Toggle child nodes for a parent
   // ----------------------------
   async function toggleChildNodes(parentId) {
@@ -388,20 +441,12 @@
     const parentEl = nodeEls.find((el) => el.id === parentId);
     if (!parentEl) return;
 
-    // If already open, close instantly (no animation)
+    // If already open, close with animation
     if (openParents.has(parentId)) {
       openParents.delete(parentId);
       const children = childNodeEls.get(parentId);
       if (children) {
-        // Remove elements and lines instantly
-        for (const { el } of children) {
-          const path = childLines.get(el);
-          if (path) {
-            path.remove();
-            childLines.delete(el);
-          }
-          el.remove();
-        }
+        await animateChildrenOut(parentEl, children);
         childNodeEls.delete(parentId);
       }
     } else {
