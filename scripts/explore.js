@@ -64,7 +64,7 @@
       id: "node-awards",
       label: "Awards",
       size: 125,
-      distance: 0.25,
+      distance: 0.22,
       angleDeg: 50,
       children: [
         { id: "award-1", label: "Arduino", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 30, image: "assets/me.jpg" },
@@ -124,17 +124,21 @@
       title: "VT BAJA SAE",
       sections: [
         {
+          customClass: "cols-1fr-1fr",
           left: `
-            <h3>Updates:</h3>
-            <p>Breadboard works now 👍</p>
-            <p>Range tested - 695m range (range should be higher)</p>
+            <img src="assets/photos/baja2.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
+            <p></p>
+            <img src="assets/photos/baja3.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
           `,
           right: `
-            <img src="assets/me.jpg" alt="BAJA SAE Car">
+            <img src="assets/photos/baja1.jpg" alt="Andrew Stevens" style="width: 65%; height: auto; margin-right: auto; display: block;">
           `
         },
         {
           left: `
+            <h3>Updates:</h3>
+            <p>Breadboard works now 👍</p>
+            <p>Range tested - 695m range (range should be higher)</p>
             <h3>To-Do:</h3>
             <ul>
               <li>Redo Range test with better practices</li>
@@ -205,25 +209,49 @@
     },
     "about-1": {
       title: "Bio",
-      description: `
-        <p>Write your bio here. Tell your story!</p>
-      `
+      sections: [
+        {
+          customClass: "cols-2fr-1fr", // Options: cols-2fr-1fr, cols-3fr-1fr, cols-1fr-2fr, cols-1fr (or leave empty for default 1fr 1fr)
+          left: `
+            <div style="font-size: 16px;">
+              <p>Hey! I am Andrew Stevens. I'm a Electrical and Computer Engineering student at Virginia Tech with an interest in the mix between developing real-time systems for sensing, control, automation, and embedded systems in general. I am passionate about designing and building efficient, reliable systems, and love bringing ideas to life with hands on projects. </p>
+              <p>Through my academic coursework and personal projects, I have gained experience with microcontrollers as well as programming in Python, C++, and C#. One of my recent projects involved creating an Arduino-powered puzzle box, which deepened my understanding of embedded systems, circuit design, and logical programming. I am currently diving into Python by developing a hand tracking interface program powered by YoloV8.</p>
+              <p>As I continue to grow technically, I'm also working to expand my professional network in preparation for entering the industry. I am seeking internship opportunities in electrical and computer engineering. My goal is to contribute to innovative teams while growing my technical and problem solving skills. </p>
+              <p>I am driven by curiosity, a passion for problem solving, and a desire to create innovative solutions to real-world problems.</p>
+            </div>
+          `,
+          right: `
+            <img src="assets/photos/bioandrew.jpg" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+          `
+        }
+      ]
+
     },
     "about-2": {
       title: "Resume",
-      description: `
-        <p>Add resume highlights or a link to download your full resume.</p>
-        <a href="#" target="_blank">Download Resume (PDF)</a>
-      `
+      sections: [
+        {
+          customClass: "cols-1fr",
+          left: `
+             <p style="text-align: center; margin-bottom: 16px;">
+              <a href="assets/Andrew Stevens - Resume.pdf" target="_blank" download style="font-size: 18px;">View Resume (PDF)</a>
+            </p>`
+            
+            //<img src="assets/Andrew Stevens - Resume_page-0001 (1).jpg" alt="Andrew Stevens Resume" style="width: 120%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
+          ,
+          right: ``
+        }
+      ]
     },
     "about-3": {
       title: "Contact",
       description: `
         <p>Get in touch with me:</p>
         <ul>
-          <li>Email: your.email@example.com</li>
-          <li>LinkedIn: <a href="#" target="_blank">Your Profile</a></li>
-          <li>GitHub: <a href="#" target="_blank">Your GitHub</a></li>
+          <li>Email: <a href="mailto:andrew.stevens0310@gmail.com" target="_blank">andrew.stevens0310@gmail.com</a></li>
+          <p>or</p>
+          <li>Email: <a href="mailto:andrews29@vt.edu" target="_blank">andrews29@vt.edu</a></li>
+          <li>LinkedIn: <a href="https://www.linkedin.com/in/as-vtech" target="_blank">linkedin.com/in/as-vtech</a></li>
         </ul>
       `
     },
@@ -258,6 +286,45 @@
   const popupTitle = document.getElementById("popup-title");
   const popupBody = document.getElementById("popup-body");
   const popupClose = document.querySelector(".popup-close");
+
+  // Lightbox refs
+  let lightbox = null;
+  let lightboxImage = null;
+
+  // Create lightbox element
+  function createLightbox() {
+    lightbox = document.createElement("div");
+    lightbox.className = "lightbox-overlay";
+    lightbox.innerHTML = `<img class="lightbox-image" src="" alt="Full size image">`;
+    document.body.appendChild(lightbox);
+    lightboxImage = lightbox.querySelector(".lightbox-image");
+
+    // Close on click anywhere
+    lightbox.addEventListener("click", closeLightbox);
+
+    // Prevent image click from closing (optional - remove if you want click on image to close too)
+    lightboxImage.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+  }
+
+  function openLightbox(imgSrc) {
+    if (!lightbox) createLightbox();
+    lightboxImage.src = imgSrc;
+    lightbox.style.display = "flex";
+    // Trigger reflow for transition
+    void lightbox.offsetWidth;
+    lightbox.classList.add("show");
+  }
+
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.classList.remove("show");
+    setTimeout(() => {
+      lightbox.style.display = "none";
+      lightboxImage.src = "";
+    }, 300);
+  }
 
   // ----------------------------
   // Deterministic speck background (unchanged)
@@ -857,7 +924,7 @@
     if (content.sections && Array.isArray(content.sections)) {
       // Horizontal groups stacked vertically
       const sectionsHTML = content.sections.map(section => `
-        <div class="popup-section">
+        <div class="popup-section ${section.customClass || ''}">
           <div class="popup-section-left">
             ${section.left || ''}
           </div>
@@ -912,12 +979,29 @@
     });
   }
 
-  // Close popup with Escape key
+  // Close popup or lightbox with Escape key
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && popup.classList.contains("show")) {
-      closePopup();
+    if (e.key === "Escape") {
+      // Close lightbox first if open
+      if (lightbox && lightbox.classList.contains("show")) {
+        closeLightbox();
+      } else if (popup.classList.contains("show")) {
+        closePopup();
+      }
     }
   });
+
+  // Attach click handlers to images inside popup for lightbox
+  function attachLightboxHandlers() {
+    const images = popupBody.querySelectorAll("img");
+    images.forEach((img) => {
+      img.style.cursor = "pointer";
+      img.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openLightbox(img.src);
+      });
+    });
+  }
 
   // ----------------------------
   // Hover management for parent nodes
@@ -998,8 +1082,9 @@
       const nodeId = nodeEl.dataset.nodeId;
       if (!nodeId) return;
 
-      // Open on mouse enter
+      // Open on mouse enter and cancel any pending close
       nodeEl.addEventListener("mouseenter", () => {
+        cancelCloseTimer(nodeId);
         openChildNodes(nodeId);
       });
 
@@ -1191,4 +1276,13 @@
  * - Responsive (each section stacks on mobile)
  * - Supports images, videos, iframes, lists, and more
  * - Simple HTML - easy to customize!
+ * 
+ * Available customClass options:
+ *
+ * No class - 1fr 1fr (equal 50/50 split) - DEFAULT
+ * cols-2fr-1fr - Text takes 2/3, image takes 1/3
+ * cols-3fr-1fr - Text takes 3/4, image takes 1/4 (currently applied to your Bio)
+ * cols-1fr-2fr - Text takes 1/3, image takes 2/3
+ * cols-1fr - Full width for text only
+ * 
  */

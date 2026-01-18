@@ -420,7 +420,7 @@ body {
 }
 
 .popup-scrollable::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
+  background: transparent;
   border-radius: 10px;
 }
 
@@ -505,6 +505,23 @@ body {
   align-items: start;
   padding-bottom: 28px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Custom layout options */
+.popup-section.cols-2fr-1fr {
+  grid-template-columns: 2fr 1fr;
+}
+
+.popup-section.cols-3fr-1fr {
+  grid-template-columns: 3fr 1fr;
+}
+
+.popup-section.cols-1fr-2fr {
+  grid-template-columns: 1fr 2fr;
+}
+
+.popup-section.cols-1fr {
+  grid-template-columns: 1fr;
 }
 
 .popup-section:last-child {
@@ -638,6 +655,48 @@ body {
   .popup-two-column {
     grid-template-columns: 1fr;
     gap: 24px;
+  }
+}
+
+/* ===== Image Lightbox ===== */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lightbox-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox-image {
+  max-width: 50vw;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  transform: scale(0.9);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lightbox-overlay.show .lightbox-image {
+  transform: scale(1);
+}
+
+/* Responsive lightbox */
+@media (max-width: 768px) {
+  .lightbox-image {
+    max-width: 90vw;
+    max-height: 70vh;
   }
 }
 

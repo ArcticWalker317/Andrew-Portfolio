@@ -3,13 +3,16 @@
   const blackout = document.getElementById("blackout");
 
   const WORD_COUNT = 50;
-  const PHOTO_COUNT = 70;
+  const PHOTO_COUNT = 120;
 
   // ✅ Hardcode your photo filenames here (must exist in /assets/photos/)
   // Example file paths: assets/photos/01.jpg, assets/photos/IMG_1234.png, etc.
   const PHOTO_FILES = [
     "me.jpg",
-    "me2.jpg"
+    "bioandrewlanding.jpg",
+    "baja2.png",
+    "baja3.png",
+    "baja1.jpg"
     // add more...
   ];
 
