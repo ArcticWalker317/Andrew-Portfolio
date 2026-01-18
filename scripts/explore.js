@@ -25,7 +25,7 @@
   const NODES = [
     {
       id: "node-teams",
-      label: "Teams",
+      label: "Student Teams",
       size: 170,
       distance: 0.5,
       angleDeg: -30,
