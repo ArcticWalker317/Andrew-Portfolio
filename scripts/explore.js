@@ -78,6 +78,7 @@
   let childNodeEls = new Map(); // parentId -> [childElements]
   let hoverRAF = 0;
   let openParents = new Set(); // Track which parent nodes have children open
+  let animatingParents = new Set(); // Track which parents are currently animating
 
   // Lines map: nodeEl -> svgPath
   const lines = new Map();
@@ -456,20 +457,31 @@
     const parentEl = nodeEls.find((el) => el.id === parentId);
     if (!parentEl) return;
 
-    // If already open, close with animation
-    if (openParents.has(parentId)) {
-      openParents.delete(parentId);
-      const children = childNodeEls.get(parentId);
-      if (children) {
-        await animateChildrenOut(parentEl, children);
-        childNodeEls.delete(parentId);
+    // Prevent multiple simultaneous animations for the same parent
+    if (animatingParents.has(parentId)) return;
+
+    // Mark as animating
+    animatingParents.add(parentId);
+
+    try {
+      // If already open, close with animation
+      if (openParents.has(parentId)) {
+        openParents.delete(parentId);
+        const children = childNodeEls.get(parentId);
+        if (children) {
+          await animateChildrenOut(parentEl, children);
+          childNodeEls.delete(parentId);
+        }
+      } else {
+        // Open children with animation
+        openParents.add(parentId);
+        const children = renderChildNodes(parentCfg, parentEl);
+        childNodeEls.set(parentId, children);
+        await animateChildrenIn(parentCfg, parentEl, children);
       }
-    } else {
-      // Open children with animation
-      openParents.add(parentId);
-      const children = renderChildNodes(parentCfg, parentEl);
-      childNodeEls.set(parentId, children);
-      await animateChildrenIn(parentCfg, parentEl, children);
+    } finally {
+      // Always remove from animating set when done
+      animatingParents.delete(parentId);
     }
   }
 
@@ -738,6 +750,7 @@
     }
     childNodeEls.clear();
     openParents.clear();
+    animatingParents.clear();
 
     renderNodes();
     attachHoverLineTracking();
