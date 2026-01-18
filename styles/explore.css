@@ -58,9 +58,6 @@ body {
   height: min(720px, 86svh);
   height: min(720px, 86dvh);
   overflow: hidden;
-
-  /* zooming is done by transforming all bubbles individually, not the map,
-     but keeping map as a stable reference box */
 }
 
 /* SVG branches behind bubbles */
@@ -76,77 +73,7 @@ body {
 }
 .links.ready { opacity: 1; }
 
-/* When zoomed into a node, fade connectors out */
-/* Keep connector lines visible even when zoomed */
-.map.zoomed .links {
-  opacity: 1 !important;
-  pointer-events: none;
-  z-index: 1;
-}
 
-/* Make sure the active bubble stays above the SVG */
-.node.active {
-  z-index: 10;
-}
-
-
-/* ===== Back button ===== */
-.back-btn {
-  position: fixed;
-  top: 18px;
-  left: 18px;
-  z-index: 10;
-
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-
-  padding: 10px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.18);
-  background: rgba(255,255,255,0.10);
-  backdrop-filter: blur(10px);
-  color: rgba(255,255,255,0.92);
-
-  box-shadow:
-    0 18px 70px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
-
-  cursor: pointer;
-  user-select: none;
-
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-6px);
-  transition: opacity 220ms ease, transform 220ms ease, background 220ms ease;
-}
-
-.back-btn.show {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-.back-btn:hover {
-  background: rgba(255,255,255,0.13);
-}
-
-.back-btn:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.35);
-  outline-offset: 4px;
-}
-
-.back-ic {
-  font-weight: 900;
-  font-size: 18px;
-  line-height: 1;
-}
-
-.back-text {
-  font-weight: 800;
-  letter-spacing: 0.2px;
-  font-size: 14px;
-}
 
 /* ===== Bubble base ===== */
 .bubble {
@@ -294,29 +221,6 @@ body {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.35); /* tweak 0.25–0.55 */
-}
-
-/* ===== Zoom/open state ===== */
-.map.zoomed .center,
-.map.zoomed .node:not(.active) {
-  /* fade the rest away when a node opens */
-  opacity: 0.10;
-  filter: blur(0.3px);
-  pointer-events: none;
-}
-
-.map.zoomed .node.active {
-  opacity: 1;
-  filter: none;
-  pointer-events: auto;
-  z-index: 6;
-}
-
-.map.zoomed .node.active:hover {
-  /* keep hover subtle while zoomed */
-  box-shadow:
-    0 28px 90px rgba(0, 0, 0, 0.66),
-    inset 0 1px 0 rgba(255, 255, 255, 0.26);
 }
 
 /* ===== Sub bubbles (small ones) ===== */

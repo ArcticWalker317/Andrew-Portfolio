@@ -3,7 +3,6 @@
   const map = document.getElementById("map");
   const svg = document.getElementById("links");
   const center = document.getElementById("node-center");
-  const backBtn = document.getElementById("back-btn");
 
   /**
    * =========================
@@ -72,15 +71,10 @@
 
   // DOM refs
   let nodeEls = [];
-  let subEls = []; // currently rendered sub-bubbles
-  let activeNodeId = null;
   let hoverRAF = 0;
 
   // Lines map: nodeEl -> svgPath
   const lines = new Map();
-
-  // For restoring node transforms after zoom
-  const nodeBaseTransform = new Map();
 
   // ----------------------------
   // Deterministic speck background (unchanged)
@@ -213,13 +207,12 @@
   function renderNodes() {
     nodeEls.forEach((el) => el.remove());
     nodeEls = [];
-    nodeBaseTransform.clear();
 
     for (const cfg of NODES) {
       const a = document.createElement("a");
       a.className = "bubble node";
       a.id = cfg.id;
-      a.href = "#"; // we intercept clicks to zoom instead of navigating
+      a.href = "#";
       a.setAttribute("role", "button");
       a.setAttribute("aria-label", cfg.label);
       a.dataset.nodeId = cfg.id;
@@ -242,24 +235,6 @@
       title.className = "node-title";
       title.textContent = cfg.label;
       a.appendChild(title);
-
-      // Click to open/close
-      a.addEventListener("click", (e) => {
-        e.preventDefault();
-        const id = a.dataset.nodeId;
-        if (activeNodeId === id) closeNode();
-        else openNode(id);
-      });
-
-      // Keyboard (Enter/Space)
-      a.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          const id = a.dataset.nodeId;
-          if (activeNodeId === id) closeNode();
-          else openNode(id);
-        }
-      });
 
       map.appendChild(a);
       nodeEls.push(a);
@@ -349,14 +324,12 @@
   }
 
   // After intro animation, lock each node at its final position with an inline transform.
-  // This makes later zoom transitions clean and reliable.
   function lockNodesToTargets() {
     nodeEls.forEach((el) => {
       const tx = el.style.getPropertyValue("--tx") || "0px";
       const ty = el.style.getPropertyValue("--ty") || "0px";
       const base = `translate3d(${tx}, ${ty}, 0) scale(1)`;
       el.style.transform = base;
-      nodeBaseTransform.set(el.id, base);
     });
   }
 
@@ -398,7 +371,6 @@
   }
 
   function updateLines() {
-    // When zoomed, CSS fades the svg anyway; but we can still keep it correct
     const c = centerPointInMap(center);
 
     for (const nodeEl of nodeEls) {
@@ -451,15 +423,6 @@
   async function playIntro() {
     svg.classList.remove("ready");
 
-    // Clear zoom state on init/re-init
-    activeNodeId = null;
-    map.classList.remove("zoomed");
-    backBtn.classList.remove("show");
-    nodeEls.forEach((n) => n.classList.remove("active"));
-
-    // Remove any sub-bubbles
-    clearSubs();
-
     nodeEls.forEach((n) => {
       n.classList.remove("ready");
       n.classList.remove("fly");
@@ -495,215 +458,12 @@
     };
     requestAnimationFrame(tick);
 
-    // After the fly animation finishes, lock final transforms (for zoom transitions)
+    // After the fly animation finishes, lock final transforms
     setTimeout(() => {
       lockNodesToTargets();
       updateLines();
     }, 950);
   }
-
-  // ----------------------------
-  // Sub-bubbles
-  // ----------------------------
-  function clearSubs() {
-    subEls.forEach((el) => el.remove());
-    subEls = [];
-  }
-
-  function renderSubsForNode(nodeCfg, parentEl) {
-    clearSubs();
-
-    const children = Array.isArray(nodeCfg.children) ? nodeCfg.children : [];
-    if (children.length === 0) return;
-
-    // Auto-angle distribution for any child missing angleDeg
-    const autoIdx = [];
-    for (let i = 0; i < children.length; i++) {
-      if (typeof children[i].angleDeg !== "number") autoIdx.push(i);
-    }
-    const startDeg = -90;
-    const step = autoIdx.length ? 360 / autoIdx.length : 360;
-
-    const childAngles = new Array(children.length).fill(0);
-    let k = 0;
-    for (let i = 0; i < children.length; i++) {
-      if (typeof children[i].angleDeg === "number") childAngles[i] = children[i].angleDeg;
-      else {
-        childAngles[i] = startDeg + step * k;
-        k++;
-      }
-    }
-
-    // Parent center point in map coords
-    const p = centerPointInMap(parentEl);
-
-    const mapR = map.getBoundingClientRect();
-    const cx = mapR.width / 2;
-    const cy = mapR.height / 2;
-
-    // Responsive scale down for sub bubbles on small maps
-    const minDim = Math.min(mapR.width, mapR.height);
-    let subScale = 1;
-    if (minDim < 520) subScale = 0.9;
-    if (minDim < 420) subScale = 0.82;
-
-    children.forEach((c, i) => {
-      const a = document.createElement("a");
-      a.className = "bubble sub";
-      a.id = c.id;
-      a.href = "#";
-      a.setAttribute("role", "button");
-      a.setAttribute("aria-label", c.label);
-
-      const size = Math.round((c.size || 110) * subScale);
-      a.style.width = `${size}px`;
-      a.style.height = `${size}px`;
-
-      if (c.image) {
-        a.classList.add("has-image");
-        const absImg = new URL(c.image, document.baseURI).href;
-        a.style.setProperty("--img", `url("${absImg}")`);
-        const media = document.createElement("div");
-        media.className = "node-media";
-        a.appendChild(media);
-      }
-
-      const title = document.createElement("div");
-      title.className = "sub-title";
-      title.textContent = c.label;
-      a.appendChild(title);
-
-      // Start at parent center
-      const sx = p.x - size / 2;
-      const sy = p.y - size / 2;
-
-      // Target around parent
-      const dist = typeof c.distance === "number" ? c.distance : 160;
-      const ang = (childAngles[i] * Math.PI) / 180;
-
-      let tx = p.x + Math.cos(ang) * dist - size / 2;
-      let ty = p.y + Math.sin(ang) * dist - size / 2;
-
-      // Clamp within map
-      const pad = 10;
-      tx = Math.max(pad, Math.min(mapR.width - size - pad, tx));
-      ty = Math.max(pad, Math.min(mapR.height - size - pad, ty));
-
-      a.style.setProperty("--psx", `${sx}px`);
-      a.style.setProperty("--psy", `${sy}px`);
-      a.style.setProperty("--ptx", `${tx}px`);
-      a.style.setProperty("--pty", `${ty}px`);
-
-      // Show + animate
-      map.appendChild(a);
-      subEls.push(a);
-
-      // click behavior: for now does nothing besides a subtle pulse (easy to change later)
-      a.addEventListener("click", (e) => {
-        e.preventDefault();
-        // optional: close on sub click, or open deeper, etc.
-      });
-
-      // Stagger pop
-      setTimeout(() => {
-        a.classList.add("ready");
-        a.classList.add("pop");
-      }, i * 90);
-    });
-
-    // A couple frames to ensure layout is committed
-    requestAnimationFrame(() => requestAnimationFrame(() => {}));
-  }
-
-  // ----------------------------
-  // Zoom open/close behavior
-  // ----------------------------
-  function getNodeCfgById(id) {
-    return NODES.find((n) => n.id === id) || null;
-  }
-
-  async function openNode(id) {
-    const nodeEl = nodeEls.find((el) => el.id === id);
-    const cfg = getNodeCfgById(id);
-    if (!nodeEl || !cfg) return;
-
-    // Ensure nodes are locked (if user clicks fast during intro)
-    if (!nodeBaseTransform.size) lockNodesToTargets();
-
-    activeNodeId = id;
-    map.classList.add("zoomed");
-    backBtn.classList.add("show");
-
-    nodeEls.forEach((n) => n.classList.toggle("active", n.id === id));
-
-    // Compute zoom transform to bring clicked node to center + scale up
-    const mapR = map.getBoundingClientRect();
-    const mapCx = mapR.width / 2;
-    const mapCy = mapR.height / 2;
-
-    const nodeCenter = centerPointInMap(nodeEl);
-
-    const minDim = Math.min(mapR.width, mapR.height);
-    const targetPx = minDim * 0.55;
-    const baseSize = nodeCenter.w;
-
-    let scale = targetPx / baseSize;
-    scale = Math.max(1.2, Math.min(2.6, scale));
-
-    const dx = mapCx - nodeCenter.x;
-    const dy = mapCy - nodeCenter.y;
-
-    const base = nodeBaseTransform.get(nodeEl.id) || nodeEl.style.transform || "";
-
-    // IMPORTANT: set base first, then next frame set zoom transform
-    nodeEl.style.transform = base;
-    // Force a paint boundary so transition actually runs
-    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-
-    nodeEl.style.transform = `${base} translate3d(${dx}px, ${dy}px, 0) scale(${scale})`;
-
-    // Keep lines updating while the node is transitioning
-    const start = performance.now();
-    const dur = 520;
-    function tick(now) {
-      updateLines();
-      if (now - start < dur) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-
-    renderSubsForNode(cfg, nodeEl);
-  }
-
-
-  function closeNode() {
-    if (!activeNodeId) return;
-
-    const nodeEl = nodeEls.find((el) => el.id === activeNodeId);
-    if (nodeEl) {
-      // Restore original transform
-      const base = nodeBaseTransform.get(nodeEl.id);
-      if (base) nodeEl.style.transform = base;
-    }
-
-    activeNodeId = null;
-    map.classList.remove("zoomed");
-    backBtn.classList.remove("show");
-    nodeEls.forEach((n) => n.classList.remove("active"));
-
-    // Remove sub bubbles
-    clearSubs();
-
-    // Recompute lines after zoom closes
-    updateLines();
-  }
-
-  // Back button behavior
-  backBtn.addEventListener("click", () => closeNode());
-
-  // Optional: ESC to close
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && activeNodeId) closeNode();
-  });
 
   // ----------------------------
   // Init + resize
