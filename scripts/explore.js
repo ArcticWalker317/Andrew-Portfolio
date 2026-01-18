@@ -13,58 +13,62 @@
    *  - id, label, size(px), distance(px or <=1 as fraction of map min), angleDeg(optional), image(optional)
    *
    * Sub-bubble fields (inside children):
-   *  - id, label, size(px), distance(px), angleDeg(optional), image(optional)
+   *  - id, label, size(px), distance(px), angleDeg(optional), image(optional), textSize(px, optional)
    *
    * Notes:
    *  - If angleDeg is missing, it auto-distributes evenly around the parent
    *  - Sub-bubbles do NOT navigate; they are just bubbles for now (easy to add href later)
+   *  - textSize sets the font size for child node labels (default is inherited from CSS)
    */
+  const childNodeDefaultSize = 100
+  const childNodeDefaultDist = 150
   const NODES = [
-    {
-      id: "node-about",
-      label: "About",
-      size: 150,
-      distance: 0.42,
-      angleDeg: -135,
-      image: null, // e.g. "assets/photos/about.jpg"
-      children: [
-        { id: "about-1", label: "Bio", size: 120, distance: 170, angleDeg: -90 },
-        { id: "about-2", label: "Resume", size: 120, distance: 170, angleDeg: 0, image: "assets/me.jpg" },
-        { id: "about-3", label: "Contact", size: 120, distance: 170, angleDeg: 90 },
-      ],
-    },
     {
       id: "node-teams",
       label: "Teams",
-      size: 150,
-      distance: 0.42,
-      angleDeg: 135,
+      size: 170,
+      distance: 0.5,
+      angleDeg: -30,
       children: [
-        { id: "teams-1", label: "VEX", size: 120, distance: 170, angleDeg: -60 },
-        { id: "teams-2", label: "Clubs", size: 120, distance: 170, angleDeg: 60 },
+        { id: "teams-1", label: "VT BAJA SAE", size: childNodeDefaultSize, distance: 170, angleDeg: -75, textSize: 13, image: "assets/me.jpg" },
+        { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -12, textSize: 13, image: "assets/me.jpg" },
+        { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -140, textSize: 16, image: "assets/me.jpg" },
+        { id: "teams-4", label: "VEX ROBOTICS", size: childNodeDefaultSize, distance: 170, angleDeg: 60, textSize: 13, image: "assets/me.jpg" },
       ],
     },
     {
       id: "node-projects",
       label: "Projects",
-      size: 160,
-      distance: 0.42,
-      angleDeg: 45,
+      size: 150,
+      distance: 0.35,
+      angleDeg: 155,
       children: [
-        { id: "proj-1", label: "RC Car", size: 120, distance: 170, angleDeg: -90 },
-        { id: "proj-2", label: "LoRa", size: 120, distance: 170, angleDeg: 0 },
-        { id: "proj-3", label: "PCBs", size: 120, distance: 170, angleDeg: 90 },
+        { id: "proj-1", label: "Hand Tracking", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 135, image: "assets/me.jpg" },
+        { id: "proj-2", label: "THE CUBE", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -175, image: "assets/me.jpg" },
+      ],
+    },
+    {
+      id: "node-about",
+      label: "About Me",
+      size: 135,
+      distance: 0.36,
+      angleDeg: -140,
+      image: null, // e.g. "assets/photos/about.jpg"
+      children: [
+        { id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 160 },
+        { id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: 160, angleDeg: -135},
+        { id: "about-3", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -60 },
       ],
     },
     {
       id: "node-awards",
       label: "Awards",
-      size: 150,
-      distance: 0.42,
-      angleDeg: -45,
+      size: 125,
+      distance: 0.25,
+      angleDeg: 50,
       children: [
-        { id: "award-1", label: "School", size: 120, distance: 170, angleDeg: -45 },
-        { id: "award-2", label: "Competitions", size: 120, distance: 170, angleDeg: 45 },
+        { id: "award-1", label: "Arduino", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 30, image: "assets/me.jpg" },
+        { id: "award-2", label: "Patent", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 130, image: "assets/me.jpg" },
       ],
     },
   ];
@@ -279,6 +283,9 @@
       const title = document.createElement("div");
       title.className = "node-title";
       title.textContent = childCfg.label;
+      if (typeof childCfg.textSize === "number") {
+        title.style.fontSize = `${childCfg.textSize}px`;
+      }
       childEl.appendChild(title);
 
       // Start at parent center
@@ -312,6 +319,10 @@
       return -90 + step * i;
     });
 
+    // Calculate constant stagger delay based on total animation time
+    const totalAnimTime = 50; // Total time for all children to start animating
+    const staggerDelay = children.length > 1 ? totalAnimTime / (children.length - 1) : 0;
+
     // Create SVG paths for each child
     for (let i = 0; i < children.length; i++) {
       const { el, cfg } = children[i];
@@ -325,15 +336,15 @@
       const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
       path.setAttribute("d", "");
       path.setAttribute("fill", "none");
-      path.setAttribute("stroke", "rgba(255, 255, 255, 0.25)");
-      path.setAttribute("stroke-width", "1.8");
+      path.setAttribute("stroke", "rgba(255, 255, 255, 0.30)");
+      path.setAttribute("stroke-width", "2.2");
       path.setAttribute("stroke-linecap", "round");
       path.setAttribute("filter", "url(#softGlow)");
       svg.appendChild(path);
       childLines.set(el, path);
 
       // Animate to target position
-      await sleep(i * 60);
+      await sleep(i * staggerDelay);
       el.style.opacity = "1";
       el.style.transform = "scale(1)";
       el.style.left = `${targetX}px`;
@@ -396,6 +407,10 @@
     };
     requestAnimationFrame(tick);
 
+    // Calculate constant stagger delay for closing animation
+    const totalAnimTime = 50; // Total time for all children to start closing // TO CHANGE LOOK AT THE OTHER ONE, AROUND LINE 314
+    const staggerDelay = children.length > 1 ? totalAnimTime / (children.length - 1) : 0;
+
     // Animate each child back to parent center in reverse order
     for (let i = children.length - 1; i >= 0; i--) {
       const { el, cfg } = children[i];
@@ -414,7 +429,7 @@
         path.style.opacity = "0";
       }
 
-      await sleep(60);
+      await sleep(staggerDelay);
     }
 
     // Wait for animations to complete
