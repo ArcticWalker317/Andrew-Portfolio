@@ -71,10 +71,13 @@
 
   // DOM refs
   let nodeEls = [];
+  let childNodeEls = new Map(); // parentId -> [childElements]
   let hoverRAF = 0;
+  let openParents = new Set(); // Track which parent nodes have children open
 
   // Lines map: nodeEl -> svgPath
   const lines = new Map();
+  const childLines = new Map(); // childEl -> svgPath
 
   // ----------------------------
   // Deterministic speck background (unchanged)
@@ -238,6 +241,186 @@
 
       map.appendChild(a);
       nodeEls.push(a);
+    }
+  }
+
+  // ----------------------------
+  // Render child nodes for a parent
+  // ----------------------------
+  function renderChildNodes(parentCfg, parentEl) {
+    if (!parentCfg.children || parentCfg.children.length === 0) return [];
+
+    const children = [];
+    const parentRect = parentEl.getBoundingClientRect();
+    const mapRect = map.getBoundingClientRect();
+    const parentCenterX = parentRect.left - mapRect.left + parentRect.width / 2;
+    const parentCenterY = parentRect.top - mapRect.top + parentRect.height / 2;
+
+    for (const childCfg of parentCfg.children) {
+      const childEl = document.createElement("div");
+      childEl.className = "bubble child-node";
+      childEl.id = childCfg.id;
+      childEl.dataset.parentId = parentCfg.id;
+
+      if (typeof childCfg.size === "number") {
+        childEl.style.width = `${childCfg.size}px`;
+        childEl.style.height = `${childCfg.size}px`;
+      }
+
+      if (childCfg.image) {
+        childEl.classList.add("has-image");
+        const absImg = new URL(childCfg.image, document.baseURI).href;
+        childEl.style.setProperty("--img", `url("${absImg}")`);
+        const media = document.createElement("div");
+        media.className = "node-media";
+        childEl.appendChild(media);
+      }
+
+      const title = document.createElement("div");
+      title.className = "node-title";
+      title.textContent = childCfg.label;
+      childEl.appendChild(title);
+
+      // Start at parent center
+      childEl.style.left = `${parentCenterX - (childCfg.size || 120) / 2}px`;
+      childEl.style.top = `${parentCenterY - (childCfg.size || 120) / 2}px`;
+      childEl.style.opacity = "0";
+      childEl.style.transform = "scale(0)";
+
+      map.appendChild(childEl);
+      children.push({ el: childEl, cfg: childCfg });
+    }
+
+    return children;
+  }
+
+  // ----------------------------
+  // Animate child nodes in/out
+  // ----------------------------
+  async function animateChildrenIn(parentCfg, parentEl, children) {
+    const parentRect = parentEl.getBoundingClientRect();
+    const mapRect = map.getBoundingClientRect();
+    const parentCenterX = parentRect.left - mapRect.left + parentRect.width / 2;
+    const parentCenterY = parentRect.top - mapRect.top + parentRect.height / 2;
+
+    // Auto-distribute angles if not specified
+    const angles = children.map((child, i) => {
+      if (typeof child.cfg.angleDeg === "number") {
+        return child.cfg.angleDeg;
+      }
+      const step = 360 / children.length;
+      return -90 + step * i;
+    });
+
+    // Create SVG paths for each child
+    for (let i = 0; i < children.length; i++) {
+      const { el, cfg } = children[i];
+      const angle = (angles[i] * Math.PI) / 180;
+      const distance = cfg.distance || 170;
+
+      const targetX = parentCenterX + Math.cos(angle) * distance - (cfg.size || 120) / 2;
+      const targetY = parentCenterY + Math.sin(angle) * distance - (cfg.size || 120) / 2;
+
+      // Create connecting line
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", "");
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", "rgba(255, 255, 255, 0.25)");
+      path.setAttribute("stroke-width", "1.8");
+      path.setAttribute("stroke-linecap", "round");
+      path.setAttribute("filter", "url(#softGlow)");
+      svg.appendChild(path);
+      childLines.set(el, path);
+
+      // Animate to target position
+      await sleep(i * 60);
+      el.style.opacity = "1";
+      el.style.transform = "scale(1)";
+      el.style.left = `${targetX}px`;
+      el.style.top = `${targetY}px`;
+      el.style.transition = "all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
+    }
+
+    // Update child lines
+    updateChildLines(parentEl, children);
+
+    // Continue updating lines during animation
+    const animDuration = 500;
+    const animStart = performance.now();
+    const tick = (now) => {
+      updateChildLines(parentEl, children);
+      if (now - animStart < animDuration) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  async function animateChildrenOut(children) {
+    // Animate all children back to center simultaneously
+    for (const { el } of children) {
+      el.style.opacity = "0";
+      el.style.transform = "scale(0)";
+    }
+
+    await sleep(400);
+
+    // Remove elements and lines
+    for (const { el } of children) {
+      const path = childLines.get(el);
+      if (path) {
+        path.remove();
+        childLines.delete(el);
+      }
+      el.remove();
+    }
+  }
+
+  // ----------------------------
+  // Update child node connector lines
+  // ----------------------------
+  function updateChildLines(parentEl, children) {
+    const parentPoint = centerPointInMap(parentEl);
+
+    for (const { el } of children) {
+      const childPoint = centerPointInMap(el);
+      const mx = (parentPoint.x + childPoint.x) / 2;
+      const my = (parentPoint.y + childPoint.y) / 2;
+      const bend = 0.15;
+      const cx1 = mx + (childPoint.x - parentPoint.x) * bend;
+      const cy1 = my + (childPoint.y - parentPoint.y) * bend;
+
+      const d = `M ${parentPoint.x.toFixed(2)} ${parentPoint.y.toFixed(2)}
+                 Q ${cx1.toFixed(2)} ${cy1.toFixed(2)}
+                   ${childPoint.x.toFixed(2)} ${childPoint.y.toFixed(2)}`;
+
+      const path = childLines.get(el);
+      if (path) path.setAttribute("d", d);
+    }
+  }
+
+  // ----------------------------
+  // Toggle child nodes for a parent
+  // ----------------------------
+  async function toggleChildNodes(parentId) {
+    const parentCfg = NODES.find((n) => n.id === parentId);
+    if (!parentCfg || !parentCfg.children || parentCfg.children.length === 0) return;
+
+    const parentEl = nodeEls.find((el) => el.id === parentId);
+    if (!parentEl) return;
+
+    // If already open, close it
+    if (openParents.has(parentId)) {
+      openParents.delete(parentId);
+      const children = childNodeEls.get(parentId);
+      if (children) {
+        await animateChildrenOut(children);
+        childNodeEls.delete(parentId);
+      }
+    } else {
+      // Open children
+      openParents.add(parentId);
+      const children = renderChildNodes(parentCfg, parentEl);
+      childNodeEls.set(parentId, children);
+      await animateChildrenIn(parentCfg, parentEl, children);
     }
   }
 
@@ -418,6 +601,21 @@
   }
 
   // ----------------------------
+  // Attach click handlers for toggling children
+  // ----------------------------
+  function attachNodeClickHandlers() {
+    nodeEls.forEach((nodeEl) => {
+      nodeEl.addEventListener("click", (e) => {
+        e.preventDefault();
+        const nodeId = nodeEl.dataset.nodeId;
+        if (nodeId) {
+          toggleChildNodes(nodeId);
+        }
+      });
+    });
+  }
+
+  // ----------------------------
   // Intro animation
   // ----------------------------
   async function playIntro() {
@@ -471,8 +669,20 @@
   function init() {
     buildSpecks(260);
 
+    // Close all child nodes on re-init
+    for (const children of childNodeEls.values()) {
+      for (const { el } of children) {
+        const path = childLines.get(el);
+        if (path) path.remove();
+        el.remove();
+      }
+    }
+    childNodeEls.clear();
+    openParents.clear();
+
     renderNodes();
     attachHoverLineTracking();
+    attachNodeClickHandlers();
 
     // Layout + lines + intro animation
     setStartAndTargetVars();
