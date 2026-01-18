@@ -112,7 +112,7 @@
    * }
    *
    * CUSTOMIZATION TIPS:
-   * - Title gets an underline automatically
+   * - Title gets an underline automatically and is centered
    * - Each section is a horizontal row (left text + right media)
    * - Sections stack on top of each other
    * - You can have as many sections as you want
@@ -1082,7 +1082,7 @@
  *    }
  *
  * FEATURES:
- * - Title automatically gets an orange underline
+ * - Title is centered with orange underline
  * - Horizontal sections (left: text, right: media) stack vertically
  * - Each section has a subtle divider line
  * - Add as many sections as you want
