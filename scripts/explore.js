@@ -247,6 +247,7 @@
   let hoverRAF = 0;
   let openParents = new Set(); // Track which parent nodes have children open
   let animatingParents = new Set(); // Track which parents are currently animating
+  let closeTimers = new Map(); // parentId -> timeout ID for delayed closing
 
   // Lines map: nodeEl -> svgPath
   const lines = new Map();
@@ -539,9 +540,10 @@
     };
     requestAnimationFrame(tick);
 
-    // Attach click handlers to child nodes after they're rendered
+    // Attach click and hover handlers to child nodes after they're rendered
     await sleep(100); // Small delay to ensure DOM is ready
     attachChildNodeClickHandlers();
+    attachChildNodeHoverHandlers(parentCfg.id);
   }
 
 
@@ -918,28 +920,122 @@
   });
 
   // ----------------------------
-  // Attach click handlers for toggling children
+  // Hover management for parent nodes
   // ----------------------------
-  function attachNodeClickHandlers() {
+  function cancelCloseTimer(parentId) {
+    const timer = closeTimers.get(parentId);
+    if (timer) {
+      clearTimeout(timer);
+      closeTimers.delete(parentId);
+    }
+  }
+
+  function scheduleClose(parentId) {
+    // Cancel any existing timer first
+    cancelCloseTimer(parentId);
+
+    // Schedule close after delay (gives time to move cursor to children)
+    const timer = setTimeout(() => {
+      closeChildNodes(parentId);
+      closeTimers.delete(parentId);
+    }, 300); // 300ms delay before closing
+
+    closeTimers.set(parentId, timer);
+  }
+
+  async function openChildNodes(parentId) {
+    const parentCfg = NODES.find((n) => n.id === parentId);
+    if (!parentCfg || !parentCfg.children || parentCfg.children.length === 0) return;
+
+    const parentEl = nodeEls.find((el) => el.id === parentId);
+    if (!parentEl) return;
+
+    // Already open or animating - do nothing
+    if (openParents.has(parentId) || animatingParents.has(parentId)) return;
+
+    // Cancel any pending close
+    cancelCloseTimer(parentId);
+
+    // Mark as animating
+    animatingParents.add(parentId);
+
+    try {
+      openParents.add(parentId);
+      const children = renderChildNodes(parentCfg, parentEl);
+      childNodeEls.set(parentId, children);
+      await animateChildrenIn(parentCfg, parentEl, children);
+    } finally {
+      animatingParents.delete(parentId);
+    }
+  }
+
+  async function closeChildNodes(parentId) {
+    if (!openParents.has(parentId)) return;
+    if (animatingParents.has(parentId)) return;
+
+    const parentEl = nodeEls.find((el) => el.id === parentId);
+    if (!parentEl) return;
+
+    animatingParents.add(parentId);
+
+    try {
+      openParents.delete(parentId);
+      const children = childNodeEls.get(parentId);
+      if (children) {
+        await animateChildrenOut(parentEl, children);
+        childNodeEls.delete(parentId);
+      }
+    } finally {
+      animatingParents.delete(parentId);
+    }
+  }
+
+  // ----------------------------
+  // Attach hover handlers for parent nodes
+  // ----------------------------
+  function attachNodeHoverHandlers() {
     nodeEls.forEach((nodeEl) => {
-      nodeEl.addEventListener("click", () => {
-        const nodeId = nodeEl.dataset.nodeId;
-        if (nodeId) {
-          toggleChildNodes(nodeId);
-        }
+      const nodeId = nodeEl.dataset.nodeId;
+      if (!nodeId) return;
+
+      // Open on mouse enter
+      nodeEl.addEventListener("mouseenter", () => {
+        openChildNodes(nodeId);
       });
 
-      // Handle keyboard interaction (Enter/Space)
+      // Schedule close on mouse leave (with delay)
+      nodeEl.addEventListener("mouseleave", () => {
+        scheduleClose(nodeId);
+      });
+
+      // Handle keyboard interaction (Enter/Space for accessibility)
       nodeEl.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          const nodeId = nodeEl.dataset.nodeId;
-          if (nodeId) {
-            toggleChildNodes(nodeId);
-          }
+          toggleChildNodes(nodeId);
         }
       });
     });
+  }
+
+  // ----------------------------
+  // Attach hover handlers to child nodes to keep parent open
+  // ----------------------------
+  function attachChildNodeHoverHandlers(parentId) {
+    const children = childNodeEls.get(parentId);
+    if (!children) return;
+
+    for (const { el } of children) {
+      // When hovering over a child, cancel the parent's close timer
+      el.addEventListener("mouseenter", () => {
+        cancelCloseTimer(parentId);
+      });
+
+      // When leaving a child, schedule close for the parent
+      el.addEventListener("mouseleave", () => {
+        scheduleClose(parentId);
+      });
+    }
   }
 
   // ----------------------------
@@ -1027,9 +1123,15 @@
     openParents.clear();
     animatingParents.clear();
 
+    // Clear any pending close timers
+    for (const timer of closeTimers.values()) {
+      clearTimeout(timer);
+    }
+    closeTimers.clear();
+
     renderNodes();
     attachHoverLineTracking();
-    attachNodeClickHandlers();
+    attachNodeHoverHandlers();
 
     // Layout + lines + intro animation
     setStartAndTargetVars();
