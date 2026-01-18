@@ -74,7 +74,6 @@
   let childNodeEls = new Map(); // parentId -> [childElements]
   let hoverRAF = 0;
   let openParents = new Set(); // Track which parent nodes have children open
-  let animatingParents = new Set(); // Track which parents are currently animating
 
   // Lines map: nodeEl -> svgPath
   const lines = new Map();
@@ -355,25 +354,6 @@
     requestAnimationFrame(tick);
   }
 
-  async function animateChildrenOut(children) {
-    // Animate all children back to center simultaneously
-    for (const { el } of children) {
-      el.style.opacity = "0";
-      el.style.transform = "scale(0)";
-    }
-
-    await sleep(400);
-
-    // Remove elements and lines
-    for (const { el } of children) {
-      const path = childLines.get(el);
-      if (path) {
-        path.remove();
-        childLines.delete(el);
-      }
-      el.remove();
-    }
-  }
 
   // ----------------------------
   // Update child node connector lines
@@ -402,37 +382,34 @@
   // Toggle child nodes for a parent
   // ----------------------------
   async function toggleChildNodes(parentId) {
-    // Prevent toggling if already animating
-    if (animatingParents.has(parentId)) return;
-
     const parentCfg = NODES.find((n) => n.id === parentId);
     if (!parentCfg || !parentCfg.children || parentCfg.children.length === 0) return;
 
     const parentEl = nodeEls.find((el) => el.id === parentId);
     if (!parentEl) return;
 
-    // Mark as animating
-    animatingParents.add(parentId);
-
-    try {
-      // If already open, close it
-      if (openParents.has(parentId)) {
-        openParents.delete(parentId);
-        const children = childNodeEls.get(parentId);
-        if (children) {
-          await animateChildrenOut(children);
-          childNodeEls.delete(parentId);
+    // If already open, close instantly (no animation)
+    if (openParents.has(parentId)) {
+      openParents.delete(parentId);
+      const children = childNodeEls.get(parentId);
+      if (children) {
+        // Remove elements and lines instantly
+        for (const { el } of children) {
+          const path = childLines.get(el);
+          if (path) {
+            path.remove();
+            childLines.delete(el);
+          }
+          el.remove();
         }
-      } else {
-        // Open children
-        openParents.add(parentId);
-        const children = renderChildNodes(parentCfg, parentEl);
-        childNodeEls.set(parentId, children);
-        await animateChildrenIn(parentCfg, parentEl, children);
+        childNodeEls.delete(parentId);
       }
-    } finally {
-      // Remove animation lock
-      animatingParents.delete(parentId);
+    } else {
+      // Open children with animation
+      openParents.add(parentId);
+      const children = renderChildNodes(parentCfg, parentEl);
+      childNodeEls.set(parentId, children);
+      await animateChildrenIn(parentCfg, parentEl, children);
     }
   }
 
@@ -701,7 +678,6 @@
     }
     childNodeEls.clear();
     openParents.clear();
-    animatingParents.clear();
 
     renderNodes();
     attachHoverLineTracking();
