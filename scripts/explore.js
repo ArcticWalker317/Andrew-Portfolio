@@ -74,6 +74,7 @@
   let childNodeEls = new Map(); // parentId -> [childElements]
   let hoverRAF = 0;
   let openParents = new Set(); // Track which parent nodes have children open
+  let animatingParents = new Set(); // Track which parents are currently animating
 
   // Lines map: nodeEl -> svgPath
   const lines = new Map();
@@ -401,26 +402,37 @@
   // Toggle child nodes for a parent
   // ----------------------------
   async function toggleChildNodes(parentId) {
+    // Prevent toggling if already animating
+    if (animatingParents.has(parentId)) return;
+
     const parentCfg = NODES.find((n) => n.id === parentId);
     if (!parentCfg || !parentCfg.children || parentCfg.children.length === 0) return;
 
     const parentEl = nodeEls.find((el) => el.id === parentId);
     if (!parentEl) return;
 
-    // If already open, close it
-    if (openParents.has(parentId)) {
-      openParents.delete(parentId);
-      const children = childNodeEls.get(parentId);
-      if (children) {
-        await animateChildrenOut(children);
-        childNodeEls.delete(parentId);
+    // Mark as animating
+    animatingParents.add(parentId);
+
+    try {
+      // If already open, close it
+      if (openParents.has(parentId)) {
+        openParents.delete(parentId);
+        const children = childNodeEls.get(parentId);
+        if (children) {
+          await animateChildrenOut(children);
+          childNodeEls.delete(parentId);
+        }
+      } else {
+        // Open children
+        openParents.add(parentId);
+        const children = renderChildNodes(parentCfg, parentEl);
+        childNodeEls.set(parentId, children);
+        await animateChildrenIn(parentCfg, parentEl, children);
       }
-    } else {
-      // Open children
-      openParents.add(parentId);
-      const children = renderChildNodes(parentCfg, parentEl);
-      childNodeEls.set(parentId, children);
-      await animateChildrenIn(parentCfg, parentEl, children);
+    } finally {
+      // Remove animation lock
+      animatingParents.delete(parentId);
     }
   }
 
@@ -679,6 +691,7 @@
     }
     childNodeEls.clear();
     openParents.clear();
+    animatingParents.clear();
 
     renderNodes();
     attachHoverLineTracking();

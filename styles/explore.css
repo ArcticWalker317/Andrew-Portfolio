@@ -164,14 +164,27 @@ body {
 }
 
 .node-title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
   font-weight: 800;
   letter-spacing: 0.2px;
   font-size: clamp(14px, 1.6vw, 18px);
   color: rgba(255, 255, 255, 0.92);
-  text-align: center;
-  padding: 0 10px;
   text-shadow: 0 2px 18px rgba(0,0,0,0.55);
   z-index: 3;
+
+  /* Prevent text overflow */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  line-height: 1.2;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 /* Hover grow */
@@ -223,6 +236,52 @@ body {
   background: rgba(0, 0, 0, 0.35); /* tweak 0.25–0.55 */
 }
 
+/* ===== Child nodes ===== */
+.child-node {
+  position: absolute;
+  z-index: 5;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.child-node .node-title {
+  font-size: clamp(12px, 1.4vw, 16px);
+  padding: 18px;
+}
+
+.child-node:hover {
+  transform: scale(1.1) !important;
+  background: rgba(255, 255, 255, 0.13);
+  box-shadow:
+    0 26px 86px rgba(0, 0, 0, 0.62),
+    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+}
+
+.child-node.has-image .node-media {
+  position: absolute;
+  inset: 7%;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.child-node.has-image .node-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--img);
+  background-size: cover;
+  background-position: center;
+  filter: saturate(1.05) contrast(1.02);
+}
+
+.child-node.has-image .node-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
 /* ===== Sub bubbles (small ones) ===== */
 .sub {
   left: 0;
@@ -249,14 +308,27 @@ body {
 }
 
 .sub-title {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
   font-weight: 800;
   letter-spacing: 0.2px;
   font-size: clamp(12px, 1.3vw, 15px);
   color: rgba(255, 255, 255, 0.92);
-  text-align: center;
-  padding: 0 10px;
   text-shadow: 0 2px 18px rgba(0,0,0,0.55);
   z-index: 3;
+
+  /* Prevent text overflow */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  line-height: 1.2;
+  padding: 18px;
+  box-sizing: border-box;
 }
 
 .sub:hover {
