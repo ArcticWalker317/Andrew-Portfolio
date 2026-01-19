@@ -215,57 +215,107 @@
           right: ``
         },
         {
-          customClass: "cols-2fr-1fr",
+          customClass: "cols-1fr-1fr-1fr",
           left: `
-            <h3 style="text-align:center;">Limit Switch PCB</h3> 
-            <p>One of the things I have worked on for Workcell, is a custom daisy chained limit switch PCB. </p>
-            <p>The limit switches are used for the print storage to see which shelves are being used.</p>
-            <p>Before, each limit switch had it's own wired connection to the main board. This was very messy. This board is made to use shift registers in order to tell which switches are pressed.</p>
+            <img src="assets/photos/workcell3.png" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
 
           `,
+          center:`
+            <h3 style="text-align:center;">Limit Switch PCB</h3> 
+            <p style="text-align:center;">One of the things I have worked on for Workcell, is a custom daisy chained limit switch PCB. </p>
+            <p style="text-align:center;">The limit switches are used for the print storage to see which shelves are being used.</p>
+            <p style="text-align:center;">Before, each limit switch had it's own wired connection to the main board. This was very messy. This board is made to use shift registers in order to tell which switches are pressed.</p>
+          `,
           right: `
-            <img src="assets/photos/workcell3.png" alt="Andrew Stevens" style="width: 65%; height: auto; margin-right: auto; display: block;">
-            <img src="assets/photos/workcell3.png" alt="Andrew Stevens" style="width: 65%; height: auto; margin-right: auto; display: block;">
+            <img src="assets/photos/workcell4.png" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
           `
         },
         {
           customClass: "cols-1fr-1fr",
           left: `
-            <img src="assets/photos/baja2.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
-            <p></p>
-            <img src="assets/photos/baja3.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
-          `,
+            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSySRV4imN1RDyjR64JwE02_5OLEnen3rAb7oE607ycZFz6j_m8JttrdKjeLlsDdobaeRhizv9oFHKr/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="600" height="550" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+            `,
           right: `
-            <img src="assets/photos/baja1.jpg" alt="Andrew Stevens" style="width: 65%; height: auto; margin-right: auto; display: block;">
-          `
-        },
-        {
-          customClass: "cols-1fr-1fr",
-          left: `
-            <img src="assets/photos/baja2.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
-            <p></p>
-            <img src="assets/photos/baja3.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
-          `,
-          right: `
-            <img src="assets/photos/baja1.jpg" alt="Andrew Stevens" style="width: 65%; height: auto; margin-right: auto; display: block;">
+            <h3 style="text-align:center;">Calibration Script</h3> 
+            <p style="text-align:center;">I also worked on the calibration system for the gantry.</p>
+            <p style="text-align:center;">The previous system relied solely on predefined locations to know where to move the gantry to. This led to decreased precision over time. </p>
+            <p style="text-align:center;">This new system uses a camera and april tag system to help guarantee precision. The system is tested on an Ender 3 since the mechanical team is still working on the improved gantry. Testing showed we can now achieve +- 0.5 mm accuracy in x & y directions.</p>
           `
         }
       ]
     },
     "teams-3": {
       title: "HEVT",
-      description: `
-        <h2 style="text-align:center;">COMING SOON</h2>
-        <p style="text-align:center;">I have been accepted into the HEVT team, but have not done any work yet as I am still being onboarded. </p>
-        <p style="text-align:center;"> For about the first 6 weeks of the Spring 2026 semester, I will attend lectures that introduce essential topics related to team operations and competition structure. </p>
-        <p style="text-align:center;">At the end of that semester, team leads will evaluate my contributions and progress to determine my eligibility to continue with the team. </p>
-      `
+      sections: [
+        
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <div style="font-size: 21px;">
+              <p style="text-align:center;">The Workcell Team is developing a fully autonomous 3D-printing solution equipped with two printers, a gantry, and a pick-and-place system.</p>
+              <p></p>
+              <p style="text-align:center;">On the right is a time lapse of the first version the team developed. While it is great, there is a lot of room for improvement. That is what this year is all about. We are working to get a second version that is new and improved in many ways.</p>
+            </div>
+          `,
+          right: `
+            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQXCMUe_TQgIuiRNTjyu1V92TLHX7KmrWXv5FlcF44h5ORfLzYK2cu_wNG44MtKUX2xNXbvsYWa75PS/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+          `
+        }
+      ]
     },
     "teams-4": {
       title: "VEX ROBOTICS",
-      description: `
-        <p>Description of your VEX Robotics experience goes here.</p>
-      `
+      sections: [
+        {
+          customClass: "cols-1fr-2fr",
+          left: `
+            <img src="assets/photos/vex2.jpg" alt="Andrew Stevens" style="width: 55%; height: auto; margin: 0 auto; display: block;">
+            <img src="assets/photos/vex3.jpg" alt="Andrew Stevens" style="width: 55%; height: auto; margin: 0 auto; display: block;">
+
+            `,
+          right: `
+            
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <div class="carousel" id="vex-carousel">
+              <div class="carousel-track">
+                <img src="assets/photos/vex1.jpg" class="carousel-slide" alt="VEX Robotics 1">
+                <img src="assets/photos/vex2.jpg" class="carousel-slide" alt="VEX Robotics 2">
+                <img src="assets/photos/vex3.jpg" class="carousel-slide" alt="VEX Robotics 3">
+                <img src="assets/photos/vex4.jpg" class="carousel-slide" alt="VEX Robotics 4">
+                <img src="assets/photos/vex5.jpg" class="carousel-slide" alt="VEX Robotics 5">
+                <img src="assets/photos/vex6.jpg" class="carousel-slide" alt="VEX Robotics 6">
+                <img src="assets/photos/vex7.jpg" class="carousel-slide" alt="VEX Robotics 7">
+                <img src="assets/photos/vex8.jpg" class="carousel-slide" alt="VEX Robotics 8">
+                <img src="assets/photos/vex9.jpg" class="carousel-slide" alt="VEX Robotics 9">
+                <img src="assets/photos/vex10.jpg" class="carousel-slide" alt="VEX Robotics 10">
+                <img src="assets/photos/vex11.jpg" class="carousel-slide" alt="VEX Robotics 11">
+                <img src="assets/photos/vex12.jpg" class="carousel-slide" alt="VEX Robotics 12">
+                <img src="assets/photos/vex13.jpg" class="carousel-slide" alt="VEX Robotics 13">
+                <img src="assets/photos/vex14.jpg" class="carousel-slide" alt="VEX Robotics 14">
+                <img src="assets/photos/vex15.jpg" class="carousel-slide" alt="VEX Robotics 15">
+                <img src="assets/photos/vex16.jpg" class="carousel-slide" alt="VEX Robotics 16">
+                <img src="assets/photos/vex17.jpg" class="carousel-slide" alt="VEX Robotics 17">
+                <img src="assets/photos/vex18.jpg" class="carousel-slide" alt="VEX Robotics 18">
+              </div>
+              <button class="carousel-btn carousel-prev" aria-label="Previous slide">&#8249;</button>
+              <button class="carousel-btn carousel-next" aria-label="Next slide">&#8250;</button>
+              <div class="carousel-dots"></div>
+            </div>
+          `,
+          right: ``
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <p style="text-align:center;">Description of your VEX Robotics experience goes here.</p>
+          `,
+          right: ``
+        }
+      ]
     },
     "proj-1": {
       title: "Hand Tracking",
@@ -1026,16 +1076,37 @@
     // Check if using sections layout
     if (content.sections && Array.isArray(content.sections)) {
       // Horizontal groups stacked vertically
-      const sectionsHTML = content.sections.map(section => `
-        <div class="popup-section ${section.customClass || ''}">
-          <div class="popup-section-left">
-            ${section.left || ''}
-          </div>
-          <div class="popup-section-right">
-            ${section.right || ''}
-          </div>
-        </div>
-      `).join('');
+      const sectionsHTML = content.sections.map(section => {
+        // Check if this is a 3-column layout
+        const hasCenter = section.center !== undefined;
+
+        if (hasCenter) {
+          return `
+            <div class="popup-section ${section.customClass || ''}">
+              <div class="popup-section-left">
+                ${section.left || ''}
+              </div>
+              <div class="popup-section-center">
+                ${section.center || ''}
+              </div>
+              <div class="popup-section-right">
+                ${section.right || ''}
+              </div>
+            </div>
+          `;
+        } else {
+          return `
+            <div class="popup-section ${section.customClass || ''}">
+              <div class="popup-section-left">
+                ${section.left || ''}
+              </div>
+              <div class="popup-section-right">
+                ${section.right || ''}
+              </div>
+            </div>
+          `;
+        }
+      }).join('');
 
       popupBody.innerHTML = `<div class="popup-sections-container">${sectionsHTML}</div>`;
     } else if (content.leftColumn || content.rightColumn) {
@@ -1056,9 +1127,101 @@
     }
 
     popup.style.display = "flex";
+    // Scroll to top of popup content
+    const scrollable = popup.querySelector(".popup-scrollable");
+    if (scrollable) scrollable.scrollTop = 0;
     // Trigger reflow to enable transition
     void popup.offsetWidth;
     popup.classList.add("show");
+
+    // Initialize carousels after popup is shown
+    setTimeout(() => {
+      initCarousels();
+      attachLightboxHandlers();
+    }, 50);
+  }
+
+  // ----------------------------
+  // Carousel functionality
+  // ----------------------------
+  function initCarousels() {
+    const carousels = popupBody.querySelectorAll('.carousel');
+
+    carousels.forEach(carousel => {
+      const track = carousel.querySelector('.carousel-track');
+      const slides = carousel.querySelectorAll('.carousel-slide');
+      const prevBtn = carousel.querySelector('.carousel-prev');
+      const nextBtn = carousel.querySelector('.carousel-next');
+      const dotsContainer = carousel.querySelector('.carousel-dots');
+
+      if (!track || slides.length === 0) return;
+
+      let currentIndex = 0;
+
+      // Create dots
+      if (dotsContainer) {
+        dotsContainer.innerHTML = '';
+        slides.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+          dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+          dot.addEventListener('click', () => goToSlide(i));
+          dotsContainer.appendChild(dot);
+        });
+      }
+
+      const dots = dotsContainer ? dotsContainer.querySelectorAll('.carousel-dot') : [];
+
+      function goToSlide(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        currentIndex = index;
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        // Update dots
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === currentIndex);
+        });
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          goToSlide(currentIndex - 1);
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          goToSlide(currentIndex + 1);
+        });
+      }
+
+      // Touch/swipe support
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      track.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      track.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) goToSlide(currentIndex + 1);
+          else goToSlide(currentIndex - 1);
+        }
+      }, { passive: true });
+
+      // Keyboard navigation when carousel is focused
+      carousel.setAttribute('tabindex', '0');
+      carousel.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') goToSlide(currentIndex - 1);
+        if (e.key === 'ArrowRight') goToSlide(currentIndex + 1);
+      });
+    });
   }
 
   function closePopup() {
@@ -1387,5 +1550,6 @@
  * cols-3fr-1fr - Text takes 3/4, image takes 1/4 (currently applied to your Bio)
  * cols-1fr-2fr - Text takes 1/3, image takes 2/3
  * cols-1fr - Full width for text only
+ * cols-1fr-1fr-1fr - Three equal columns (use left, center, right properties)
  * 
  */
