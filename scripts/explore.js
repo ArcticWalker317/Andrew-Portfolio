@@ -30,9 +30,9 @@
       distance: 0.5,
       angleDeg: -30,
       children: [
-        { id: "teams-1", label: "VT BAJA SAE", size: childNodeDefaultSize, distance: 170, angleDeg: -75, textSize: 13, image: "assets/me.jpg" },
-        { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -12, textSize: 13, image: "assets/me.jpg" },
-        { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -140, textSize: 16, image: "assets/me.jpg" },
+        { id: "teams-1", label: "VT BAJA SAE", size: childNodeDefaultSize, distance: 170, angleDeg: -75, textSize: 13, image: "assets/photos/baja1.jpg" },
+        { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -12, textSize: 13, image: "assets/photos/workcell1.png" },
+        { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -140, textSize: 16, image: "assets/photos/hevt1.png" },
         { id: "teams-4", label: "VEX ROBOTICS", size: childNodeDefaultSize, distance: 170, angleDeg: 60, textSize: 13, image: "assets/me.jpg" },
       ],
     },
@@ -136,24 +136,57 @@
         },
         {
           left: `
-            <h3>Updates:</h3>
-            <p>Breadboard works now 👍</p>
-            <p>Range tested - 695m range (range should be higher)</p>
-            <h3>To-Do:</h3>
-            <ul>
-              <li>Redo Range test with better practices</li>
-              <li>Improve antenna positioning</li>
-            </ul>
-          `,
+            <h3>GPS:</h3>
+            <p>My first project I worked on is the GPS sensor for the sensor suite we are developing. The goal is to be able to reliably get the Baja Car’s position during races. </p>
+            <p>Ultimately, from this we should be able to get context for other sensor readings based off where in the track we are.</p>
+            <p>So far, I have made a successful breadboard and prototyping board. I finished PCB schematics and I am waiting for the team lead to approve the order.</p>
+            `
+            //<h3>To-Do:</h3>
+            
+            //<ul>
+            //  <li>Redo Range test with better practices</li>
+            //  <li>Improve antenna positioning</li>
+            //</ul>
+          ,
           right: `
             <img src="assets/me.jpg" alt="Team Photo">
           `
+        },
+        {
+          right: `
+            <h3>LoRa P2P:</h3>
+            <p>This is my secondary project I am working on within the team. The goal for this is to be able to have live telemetry for the sensor suite. </p>
+            <p>Ultimately, we will be able to see the data reading from a computer in live time which, would allow for things like early warning before a part breaking.</p>
+            <p>So far, I have successfully set up and tested a LoRa system for range. My first test was flawed as I had poor antenna positioning.</p>
+            `
+            //<h3>To-Do:</h3>
+            
+            //<ul>
+            //  <li>Redo Range test with better practices</li>
+            //  <li>Improve antenna positioning</li>
+            //</ul>
+          ,
+          left: `
+            <img src="assets/me.jpg" alt="Team Photo">
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <p style="text-align:center;">On this team, I joined the Testing & Data Acquisition Subteam and have worked on projects such as the GPS & LoRa systems.</p>
+            <p style="text-align:center;">(I also got to drive the car, that was awesome)</p>
+            `
+            
+            //<img src="assets/Andrew Stevens - Resume_page-0001 (1).jpg" alt="Andrew Stevens Resume" style="width: 120%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
+          ,
+          right: ``
         }
       ]
     },
     "teams-2": {
       title: "VT CRO WORKCELL",
       description: `
+        
         <p>Description of the VT CRO Workcell project goes here.</p>
         <p>Add details about what you did, technologies used, and outcomes.</p>
       `
@@ -161,7 +194,10 @@
     "teams-3": {
       title: "HEVT",
       description: `
-        <p>Description of the HEVT project goes here.</p>
+        <h2 style="text-align:center;">COMING SOON</h2>
+        <p style="text-align:center;">I have been accepted into the HEVT team, but have not done any work yet as I am still being onboarded. </p>
+        <p style="text-align:center;"> For about the first 6 weeks of the Spring 2026 semester, I will attend lectures that introduce essential topics related to team operations and competition structure. </p>
+        <p style="text-align:center;">At the end of that semester, team leads will evaluate my contributions and progress to determine my eligibility to continue with the team. </p>
       `
     },
     "teams-4": {

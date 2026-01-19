@@ -10,9 +10,14 @@
   const PHOTO_FILES = [
     "me.jpg",
     "bioandrewlanding.jpg",
-    "baja2.png",
-    "baja3.png",
-    "baja1.jpg"
+
+    //"baja2.png",
+    //"baja3.png",
+    "baja1.jpg",
+    
+    "HEVT1.png",
+    
+    "workcell1.png"
     // add more...
   ];
 
