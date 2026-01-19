@@ -55,9 +55,10 @@
       angleDeg: -140,
       image: null, // e.g. "assets/photos/about.jpg"
       children: [
-        { id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 160 },
-        { id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: 160, angleDeg: -135},
-        { id: "about-3", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -60 },
+        { id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 150 },
+        { id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: 140, angleDeg: -100},
+        { id: "about-3", label: "Life", size: childNodeDefaultSize, distance: 150, angleDeg: -157},
+        { id: "about-4", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -40 },
       ],
     },
     {
@@ -280,6 +281,12 @@
       ]
     },
     "about-3": {
+      title: "Life",
+      description: `
+        <p>What I am like outside the classroom!</p>
+      `
+    },
+    "about-4": {
       title: "Contact",
       description: `
         <p>Get in touch with me:</p>
