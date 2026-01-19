@@ -43,8 +43,8 @@
       distance: 0.35,
       angleDeg: 145,
       children: [
-        { id: "proj-1", label: "Hand Tracking", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 135, image: "assets/me.jpg" },
-        { id: "proj-2", label: "THE CUBE", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -175, image: "assets/me.jpg" },
+        { id: "proj-1", label: "Hand Tracking", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 135, image: "assets/photos/handtrack1.png" },
+        { id: "proj-2", label: "THE CUBE", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -175, image: "assets/photos/cube1.png" },
       ],
     },
     {
@@ -68,7 +68,7 @@
       distance: 0.22,
       angleDeg: 50,
       children: [
-        { id: "award-1", label: "Arduino", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 30, image: "assets/me.jpg" },
+        { id: "award-1", label: "Arduino", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 30, image: "assets/photos/arduino1.png" },
         { id: "award-2", label: "Patent", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 130, image: "assets/me.jpg" },
       ],
     },
@@ -336,38 +336,146 @@
       title: "Hand Tracking",
       sections: [
         {
+          customClass: "cols-1fr",
           left: `
-            <h3>Description:</h3>
-            <p>A computer vision project that tracks hand movements in real-time.</p>
-            <h3>Technologies Used:</h3>
-            <ul>
-              <li>Python + OpenCV</li>
-              <li>MediaPipe</li>
-              <li>TensorFlow</li>
-            </ul>
+            <h3 style="text-align:center; padding: 0 40px;">This is an interactive hand tracking program. There is only a standard laptop webcam and a projector. The camera runs yolov8 to find where the hands are located relative to the screen, as well as if the hand is open or closed.</h3>
+            <p></p>
+            <p style="text-align:center;">This project was really good for my development as an engineer, as it improved my CS skills tremendously. This project guided me to become familiar with Python and with using a machine learning model. I had to troubleshoot problems with importing libraries, dependency versions, and context errors. All stuff that I had not expected, but still managed to overcome. To showcase the hand tracking, I had made 3 programs for it to run on. A TicTacToe game where two people take turns making moves until one wins or they tie. I also made a pong style game where two people have to move their hands to control a paddle and bounce a ball back and forth between them. I also made a simple hand following program where a dot would go to your hand if the hand was open.</p>
+            
           `,
           right: `
-            <img src="assets/me.jpg" alt="Hand tracking demo">
+          
           `
         },
         {
+          customClass: "cols-1fr",
           left: `
-            <h3>Status:</h3>
-            <p>✅ Completed</p>
-            <h3>Demo:</h3>
-            <p>Watch the video to see it in action →</p>
+            <h2 style="text-align:center;">Video Walkthrough & Explanation</h2>
+            <video controls width="75%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/HandTrackingInterface.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
           `,
           right: `
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Demo video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <p style="text-align: center; margin-bottom: 16px;">
+            <a href="assets/code.pdf" target="_blank" download style="font-size: 18px;">View code Here (PDF)</a>
+            </p>
+          `,
+          right: `
+            
           `
         }
       ]
     },
     "proj-2": {
       title: "THE CUBE",
-      description: `
-        <p>Description of THE CUBE project goes here.</p>
-      `
+      sections: [
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h2 style="text-align:center; padding: 0 40px;">With inspiration from the "Useless Box", THE CUBE is a puzzle diffuse box with the goal of solving the puzzles before time runs out.</h2>
+            <p></p>
+            <p style="text-align:center;">This project was really good for my development as an engineer, as it improved my CS skills tremendously. This project guided me to become familiar with Python and with using a machine learning model. I had to troubleshoot problems with importing libraries, dependency versions, and context errors. All stuff that I had not expected, but still managed to overcome. To showcase the hand tracking, I had made 3 programs for it to run on. A TicTacToe game where two people take turns making moves until one wins or they tie. I also made a pong style game where two people have to move their hands to control a paddle and bounce a ball back and forth between them. I also made a simple hand following program where a dot would go to your hand if the hand was open.</p>
+            
+          `,
+          right: `
+          
+          `
+        },
+        {
+          customClass: "cols-1fr-2fr",
+          left: `
+            <img src="assets/photos/cube2.jpg" alt="Andrew Stevens" style="width: 70%; height: auto; margin-left: auto; display: block;">
+            
+            <img src="assets/photos/cube3.jpg" alt="Andrew Stevens" style="width: 70%; height: auto; margin-left: auto; display: block;">
+
+            `,
+          right: `
+            <div class="carousel" id="cube-carousel" style="width: 70%; margin: 0 auto;">
+              <div class="carousel-track">
+                <img src="assets/photos/cube4.png" class="carousel-slide" alt="Cube 4" style="width: 100%; height: auto;">
+                <img src="assets/photos/cube5.png" class="carousel-slide" alt="Cube 5" style="width: 100%; height: auto;">
+                <img src="assets/photos/cube6.png" class="carousel-slide" alt="Cube 6" style="width: 100%; height: auto;">
+                <img src="assets/photos/cube7.png" class="carousel-slide" alt="Cube 7" style="width: 100%; height: auto;">
+                <img src="assets/photos/cube8.png" class="carousel-slide" alt="Cube 8" style="width: 100%; height: auto;">
+                <img src="assets/photos/cube9.png" class="carousel-slide" alt="Cube 9" style="width: 100%; height: auto;">
+                <img src="assets/photos/cube10.png" class="carousel-slide" alt="Cube 10" style="width: 100%; height: auto;">
+
+              </div>
+              <button class="carousel-btn carousel-prev" aria-label="Previous slide"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+              <button class="carousel-btn carousel-next" aria-label="Next slide"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+              <div class="carousel-dots"></div>
+            </div>
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h2 style="text-align:center;">Video Walkthrough & Explanation</h2>
+            <video controls width="75%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/Cube-final_showcase.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            `,
+          right: `
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <p style="text-align:left; padding: 0 80px;">Each of the six sides of this cube has a significant purpose. Four of them each it's own puzzle. One is the main timer and progress. The last one a surprise. The CUBE is started by flipping a switch on the main side, which starts a timer and has four red lights. In order to stop the timer (and win the game), you must turn all four lights green. Each light corresponds to its own puzzle, and completion of the puzzle turns the light green. If all lights are green before the timer ends, then there is a mini celebration then a surprise arm emerges from the final side to flip the starting switch back to it's original position. If the puzzles cannot be completed in the time given, the box resets itself!</p>  
+          
+            `,
+          right: `
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr-1fr-1fr",
+          left: `
+            <img src="assets/photos/cube11.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            <h2 style="text-align:center;">MAZE SIDE</h2>
+            <p style="text-align:left;">On this side, the player has to navigate the maze to the indicated side. Once complete, another random side will light up, and the process continues for a random amount of times until the side is cleared.</p>
+
+            `,
+          center: `
+            <img src="assets/photos/cube12.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            <h2 style="text-align:center;">MEMORY SIDE</h2>
+            <p style="text-align:left; font-size: 15px;">On this side, the player is given a random series of colored lights and then is tasked with repeating the sequence on the corresponding buttons. After each completion, the sequence lengthens, increasing the difficulty. Once a random amount of these has been completed, the side will be cleared.</p>
+
+          `
+          ,
+          center2: `
+            <img src="assets/photos/cube13.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            <h2 style="text-align:center;">MORSE SIDE</h2>
+            <p style="text-align:left; font-size: 15px;">On this side, the center light will turn on and off in morse code. The code will be 2 letters of those on this side. Using the provided deciphering key, the player needs to figure out which two letters is being transmitted and press the corrisponding buttons. Once this is completed, the side will be cleared.</p>
+
+          `
+          ,
+          right: `
+            <img src="assets/photos/cube14.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            <h2 style="text-align:center;">SEARCH SIDE</h2>
+            <p style="text-align:left; font-size: 14px;">This is probably the most difficult side to figure out. The player needs to follow the four colored lines on the box until the end. There, a 7 segment digit will appear (with the top of it being where the line ends).  They then need to put in each number into the code on this side. The LEDs above will correspond to each color. Once completed, the side is cleared.</p>
+
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <img src="assets/photos/cube15.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            <h2 style="text-align:center;">Wiring Schematic</h2>
+            `,
+          right: `
+            <img src="assets/photos/cube16.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            <h2 style="text-align:center;">3D Models</h2>
+          `
+        },
+      ]
     },
     "about-1": {
       title: "Bio",
@@ -395,8 +503,8 @@
         {
           customClass: "cols-1fr",
           left: `
-             <p style="text-align: center; margin-bottom: 16px;">
-              <a href="assets/Andrew Stevens - Resume.pdf" target="_blank" download style="font-size: 18px;">View Resume (PDF)</a>
+            <p style="text-align: center; margin-bottom: 16px;">
+            <a href="assets/Andrew Stevens - Resume.pdf" target="_blank" download style="font-size: 18px;">View Resume (PDF)</a>
             </p>`
             
             //<img src="assets/Andrew Stevens - Resume_page-0001 (1).jpg" alt="Andrew Stevens Resume" style="width: 120%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
@@ -425,9 +533,27 @@
     },
     "award-1": {
       title: "Arduino",
-      description: `
-        <p>Description of your Arduino award.</p>
-      `
+      sections: [
+        {
+          customClass: "cols-1fr-2fr",
+          left: `
+            <h3>Certification:</h3>
+            <p>The official Arduino certificate is a document that affirms your successful completion of the Arduino exam, and serves as a guarantee of your competence in the Arduino-related subjects. It is used to highlight your skills and learning progress, and to advance in your career or education.</p>
+            
+          `,
+          right: `
+            <img src="assets/photos/arduino2.jpg" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <img src="assets/photos/arduino3.jpg" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+          `,
+          right: `
+          `
+        }
+      ]
     },
     "award-2": {
       title: "Patent",
@@ -1092,10 +1218,31 @@
     if (content.sections && Array.isArray(content.sections)) {
       // Horizontal groups stacked vertically
       const sectionsHTML = content.sections.map(section => {
+        // Check if this is a 4-column layout
+        const hasCenter2 = section.center2 !== undefined;
         // Check if this is a 3-column layout
         const hasCenter = section.center !== undefined;
 
-        if (hasCenter) {
+        if (hasCenter2) {
+          // 4-column layout: left, center, center2, right
+          return `
+            <div class="popup-section ${section.customClass || ''}">
+              <div class="popup-section-left">
+                ${section.left || ''}
+              </div>
+              <div class="popup-section-center">
+                ${section.center || ''}
+              </div>
+              <div class="popup-section-center2">
+                ${section.center2 || ''}
+              </div>
+              <div class="popup-section-right">
+                ${section.right || ''}
+              </div>
+            </div>
+          `;
+        } else if (hasCenter) {
+          // 3-column layout: left, center, right
           return `
             <div class="popup-section ${section.customClass || ''}">
               <div class="popup-section-left">
@@ -1110,6 +1257,7 @@
             </div>
           `;
         } else {
+          // 2-column layout: left, right
           return `
             <div class="popup-section ${section.customClass || ''}">
               <div class="popup-section-left">
@@ -1265,6 +1413,12 @@
       if (carousel.dataset.autoPlayInterval) {
         clearInterval(parseInt(carousel.dataset.autoPlayInterval));
       }
+    });
+
+    // Pause any playing videos
+    const videos = popupBody.querySelectorAll('video');
+    videos.forEach(video => {
+      video.pause();
     });
 
     popup.classList.remove("show");
@@ -1593,5 +1747,6 @@
  * cols-1fr-2fr - Text takes 1/3, image takes 2/3
  * cols-1fr - Full width for text only
  * cols-1fr-1fr-1fr - Three equal columns (use left, center, right properties)
- * 
+ * cols-1fr-1fr-1fr-1fr - Four equal columns (use left, center, center2, right properties)
+ *
  */
