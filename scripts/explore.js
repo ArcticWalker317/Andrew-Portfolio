@@ -127,12 +127,13 @@
         {
           customClass: "cols-1fr-1fr",
           left: `
-            <img src="assets/photos/baja2.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
-            <p></p>
-            <img src="assets/photos/baja3.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
+            <div style="display: flex; flex-direction: column; gap: 0px;">
+              <img src="assets/photos/baja2.png" alt="Andrew Stevens" style="width: 50%; height: auto; margin-left:auto; display: block;">
+              <img src="assets/photos/baja3.png" alt="Andrew Stevens" style="width: 50%; height: auto; margin-left:auto; display: block;">
+            </div>
           `,
           right: `
-            <img src="assets/photos/baja1.jpg" alt="Andrew Stevens" style="width: 65%; height: auto; margin-right: auto; display: block;">
+            <img src="assets/photos/baja1.jpg" alt="Andrew Stevens" style="width: 75%; height: auto; margin-right: auto; display: block;">
           `
         },
         {
@@ -233,7 +234,7 @@
         {
           customClass: "cols-1fr-1fr",
           left: `
-            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSySRV4imN1RDyjR64JwE02_5OLEnen3rAb7oE607ycZFz6j_m8JttrdKjeLlsDdobaeRhizv9oFHKr/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="600" height="550" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSySRV4imN1RDyjR64JwE02_5OLEnen3rAb7oE607ycZFz6j_m8JttrdKjeLlsDdobaeRhizv9oFHKr/pubembed?start=false&loop=false&delayms=3000" frameborder="0" style="width:100%; height:390px; aspect-ratio:auto;" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
             `,
           right: `
             <h3 style="text-align:center;">Calibration Script</h3> 
