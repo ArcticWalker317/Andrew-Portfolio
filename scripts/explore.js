@@ -69,7 +69,7 @@
       angleDeg: 50,
       children: [
         { id: "award-1", label: "Arduino", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 30, image: "assets/photos/arduino1.png" },
-        { id: "award-2", label: "Patent", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 130, image: "assets/me.jpg" },
+        { id: "award-2", label: "Patent", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 130, image: "assets/photos/patent1.png" },
       ],
     },
   ];
@@ -473,6 +473,51 @@
           right: `
             <img src="assets/photos/cube16.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
             <h2 style="text-align:center;">3D Models</h2>
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr-1fr",
+          left: `
+            <video controls width="60%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/Cube-arm_works.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p style="text-align:center;">This is the arm mechanism working for the first time!</p>
+              
+            `,
+          center: `
+            <video controls width="60%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/Cube-input_shift.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p style="text-align:center;">Input shift registers finally work! (Don't mind the groggy voice, it was late for me)</p>
+              
+          `,
+          right: `
+            <video controls width="60%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/Cube-output_shift.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p style="text-align:center;">Output shift registers finally work!</p>
+              
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr-1fr-1fr",
+          left: `
+            <h2 style="text-align:center;">How the panels were made!</h2>
+            `,
+          center: `
+            <img src="assets/photos/cube17.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            
+          `,
+          center2: `
+            <img src="assets/photos/cube18.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            
+          `,
+          right: `
+            <img src="assets/photos/cube19.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            
           `
         },
       ]
