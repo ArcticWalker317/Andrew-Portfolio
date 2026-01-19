@@ -41,7 +41,7 @@
       label: "Projects",
       size: 150,
       distance: 0.35,
-      angleDeg: 155,
+      angleDeg: 145,
       children: [
         { id: "proj-1", label: "Hand Tracking", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 135, image: "assets/me.jpg" },
         { id: "proj-2", label: "THE CUBE", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -175, image: "assets/me.jpg" },
@@ -52,7 +52,7 @@
       label: "About Me",
       size: 135,
       distance: 0.36,
-      angleDeg: -140,
+      angleDeg: -150,
       image: null, // e.g. "assets/photos/about.jpg"
       children: [
         { id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 150 },
@@ -150,7 +150,7 @@
             //</ul>
           ,
           right: `
-            <img src="assets/me.jpg" alt="Team Photo">
+            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQHxt8-8iOnFaJb-t8mORe7kmuIcG3hwQPV6Bubd5IzX5z1dwsHYCOeXEtGfRvfbYQxXD2L7SdHY1Jg/pubembed?start=false&loop=false&delayms=3000" frameborder="0" style="width:100%; height:365px; border-radius:12px;" allowfullscreen="true"></iframe>
           `
         },
         {
@@ -168,7 +168,7 @@
             //</ul>
           ,
           left: `
-            <img src="assets/me.jpg" alt="Team Photo">
+            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vT9xztWy5S9qUmagXMc2wXe3isrr7zzJMbYf4u6IST3H_vJGP1cQ4UXQs6tpKci9LlZD400oZGYMy94/pubembed?start=false&loop=false&delayms=3000" frameborder="0" style="width:100%; height:365px; border-radius:12px;" allowfullscreen="true"></iframe>
           `
         },
         {
@@ -186,11 +186,61 @@
     },
     "teams-2": {
       title: "VT CRO WORKCELL",
-      description: `
-        
-        <p>Description of the VT CRO Workcell project goes here.</p>
-        <p>Add details about what you did, technologies used, and outcomes.</p>
-      `
+      sections: [
+        {
+          customClass: "cols-1fr",
+          left: `
+            <img src="assets/photos/workcell2.jpg" alt="Andrew Stevens" style="width: 55%; height: auto; margin: 0 auto; display: block;">
+          `,
+          right: ``
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <div style="font-size: 21px;">
+              <p style="text-align:center;">The Workcell Team is developing a fully autonomous 3D-printing solution equipped with two printers, a gantry, and a pick-and-place system.</p>
+              <p></p>
+              <p style="text-align:center;">On the right is a time lapse of the first version the team developed. While it is great, there is a lot of room for improvement. That is what this year is all about. We are working to get a second version that is new and improved in many ways.</p>
+            </div>
+          `,
+          right: `
+            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQXCMUe_TQgIuiRNTjyu1V92TLHX7KmrWXv5FlcF44h5ORfLzYK2cu_wNG44MtKUX2xNXbvsYWa75PS/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <img src="assets/photos/baja2.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
+            <p></p>
+            <img src="assets/photos/baja3.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
+          `,
+          right: `
+            <img src="assets/photos/baja1.jpg" alt="Andrew Stevens" style="width: 65%; height: auto; margin-right: auto; display: block;">
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <img src="assets/photos/baja2.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
+            <p></p>
+            <img src="assets/photos/baja3.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
+          `,
+          right: `
+            <img src="assets/photos/baja1.jpg" alt="Andrew Stevens" style="width: 65%; height: auto; margin-right: auto; display: block;">
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <img src="assets/photos/baja2.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
+            <p></p>
+            <img src="assets/photos/baja3.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
+          `,
+          right: `
+            <img src="assets/photos/baja1.jpg" alt="Andrew Stevens" style="width: 65%; height: auto; margin-right: auto; display: block;">
+          `
+        }
+      ]
     },
     "teams-3": {
       title: "HEVT",
