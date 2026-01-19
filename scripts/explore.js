@@ -33,7 +33,7 @@
         { id: "teams-1", label: "VT BAJA SAE", size: childNodeDefaultSize, distance: 170, angleDeg: -75, textSize: 13, image: "assets/photos/baja1.jpg" },
         { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -12, textSize: 13, image: "assets/photos/workcell1.png" },
         { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -140, textSize: 16, image: "assets/photos/hevt1.png" },
-        { id: "teams-4", label: "VEX ROBOTICS", size: childNodeDefaultSize, distance: 170, angleDeg: 60, textSize: 13, image: "assets/me.jpg" },
+        { id: "teams-4", label: "VEX ROBOTICS", size: childNodeDefaultSize, distance: 170, angleDeg: 60, textSize: 13, image: "assets/photos/vex3.jpg" },
       ],
     },
     {
@@ -246,22 +246,14 @@
     },
     "teams-3": {
       title: "HEVT",
-      sections: [
-        
-        {
-          customClass: "cols-1fr-1fr",
-          left: `
-            <div style="font-size: 21px;">
-              <p style="text-align:center;">The Workcell Team is developing a fully autonomous 3D-printing solution equipped with two printers, a gantry, and a pick-and-place system.</p>
-              <p></p>
-              <p style="text-align:center;">On the right is a time lapse of the first version the team developed. While it is great, there is a lot of room for improvement. That is what this year is all about. We are working to get a second version that is new and improved in many ways.</p>
-            </div>
-          `,
-          right: `
-            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQXCMUe_TQgIuiRNTjyu1V92TLHX7KmrWXv5FlcF44h5ORfLzYK2cu_wNG44MtKUX2xNXbvsYWa75PS/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+      description:`
+          <h2 style="text-align:center;">COMING SOON</h2>
+          <p style="text-align:center;">I have been accepted into the HEVT team, but have not done any work yet as I am still being onboarded. </p>
+          <p style="text-align:center;"> For about the first 6 weeks of the Spring 2026 semester, I will attend lectures that introduce essential topics related to team operations and competition structure. </p>
+          <p style="text-align:center;">At the end of that semester, team leads will evaluate my contributions and progress to determine my eligibility to continue with the team. </p>
           `
-        }
-      ]
+        
+      
     },
     "teams-4": {
       title: "VEX ROBOTICS",
@@ -269,17 +261,12 @@
         {
           customClass: "cols-1fr-2fr",
           left: `
-            <img src="assets/photos/vex2.jpg" alt="Andrew Stevens" style="width: 55%; height: auto; margin: 0 auto; display: block;">
-            <img src="assets/photos/vex3.jpg" alt="Andrew Stevens" style="width: 55%; height: auto; margin: 0 auto; display: block;">
+            <img src="assets/photos/vex2.jpg" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
+            <p></p>
+            <img src="assets/photos/vex3.jpg" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
 
             `,
           right: `
-            
-          `
-        },
-        {
-          customClass: "cols-1fr",
-          left: `
             <div class="carousel" id="vex-carousel">
               <div class="carousel-track">
                 <img src="assets/photos/vex1.jpg" class="carousel-slide" alt="VEX Robotics 1">
@@ -301,18 +288,45 @@
                 <img src="assets/photos/vex17.jpg" class="carousel-slide" alt="VEX Robotics 17">
                 <img src="assets/photos/vex18.jpg" class="carousel-slide" alt="VEX Robotics 18">
               </div>
-              <button class="carousel-btn carousel-prev" aria-label="Previous slide">&#8249;</button>
-              <button class="carousel-btn carousel-next" aria-label="Next slide">&#8250;</button>
+              <button class="carousel-btn carousel-prev" aria-label="Previous slide"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+              <button class="carousel-btn carousel-next" aria-label="Next slide"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
               <div class="carousel-dots"></div>
             </div>
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+          <h3 style="text-align:center;">What is vex?</h3>
+          <p style="text-align:center;">The VEX Robotics Competition is where teams of students design, build, and program robots to compete in a game-based engineering challenge. During my two years, the game challenges were called "Over Under" and "High Stakes". Both years I was with the same team and we had built a good team dynamic. In my Junior year, we qualified and competed at the state level. Overall, I am glad to have been a part of this team and compete together.</p>
           `,
-          right: ``
+          right: `
+          <img src="assets/photos/vex19.png" alt="Andrew Stevens" style="width: 65%; height: auto; margin: 0 auto; display: block;">            `
         },
         {
           customClass: "cols-1fr",
           left: `
-            <p style="text-align:center;">Description of your VEX Robotics experience goes here.</p>
+            <h3 style="text-align:center;">My VEX Vlogs Below</h3> 
+            <p style="text-align:center;">Throughout my years of Vex, I wanted to document our group's progress. So, I created these minute-long vlogs as a fun way of sharing our progress. Unfortunately, I did not continue with this as much in my Senior year. You can view them down below!</p>
+            `,
+          right: ``
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+          <h3 style="text-align:center;">Junior Year</h3>
+          <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRyf_5O3zjv100u4sGRgjJ0sJxYL2kr2z0ihVYxVxEpGEkHFhm8lWwLhJ79aaF6i-Bctx5BqjaihEl8/pubembed?start=false&loop=false&delayms=3000" frameborder="0" style="width:100%; aspect-ratio:16/9;" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
           `,
+          right: `
+          <h3 style="text-align:center;">Senior Year</h3>
+          <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRqGGvTP0_XCYFJ6bfUN1ESo2qwea5z0dwXXtdqfUfTPRRwHWJli83FixudTuxEOnPOi5nWFqdgITpg/pubembed?start=false&loop=false&delayms=3000" frameborder="0" style="width:100%; aspect-ratio:16/9;" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <p style="text-align:center;">On this team, I took a role as the team leader. This meant that I was in charge of scheduling time to work on the robot as well as help team members resolve disputes. I was also leading the engineering aspect of the robot. As a leader I made sure that everyone's opinion and voice was heard, while streamlining the process to be as efficient as possible. </p>
+            `,
           right: ``
         }
       ]
@@ -1221,10 +1235,37 @@
         if (e.key === 'ArrowLeft') goToSlide(currentIndex - 1);
         if (e.key === 'ArrowRight') goToSlide(currentIndex + 1);
       });
+
+      // Auto-advance every 5 seconds
+      const autoPlayDelay = 5000;
+      let autoPlayInterval = setInterval(() => {
+        goToSlide(currentIndex + 1);
+      }, autoPlayDelay);
+
+      // Pause on hover/focus
+      carousel.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
+      carousel.addEventListener('mouseleave', () => {
+        autoPlayInterval = setInterval(() => goToSlide(currentIndex + 1), autoPlayDelay);
+      });
+      carousel.addEventListener('focus', () => clearInterval(autoPlayInterval));
+      carousel.addEventListener('blur', () => {
+        autoPlayInterval = setInterval(() => goToSlide(currentIndex + 1), autoPlayDelay);
+      });
+
+      // Store interval reference to clear when popup closes
+      carousel.dataset.autoPlayInterval = autoPlayInterval;
     });
   }
 
   function closePopup() {
+    // Clear any carousel auto-play intervals
+    const carousels = popupBody.querySelectorAll('.carousel');
+    carousels.forEach(carousel => {
+      if (carousel.dataset.autoPlayInterval) {
+        clearInterval(parseInt(carousel.dataset.autoPlayInterval));
+      }
+    });
+
     popup.classList.remove("show");
     setTimeout(() => {
       popup.style.display = "none";
