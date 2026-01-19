@@ -208,14 +208,24 @@
           `
         },
         {
-          customClass: "cols-1fr-1fr",
+          customClass: "cols-1fr",
           left: `
-            <img src="assets/photos/baja2.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
-            <p></p>
-            <img src="assets/photos/baja3.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin-left: auto; display: block;">
+            <h2 style="text-align:center;">Highlighted Projects:</h2>            
+          `,
+          right: ``
+        },
+        {
+          customClass: "cols-2fr-1fr",
+          left: `
+            <h3 style="text-align:center;">Limit Switch PCB</h3> 
+            <p>One of the things I have worked on for Workcell, is a custom daisy chained limit switch PCB. </p>
+            <p>The limit switches are used for the print storage to see which shelves are being used.</p>
+            <p>Before, each limit switch had it's own wired connection to the main board. This was very messy. This board is made to use shift registers in order to tell which switches are pressed.</p>
+
           `,
           right: `
-            <img src="assets/photos/baja1.jpg" alt="Andrew Stevens" style="width: 65%; height: auto; margin-right: auto; display: block;">
+            <img src="assets/photos/workcell3.png" alt="Andrew Stevens" style="width: 65%; height: auto; margin-right: auto; display: block;">
+            <img src="assets/photos/workcell3.png" alt="Andrew Stevens" style="width: 65%; height: auto; margin-right: auto; display: block;">
           `
         },
         {
