@@ -55,10 +55,14 @@
       angleDeg: -150,
       image: null, // e.g. "assets/photos/about.jpg"
       children: [
+        //{ id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 150 },
+        //{ id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: 140, angleDeg: -100},
+        //{ id: "about-3", label: "Life", size: childNodeDefaultSize, distance: 150, angleDeg: -157},
+        //{ id: "about-4", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -40 },
         { id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 150 },
-        { id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: 140, angleDeg: -100},
-        { id: "about-3", label: "Life", size: childNodeDefaultSize, distance: 150, angleDeg: -157},
-        { id: "about-4", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -40 },
+        { id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -145},
+        { id: "about-4", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -80 },
+      
       ],
     },
     {
@@ -205,8 +209,11 @@
             </div>
           `,
           right: `
-            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQXCMUe_TQgIuiRNTjyu1V92TLHX7KmrWXv5FlcF44h5ORfLzYK2cu_wNG44MtKUX2xNXbvsYWa75PS/pubembed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-          `
+            <video controls width="100%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/WorkcellV1Time-lapse.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            `
         },
         {
           customClass: "cols-1fr",
@@ -234,7 +241,10 @@
         {
           customClass: "cols-1fr-1fr",
           left: `
-            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSySRV4imN1RDyjR64JwE02_5OLEnen3rAb7oE607ycZFz6j_m8JttrdKjeLlsDdobaeRhizv9oFHKr/pubembed?start=false&loop=false&delayms=3000" frameborder="0" style="width:100%; height:390px; aspect-ratio:auto;" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+            <video controls width="40%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/WorkcellCalibrationTesting.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
             `,
           right: `
             <h3 style="text-align:center;">Calibration Script</h3> 
@@ -381,7 +391,6 @@
           left: `
             <h2 style="text-align:center; padding: 0 40px;">With inspiration from the "Useless Box", THE CUBE is a puzzle diffuse box with the goal of solving the puzzles before time runs out.</h2>
             <p></p>
-            <p style="text-align:center;">This project was really good for my development as an engineer, as it improved my CS skills tremendously. This project guided me to become familiar with Python and with using a machine learning model. I had to troubleshoot problems with importing libraries, dependency versions, and context errors. All stuff that I had not expected, but still managed to overcome. To showcase the hand tracking, I had made 3 programs for it to run on. A TicTacToe game where two people take turns making moves until one wins or they tie. I also made a pong style game where two people have to move their hands to control a paddle and bounce a ball back and forth between them. I also made a simple hand following program where a dot would go to your hand if the hand was open.</p>
             
           `,
           right: `
@@ -602,9 +611,30 @@
     },
     "award-2": {
       title: "Patent",
-      description: `
-        <p>Description of your patent.</p>
-      `
+      sections: [
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <h3>The Story:</h3>
+            <p style="text-align: left; margin-bottom: 16px; font-size: 16px;">In 8th grade, my school had chromebooks for students to use, and they had cameras but they were always exposed and could be turned on by hacking into it. One day I saw my friend cover his with a Band Aid and I thought that there had to be a better way. So I got to work with my 3D printer, designing many different prototypes. I eventually settled on this design (the one that got patented). At first I only did a provisional patent (which lasts 1 year) as it was an easier process and way cheaper. During the year I had it, I ended up selling it to local businesses with their logos on it as well as at trade shows and even sold them in two brick and mortar stores. After that year time frame, I decided to go forth and make an actual patent for it. It was a long process, but it was succesful! It is patent D1,049,200!</p>
+            
+          `,
+          right: `
+            <img src="assets/photos/patent1.png" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
+          `
+        }, 
+        {
+          customClass: "cols-1fr",
+          left: `
+            
+            <p style="text-align: center; margin-bottom: 16px;">
+              <a href="assets/D1049200.pdf" target="_blank" download style="font-size: 18px;">View Patent Here (PDF)</a>
+            </p>
+          `,
+          right: ``
+        }
+      
+      ]
     }
   };
 

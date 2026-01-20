@@ -3,7 +3,7 @@
   const blackout = document.getElementById("blackout");
 
   const WORD_COUNT = 50;
-  const PHOTO_COUNT = 120;
+  const PHOTO_COUNT = 25;
 
   // ✅ Hardcode your photo filenames here (must exist in /assets/photos/)
   // Example file paths: assets/photos/01.jpg, assets/photos/IMG_1234.png, etc.
@@ -16,8 +16,23 @@
     "baja1.jpg",
     
     "HEVT1.png",
+    "vex1.jpg",
+    "vex3.jpg",
+    "vex7.jpg",
+    "vex6.jpg",
+    "vex19.png",
+    "vex3.jpg",
     
-    "workcell1.png"
+    "workcell1.png",
+    "workcell3.png",
+    "patent1.png",
+
+    "cube1.png",
+    "cube2.jpg",
+    "cube3.jpg",
+    "cube5.png",
+    "cube20.jpg",
+    "handtrack1.png"
     // add more...
   ];
 
@@ -117,10 +132,13 @@
       scale: rand(2.0, 2.2),
       mode: Math.random() < 0.35 ? "pop" : "drift",
       hasPopped: false,
-      popY: rand(0, H * 0.5)
+      popY: rand(0, H * 0.5)  // Only pop in top half of screen
     };
 
     el.style.opacity = 0.75; //this is the opacity
+
+    // Apply initial transform so bubble is visible immediately
+    el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
     return b;
   }
 
@@ -135,7 +153,7 @@
     b.scale = rand(2.0, 2.2);
     b.mode = Math.random() < 0.35 ? "pop" : "drift";
     b.hasPopped = false;
-    b.popY = rand(0, H * 0.5);
+    b.popY = rand(0, H * 0.5);  // Only pop in top quarter of screen
 
     const url = pickPhotoUrl();
     if (url) {
@@ -155,10 +173,15 @@
     wordBubbles.push(b);
   }
 
-  // Spawn photo bubbles
+  // Spawn photo bubbles - spread them out across the screen
   for (let i = 0; i < PHOTO_COUNT; i++) {
     const b = createPhotoBubble();
-    b.y = rand(0, H + 600);
+    // Randomly distribute across the full width
+    b.x = rand(0, W);
+    // Spread vertically from above screen to just below - most should be visible
+    b.y = rand(-100, H + 100);
+    // Re-apply transform with the new positions
+    b.el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
     photoBubbles.push(b);
   }
 
