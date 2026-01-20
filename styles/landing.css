@@ -170,6 +170,62 @@ body {
   opacity: 1;
 }
 
+/* Click hint */
+.click-hint {
+  position: absolute;
+  right: -140px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1;
+  color: #3a3a6a;
+  white-space: nowrap;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  opacity: 0.85;
+  transition: opacity 300ms ease;
+  animation: hintBounce 1.5s ease-in-out infinite;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hint-arrow {
+  display: inline-block;
+  margin-right: 4px;
+  animation: arrowBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes hintBounce {
+  0%, 100% {
+    transform: translateY(-50%) translateX(0);
+  }
+  50% {
+    transform: translateY(-50%) translateX(-5px);
+  }
+}
+
+@keyframes arrowBounce {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-8px);
+  }
+}
+
+.center-bubble.hovered .click-hint {
+  opacity: 0;
+}
+
+.center-bubble.bursting .click-hint {
+  opacity: 0;
+}
+
 #stage.no-pointer {
   pointer-events: none;
 }

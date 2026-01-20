@@ -40,10 +40,10 @@
   const PHOTO_URLS = PHOTO_FILES.map((name) => `assets/photos/${name}`);
 
   const WORDS = [
-    "hello","design","build","ideas","motion","curious","play","craft",
-    "systems","type","detail","iterate","ship","learn","create","focus",
-    "empathy","clarity","energy","solve","explore","future","signal",
-    "rhythm","story","space","light","flow","care"
+    "engineer","build","innovate","curious","create","solder","prototype",
+    "systems","leader","iterate","Arduino","embedded","design","collaborate",
+    "maker","inventor","circuits","precision","driven","problem-solver",
+    "hardware","software","technical","visionary","passionate"
   ];
 
   let W = window.innerWidth;
@@ -159,8 +159,14 @@
   text.className = "enter-text";
   text.textContent = "Click To Enter";
 
+  // Click hint with arrow
+  const hint = document.createElement("div");
+  hint.className = "click-hint";
+  hint.innerHTML = '<span class="hint-arrow">&#8592;</span> Click here';
+
   centerEl.appendChild(img);
   centerEl.appendChild(text);
+  centerEl.appendChild(hint);
   stage.appendChild(centerEl);
 
   const centerState = {
