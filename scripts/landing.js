@@ -3,13 +3,36 @@
   const blackout = document.getElementById("blackout");
 
   const WORD_COUNT = 50;
-  const PHOTO_COUNT = 70;
+  const PHOTO_COUNT = 50;
 
   // ✅ Hardcode your photo filenames here (must exist in /assets/photos/)
   // Example file paths: assets/photos/01.jpg, assets/photos/IMG_1234.png, etc.
   const PHOTO_FILES = [
     "me.jpg",
-    "me2.jpg"
+    "bioandrewlanding.jpg",
+
+    //"baja2.png",
+    //"baja3.png",
+    "baja1.jpg",
+    
+    "HEVT1.png",
+    "vex1.jpg",
+    "vex3.jpg",
+    "vex7.jpg",
+    "vex6.jpg",
+    "vex19.png",
+    "vex3.jpg",
+    
+    "workcell1.png",
+    "workcell3.png",
+    "patent1.png",
+
+    "cube1.png",
+    "cube2.jpg",
+    "cube3.jpg",
+    "cube5.png",
+    "cube20.jpg",
+    "handtrack1.png"
     // add more...
   ];
 
@@ -17,10 +40,10 @@
   const PHOTO_URLS = PHOTO_FILES.map((name) => `assets/photos/${name}`);
 
   const WORDS = [
-    "hello","design","build","ideas","motion","curious","play","craft",
-    "systems","type","detail","iterate","ship","learn","create","focus",
-    "empathy","clarity","energy","solve","explore","future","signal",
-    "rhythm","story","space","light","flow","care"
+    "engineer","build","innovate","curious","create","solder","prototype",
+    "systems","leader","iterate","Arduino","embedded","design","collaborate",
+    "maker","inventor","circuits","precision","driven","problem-solver",
+    "hardware","software","technical","visionary","passionate"
   ];
 
   let W = window.innerWidth;
@@ -42,14 +65,26 @@
   const wordBubbles = [];
   const photoBubbles = [];
 
-  function createWordBubble() {
+  // Unified bubble creation
+  function createBubble(type) {
+    const isPhoto = type === "photo";
     const el = document.createElement("div");
-    el.className = "bubble word-bubble";
-    el.textContent = pick(WORDS);
+    el.className = isPhoto ? "bubble photo-bubble" : "bubble word-bubble";
+
+    if (isPhoto) {
+      const url = pickPhotoUrl();
+      el.style.backgroundImage = url ? `url("${url}")` : "none";
+    } else {
+      el.textContent = pick(WORDS);
+    }
+
     stage.appendChild(el);
+
+    const scaleRange = isPhoto ? [2.0, 2.2] : [0.8, 1.2];
 
     const b = {
       el,
+      type,
       x: rand(0, W),
       y: rand(0, H),
       vx: rand(-12, 12),
@@ -57,100 +92,59 @@
       wobblePhase: rand(0, Math.PI * 2),
       wobbleSpeed: rand(0.6, 1.4),
       wobbleAmp: rand(4, 14),
-      scale: rand(0.8, 1.2),
-      mode: Math.random() < 0.35 ? "pop" : "drift",
+      scale: rand(scaleRange[0], scaleRange[1]),
+      mode: "pop", // All bubbles pop
       hasPopped: false,
-      popY: rand(0, H * 0.5)
+      popY: rand(-50, H * 0.3) // Pop in top 30% of screen
     };
 
-    el.style.opacity = rand(0.6, 0.95);
+    el.style.opacity = isPhoto ? 0.75 : rand(0.6, 0.95);
+    el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
     return b;
   }
 
-  function respawnWordBubble(b) {
+  // Unified bubble respawn
+  function respawnBubble(b) {
+    const isPhoto = b.type === "photo";
+    const scaleRange = isPhoto ? [2.0, 2.2] : [0.8, 1.2];
+
     b.x = rand(0, W);
-    b.y = H + rand(40, 200);
+    b.y = H + rand(20, 80); // Spawn closer to bottom edge so they appear sooner
     b.vx = rand(-14, 14);
     b.vy = rand(20, 50);
     b.wobblePhase = rand(0, Math.PI * 2);
     b.wobbleSpeed = rand(0.6, 1.4);
     b.wobbleAmp = rand(4, 14);
-    b.scale = rand(0.8, 1.2);
-    b.mode = Math.random() < 0.35 ? "pop" : "drift";
+    b.scale = rand(scaleRange[0], scaleRange[1]);
+    b.mode = "pop"; // All bubbles pop
     b.hasPopped = false;
-    b.popY = rand(0, H * 0.5);
-    b.el.textContent = pick(WORDS);
-    b.el.classList.remove("pop");
-    b.el.style.opacity = rand(0.6, 0.95);
-  }
+    b.popY = rand(-50, H * 0.3); // Pop in top 30% of screen
 
-  function createPhotoBubble() {
-    const el = document.createElement("div");
-    el.className = "bubble photo-bubble";
-
-    const url = pickPhotoUrl();
-    if (url) {
-      el.style.backgroundImage = `url("${url}")`;
+    if (isPhoto) {
+      const url = pickPhotoUrl();
+      b.el.style.backgroundImage = url ? `url("${url}")` : "none";
     } else {
-      el.style.backgroundImage = "none";
-    }
-
-    stage.appendChild(el);
-
-    const b = {
-      el,
-      x: rand(0, W),
-      y: rand(0, H),
-      vx: rand(-12, 12),
-      vy: rand(20, 50),
-      wobblePhase: rand(0, Math.PI * 2),
-      wobbleSpeed: rand(0.6, 1.4),
-      wobbleAmp: rand(4, 14),
-      scale: rand(2.0, 2.2),
-      mode: Math.random() < 0.35 ? "pop" : "drift",
-      hasPopped: false,
-      popY: rand(0, H * 0.5)
-    };
-
-    el.style.opacity = 0.75; //this is the opacity
-    return b;
-  }
-
-  function respawnPhotoBubble(b) {
-    b.x = rand(0, W);
-    b.y = H + rand(40, 200);
-    b.vx = rand(-14, 14);
-    b.vy = rand(20, 50);
-    b.wobblePhase = rand(0, Math.PI * 2);
-    b.wobbleSpeed = rand(0.6, 1.4);
-    b.wobbleAmp = rand(4, 14);
-    b.scale = rand(2.0, 2.2);
-    b.mode = Math.random() < 0.35 ? "pop" : "drift";
-    b.hasPopped = false;
-    b.popY = rand(0, H * 0.5);
-
-    const url = pickPhotoUrl();
-    if (url) {
-      b.el.style.backgroundImage = `url("${url}")`;
-    } else {
-      b.el.style.backgroundImage = "none";
+      b.el.textContent = pick(WORDS);
     }
 
     b.el.classList.remove("pop");
-    b.el.style.opacity = rand(0.6, 0.95);
+    b.el.style.opacity = isPhoto ? 0.75 : rand(0.6, 0.95);
   }
 
   // Spawn word bubbles
   for (let i = 0; i < WORD_COUNT; i++) {
-    const b = createWordBubble();
+    const b = createBubble("word");
     b.y = rand(0, H + 600);
+    b.el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
     wordBubbles.push(b);
   }
 
-  // Spawn photo bubbles
+  // Spawn photo bubbles - spread them out across the screen
   for (let i = 0; i < PHOTO_COUNT; i++) {
-    const b = createPhotoBubble();
-    b.y = rand(0, H + 600);
+    const b = createBubble("photo");
+    b.x = rand(0, W);
+    b.y = rand(-100, H + 100);
+    b.el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
     photoBubbles.push(b);
   }
 
@@ -165,8 +159,14 @@
   text.className = "enter-text";
   text.textContent = "Click To Enter";
 
+  // Click hint with arrow
+  const hint = document.createElement("div");
+  hint.className = "click-hint";
+  hint.innerHTML = '<span class="hint-arrow">&#8592;</span> Click here';
+
   centerEl.appendChild(img);
   centerEl.appendChild(text);
+  centerEl.appendChild(hint);
   stage.appendChild(centerEl);
 
   const centerState = {
@@ -237,7 +237,15 @@
     if (b.mode === "pop" && !b.hasPopped && b.y < b.popY) {
       b.hasPopped = true;
       b.el.classList.add("pop");
-      b.el.addEventListener("animationend", () => respawnFn(b), { once: true });
+      // Use both animationend and a timeout fallback to ensure respawn
+      let respawned = false;
+      const doRespawn = () => {
+        if (respawned) return;
+        respawned = true;
+        respawnFn(b);
+      };
+      b.el.addEventListener("animationend", doRespawn, { once: true });
+      setTimeout(doRespawn, 400); // Fallback in case animationend doesn't fire
     }
 
     if (b.y < -120) respawnFn(b);
@@ -258,8 +266,8 @@
     const dt = Math.min(0.033, (ts - lastTs) / 1000);
     lastTs = ts;
 
-    for (const b of wordBubbles) stepBubble(b, dt, respawnWordBubble);
-    for (const b of photoBubbles) stepBubble(b, dt, respawnPhotoBubble);
+    for (const b of wordBubbles) stepBubble(b, dt, respawnBubble);
+    for (const b of photoBubbles) stepBubble(b, dt, respawnBubble);
 
     const targetX = W * 0.5 - 105;
     const targetY = H * 0.5 - 105;

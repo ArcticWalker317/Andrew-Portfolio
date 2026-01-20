@@ -3,7 +3,6 @@
   const map = document.getElementById("map");
   const svg = document.getElementById("links");
   const center = document.getElementById("node-center");
-  const backBtn = document.getElementById("back-btn");
 
   /**
    * =========================
@@ -14,73 +13,687 @@
    *  - id, label, size(px), distance(px or <=1 as fraction of map min), angleDeg(optional), image(optional)
    *
    * Sub-bubble fields (inside children):
-   *  - id, label, size(px), distance(px), angleDeg(optional), image(optional)
+   *  - id, label, size(px), distance(px), angleDeg(optional), image(optional), textSize(px, optional)
    *
    * Notes:
    *  - If angleDeg is missing, it auto-distributes evenly around the parent
    *  - Sub-bubbles do NOT navigate; they are just bubbles for now (easy to add href later)
+   *  - textSize sets the font size for child node labels (default is inherited from CSS)
    */
+  const childNodeDefaultSize = 100
+  const childNodeDefaultDist = 150
   const NODES = [
     {
-      id: "node-about",
-      label: "About",
-      size: 150,
-      distance: 0.42,
-      angleDeg: -135,
-      image: null, // e.g. "assets/photos/about.jpg"
-      children: [
-        { id: "about-1", label: "Bio", size: 120, distance: 170, angleDeg: -90 },
-        { id: "about-2", label: "Resume", size: 120, distance: 170, angleDeg: 0, image: "assets/me.jpg" },
-        { id: "about-3", label: "Contact", size: 120, distance: 170, angleDeg: 90 },
-      ],
-    },
-    {
       id: "node-teams",
-      label: "Teams",
-      size: 150,
-      distance: 0.42,
-      angleDeg: 135,
+      label: "Student Teams",
+      size: 170,
+      distance: 0.5,
+      angleDeg: -30,
       children: [
-        { id: "teams-1", label: "VEX", size: 120, distance: 170, angleDeg: -60 },
-        { id: "teams-2", label: "Clubs", size: 120, distance: 170, angleDeg: 60 },
+        { id: "teams-1", label: "VT BAJA SAE", size: childNodeDefaultSize, distance: 170, angleDeg: -75, textSize: 13, image: "assets/photos/baja1.jpg" },
+        { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -12, textSize: 13, image: "assets/photos/workcell1.png" },
+        { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -140, textSize: 16, image: "assets/photos/hevt1.png" },
+        { id: "teams-4", label: "VEX ROBOTICS", size: childNodeDefaultSize, distance: 170, angleDeg: 60, textSize: 13, image: "assets/photos/vex3.jpg" },
       ],
     },
     {
       id: "node-projects",
       label: "Projects",
-      size: 160,
-      distance: 0.42,
-      angleDeg: 45,
+      size: 150,
+      distance: 0.35,
+      angleDeg: 145,
       children: [
-        { id: "proj-1", label: "RC Car", size: 120, distance: 170, angleDeg: -90 },
-        { id: "proj-2", label: "LoRa", size: 120, distance: 170, angleDeg: 0 },
-        { id: "proj-3", label: "PCBs", size: 120, distance: 170, angleDeg: 90 },
+        { id: "proj-1", label: "Hand Tracking", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 135, image: "assets/photos/handtrack1.png" },
+        { id: "proj-2", label: "THE CUBE", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -175, image: "assets/photos/cube1.png" },
+      ],
+    },
+    {
+      id: "node-about",
+      label: "About Me",
+      size: 135,
+      distance: 0.36,
+      angleDeg: -150,
+      image: null, // e.g. "assets/photos/about.jpg"
+      children: [
+        //{ id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 150 },
+        //{ id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: 140, angleDeg: -100},
+        //{ id: "about-3", label: "Life", size: childNodeDefaultSize, distance: 150, angleDeg: -157},
+        //{ id: "about-4", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -40 },
+        { id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 150 },
+        { id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -145},
+        { id: "about-4", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -80 },
+      
       ],
     },
     {
       id: "node-awards",
       label: "Awards",
-      size: 150,
-      distance: 0.42,
-      angleDeg: -45,
+      size: 125,
+      distance: 0.22,
+      angleDeg: 50,
       children: [
-        { id: "award-1", label: "School", size: 120, distance: 170, angleDeg: -45 },
-        { id: "award-2", label: "Competitions", size: 120, distance: 170, angleDeg: 45 },
+        { id: "award-1", label: "Arduino", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 30, image: "assets/photos/arduino1.png" },
+        { id: "award-2", label: "Patent", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 130, image: "assets/photos/patent1.png" },
       ],
     },
   ];
 
+  /**
+   * =========================
+   * EDIT THIS OBJECT TO ADD/UPDATE POPUP CONTENT
+   * =========================
+   *
+   * Add content for each child node using the child node's ID as the key.
+   *
+   * Two layout options:
+   *
+   * 1. HORIZONTAL GROUPS LAYOUT (Recommended for rich content):
+   *    - sections: Array of horizontal groups with left/right content
+   *    - Each section has a left side (text) and right side (media)
+   *    - Sections stack vertically
+   *
+   * 2. SIMPLE LAYOUT:
+   *    - description: HTML content in a single flow
+   *
+   * Example horizontal groups structure:
+   * "child-id": {
+   *   title: "Project Title",
+   *   sections: [
+   *     {
+   *       left: `<h3>Updates:</h3><p>Latest updates...</p>`,
+   *       right: `<img src="assets/image1.jpg" alt="Image">`
+   *     },
+   *     {
+   *       left: `<h3>To-Do:</h3><ul><li>Task 1</li></ul>`,
+   *       right: `<iframe src="..."></iframe>`
+   *     }
+   *   ]
+   * }
+   *
+   * Example simple structure:
+   * "child-id": {
+   *   title: "Simple Title",
+   *   description: `<p>Your content here...</p>`
+   * }
+   *
+   * CUSTOMIZATION TIPS:
+   * - Title gets an underline automatically and is centered
+   * - Each section is a horizontal row (left text + right media)
+   * - Sections stack on top of each other
+   * - You can have as many sections as you want
+   * - On mobile, each section's content stacks vertically
+   * - Use h3 tags for section headers
+   */
+  const POPUP_CONTENT = {
+    "teams-1": {
+      title: "VT BAJA SAE",
+      sections: [
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <div style="display: flex; flex-direction: column; gap: 0px;">
+              <img src="assets/photos/baja2.png" alt="Andrew Stevens" style="width: 50%; height: auto; margin-left:auto; display: block;">
+              <img src="assets/photos/baja3.png" alt="Andrew Stevens" style="width: 50%; height: auto; margin-left:auto; display: block;">
+            </div>
+          `,
+          right: `
+            <img src="assets/photos/baja1.jpg" alt="Andrew Stevens" style="width: 75%; height: auto; margin-right: auto; display: block;">
+          `
+        },
+        {
+          left: `
+            <h3>GPS:</h3>
+            <p>My first project I worked on is the GPS sensor for the sensor suite we are developing. The goal is to be able to reliably get the Baja Car’s position during races. </p>
+            <p>Ultimately, from this we should be able to get context for other sensor readings based off where in the track we are.</p>
+            <p>So far, I have made a successful breadboard and prototyping board. I finished PCB schematics and I am waiting for the team lead to approve the order.</p>
+            `
+            //<h3>To-Do:</h3>
+            
+            //<ul>
+            //  <li>Redo Range test with better practices</li>
+            //  <li>Improve antenna positioning</li>
+            //</ul>
+          ,
+          right: `
+            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQHxt8-8iOnFaJb-t8mORe7kmuIcG3hwQPV6Bubd5IzX5z1dwsHYCOeXEtGfRvfbYQxXD2L7SdHY1Jg/pubembed?start=false&loop=false&delayms=3000" frameborder="0" style="width:100%; height:365px; border-radius:12px;" allowfullscreen="true"></iframe>
+          `
+        },
+        {
+          right: `
+            <h3>LoRa P2P:</h3>
+            <p>This is my secondary project I am working on within the team. The goal for this is to be able to have live telemetry for the sensor suite. </p>
+            <p>Ultimately, we will be able to see the data reading from a computer in live time which, would allow for things like early warning before a part breaking.</p>
+            <p>So far, I have successfully set up and tested a LoRa system for range. My first test was flawed as I had poor antenna positioning.</p>
+            `
+            //<h3>To-Do:</h3>
+            
+            //<ul>
+            //  <li>Redo Range test with better practices</li>
+            //  <li>Improve antenna positioning</li>
+            //</ul>
+          ,
+          left: `
+            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vT9xztWy5S9qUmagXMc2wXe3isrr7zzJMbYf4u6IST3H_vJGP1cQ4UXQs6tpKci9LlZD400oZGYMy94/pubembed?start=false&loop=false&delayms=3000" frameborder="0" style="width:100%; height:365px; border-radius:12px;" allowfullscreen="true"></iframe>
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <p style="text-align:center;">On this team, I joined the Testing & Data Acquisition Subteam and have worked on projects such as the GPS & LoRa systems.</p>
+            <p style="text-align:center;">(I also got to drive the car, that was awesome)</p>
+            `
+            
+            //<img src="assets/Andrew Stevens - Resume_page-0001 (1).jpg" alt="Andrew Stevens Resume" style="width: 120%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
+          ,
+          right: ``
+        }
+      ]
+    },
+    "teams-2": {
+      title: "VT CRO WORKCELL",
+      sections: [
+        {
+          customClass: "cols-1fr",
+          left: `
+            <img src="assets/photos/workcell2.jpg" alt="Andrew Stevens" style="width: 55%; height: auto; margin: 0 auto; display: block;">
+          `,
+          right: ``
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <div style="font-size: 21px;">
+              <p style="text-align:center;">The Workcell Team is developing a fully autonomous 3D-printing solution equipped with two printers, a gantry, and a pick-and-place system.</p>
+              <p></p>
+              <p style="text-align:center;">On the right is a time lapse of the first version the team developed. While it is great, there is a lot of room for improvement. That is what this year is all about. We are working to get a second version that is new and improved in many ways.</p>
+            </div>
+          `,
+          right: `
+            <video controls width="100%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/WorkcellV1Time-lapse.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h2 style="text-align:center;">Highlighted Projects:</h2>            
+          `,
+          right: ``
+        },
+        {
+          customClass: "cols-1fr-1fr-1fr",
+          left: `
+            <img src="assets/photos/workcell3.png" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+
+          `,
+          center:`
+            <h3 style="text-align:center;">Limit Switch PCB</h3> 
+            <p style="text-align:center;">One of the things I have worked on for Workcell, is a custom daisy chained limit switch PCB. </p>
+            <p style="text-align:center;">The limit switches are used for the print storage to see which shelves are being used.</p>
+            <p style="text-align:center;">Before, each limit switch had it's own wired connection to the main board. This was very messy. This board is made to use shift registers in order to tell which switches are pressed.</p>
+          `,
+          right: `
+            <img src="assets/photos/workcell4.png" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <video controls width="40%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/WorkcellCalibrationTesting.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            `,
+          right: `
+            <h3 style="text-align:center;">Calibration Script</h3> 
+            <p style="text-align:center;">I also worked on the calibration system for the gantry.</p>
+            <p style="text-align:center;">The previous system relied solely on predefined locations to know where to move the gantry to. This led to decreased precision over time. </p>
+            <p style="text-align:center;">This new system uses a camera and april tag system to help guarantee precision. The system is tested on an Ender 3 since the mechanical team is still working on the improved gantry. Testing showed we can now achieve +- 0.5 mm accuracy in x & y directions.</p>
+          `
+        }
+      ]
+    },
+    "teams-3": {
+      title: "HEVT",
+      description:`
+          <h2 style="text-align:center;">COMING SOON</h2>
+          <p style="text-align:center;">I have been accepted into the HEVT team, but have not done any work yet as I am still being onboarded. </p>
+          <p style="text-align:center;"> For about the first 6 weeks of the Spring 2026 semester, I will attend lectures that introduce essential topics related to team operations and competition structure. </p>
+          <p style="text-align:center;">At the end of that semester, team leads will evaluate my contributions and progress to determine my eligibility to continue with the team. </p>
+          `
+        
+      
+    },
+    "teams-4": {
+      title: "VEX ROBOTICS",
+      sections: [
+        {
+          customClass: "cols-1fr-2fr",
+          left: `
+            <img src="assets/photos/vex2.jpg" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
+            <p></p>
+            <img src="assets/photos/vex3.jpg" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
+
+            `,
+          right: `
+            <div class="carousel" id="vex-carousel">
+              <div class="carousel-track">
+                <img src="assets/photos/vex1.jpg" class="carousel-slide" alt="VEX Robotics 1">
+                <img src="assets/photos/vex2.jpg" class="carousel-slide" alt="VEX Robotics 2">
+                <img src="assets/photos/vex3.jpg" class="carousel-slide" alt="VEX Robotics 3">
+                <img src="assets/photos/vex4.jpg" class="carousel-slide" alt="VEX Robotics 4">
+                <img src="assets/photos/vex5.jpg" class="carousel-slide" alt="VEX Robotics 5">
+                <img src="assets/photos/vex6.jpg" class="carousel-slide" alt="VEX Robotics 6">
+                <img src="assets/photos/vex7.jpg" class="carousel-slide" alt="VEX Robotics 7">
+                <img src="assets/photos/vex8.jpg" class="carousel-slide" alt="VEX Robotics 8">
+                <img src="assets/photos/vex9.jpg" class="carousel-slide" alt="VEX Robotics 9">
+                <img src="assets/photos/vex10.jpg" class="carousel-slide" alt="VEX Robotics 10">
+                <img src="assets/photos/vex11.jpg" class="carousel-slide" alt="VEX Robotics 11">
+                <img src="assets/photos/vex12.jpg" class="carousel-slide" alt="VEX Robotics 12">
+                <img src="assets/photos/vex13.jpg" class="carousel-slide" alt="VEX Robotics 13">
+                <img src="assets/photos/vex14.jpg" class="carousel-slide" alt="VEX Robotics 14">
+                <img src="assets/photos/vex15.jpg" class="carousel-slide" alt="VEX Robotics 15">
+                <img src="assets/photos/vex16.jpg" class="carousel-slide" alt="VEX Robotics 16">
+                <img src="assets/photos/vex17.jpg" class="carousel-slide" alt="VEX Robotics 17">
+                <img src="assets/photos/vex18.jpg" class="carousel-slide" alt="VEX Robotics 18">
+              </div>
+              <button class="carousel-btn carousel-prev" aria-label="Previous slide"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+              <button class="carousel-btn carousel-next" aria-label="Next slide"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+              <div class="carousel-dots"></div>
+            </div>
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+          <h3 style="text-align:center;">What is vex?</h3>
+          <p style="text-align:center;">The VEX Robotics Competition is where teams of students design, build, and program robots to compete in a game-based engineering challenge. During my two years, the game challenges were called "Over Under" and "High Stakes". Both years I was with the same team and we had built a good team dynamic. In my Junior year, we qualified and competed at the state level. Overall, I am glad to have been a part of this team and compete together.</p>
+          `,
+          right: `
+          <img src="assets/photos/vex19.png" alt="Andrew Stevens" style="width: 65%; height: auto; margin: 0 auto; display: block;">            `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h3 style="text-align:center;">My VEX Vlogs Below</h3> 
+            <p style="text-align:center;">Throughout my years of Vex, I wanted to document our group's progress. So, I created these minute-long vlogs as a fun way of sharing our progress. Unfortunately, I did not continue with this as much in my Senior year. You can view them down below!</p>
+            `,
+          right: ``
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+          <h3 style="text-align:center;">Junior Year</h3>
+          <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRyf_5O3zjv100u4sGRgjJ0sJxYL2kr2z0ihVYxVxEpGEkHFhm8lWwLhJ79aaF6i-Bctx5BqjaihEl8/pubembed?start=false&loop=false&delayms=3000" frameborder="0" style="width:100%; aspect-ratio:16/9;" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+          `,
+          right: `
+          <h3 style="text-align:center;">Senior Year</h3>
+          <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vRqGGvTP0_XCYFJ6bfUN1ESo2qwea5z0dwXXtdqfUfTPRRwHWJli83FixudTuxEOnPOi5nWFqdgITpg/pubembed?start=false&loop=false&delayms=3000" frameborder="0" style="width:100%; aspect-ratio:16/9;" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <p style="text-align:center;">On this team, I took a role as the team leader. This meant that I was in charge of scheduling time to work on the robot as well as help team members resolve disputes. I was also leading the engineering aspect of the robot. As a leader I made sure that everyone's opinion and voice was heard, while streamlining the process to be as efficient as possible. </p>
+            `,
+          right: ``
+        }
+      ]
+    },
+    "proj-1": {
+      title: "Hand Tracking",
+      sections: [
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h3 style="text-align:center; padding: 0 40px;">This is an interactive hand tracking program. There is only a standard laptop webcam and a projector. The camera runs yolov8 to find where the hands are located relative to the screen, as well as if the hand is open or closed.</h3>
+            <p></p>
+            <p style="text-align:center;">This project was really good for my development as an engineer, as it improved my CS skills tremendously. This project guided me to become familiar with Python and with using a machine learning model. I had to troubleshoot problems with importing libraries, dependency versions, and context errors. All stuff that I had not expected, but still managed to overcome. To showcase the hand tracking, I had made 3 programs for it to run on. A TicTacToe game where two people take turns making moves until one wins or they tie. I also made a pong style game where two people have to move their hands to control a paddle and bounce a ball back and forth between them. I also made a simple hand following program where a dot would go to your hand if the hand was open.</p>
+            
+          `,
+          right: `
+          
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h2 style="text-align:center;">Video Walkthrough & Explanation</h2>
+            <video controls width="75%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/HandTrackingInterface.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          `,
+          right: `
+            
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <p style="text-align: center; margin-bottom: 16px;">
+            <a href="assets/code.pdf" target="_blank" download style="font-size: 18px;">View code Here (PDF)</a>
+            </p>
+          `,
+          right: `
+            
+          `
+        }
+      ]
+    },
+    "proj-2": {
+      title: "THE CUBE",
+      sections: [
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h2 style="text-align:center; padding: 0 40px;">With inspiration from the "Useless Box", THE CUBE is a puzzle diffuse box with the goal of solving the puzzles before time runs out.</h2>
+            <p></p>
+            
+          `,
+          right: `
+          
+          `
+        },
+        {
+          customClass: "cols-1fr-2fr",
+          left: `
+            <img src="assets/photos/cube2.jpg" alt="Andrew Stevens" style="width: 70%; height: auto; margin-left: auto; display: block;">
+            
+            <img src="assets/photos/cube3.jpg" alt="Andrew Stevens" style="width: 70%; height: auto; margin-left: auto; display: block;">
+
+            `,
+          right: `
+            <div class="carousel" id="cube-carousel" style="width: 70%; margin: 0 auto;">
+              <div class="carousel-track">
+                <img src="assets/photos/cube4.png" class="carousel-slide" alt="Cube 4" style="width: 100%; height: auto;">
+                <img src="assets/photos/cube5.png" class="carousel-slide" alt="Cube 5" style="width: 100%; height: auto;">
+                <img src="assets/photos/cube6.png" class="carousel-slide" alt="Cube 6" style="width: 100%; height: auto;">
+                <img src="assets/photos/cube7.png" class="carousel-slide" alt="Cube 7" style="width: 100%; height: auto;">
+                <img src="assets/photos/cube8.png" class="carousel-slide" alt="Cube 8" style="width: 100%; height: auto;">
+                <img src="assets/photos/cube9.png" class="carousel-slide" alt="Cube 9" style="width: 100%; height: auto;">
+                <img src="assets/photos/cube10.png" class="carousel-slide" alt="Cube 10" style="width: 100%; height: auto;">
+
+              </div>
+              <button class="carousel-btn carousel-prev" aria-label="Previous slide"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+              <button class="carousel-btn carousel-next" aria-label="Next slide"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+              <div class="carousel-dots"></div>
+            </div>
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h2 style="text-align:center;">Video Walkthrough & Explanation</h2>
+            <video controls width="75%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/Cube-final_showcase.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            `,
+          right: `
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <p style="text-align:left; padding: 0 80px;">Each of the six sides of this cube has a significant purpose. Four of them each it's own puzzle. One is the main timer and progress. The last one a surprise. The CUBE is started by flipping a switch on the main side, which starts a timer and has four red lights. In order to stop the timer (and win the game), you must turn all four lights green. Each light corresponds to its own puzzle, and completion of the puzzle turns the light green. If all lights are green before the timer ends, then there is a mini celebration then a surprise arm emerges from the final side to flip the starting switch back to it's original position. If the puzzles cannot be completed in the time given, the box resets itself!</p>  
+          
+            `,
+          right: `
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr-1fr-1fr",
+          left: `
+            <img src="assets/photos/cube11.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            <h2 style="text-align:center;">MAZE SIDE</h2>
+            <p style="text-align:left;">On this side, the player has to navigate the maze to the indicated side. Once complete, another random side will light up, and the process continues for a random amount of times until the side is cleared.</p>
+
+            `,
+          center: `
+            <img src="assets/photos/cube12.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            <h2 style="text-align:center;">MEMORY SIDE</h2>
+            <p style="text-align:left; font-size: 15px;">On this side, the player is given a random series of colored lights and then is tasked with repeating the sequence on the corresponding buttons. After each completion, the sequence lengthens, increasing the difficulty. Once a random amount of these has been completed, the side will be cleared.</p>
+
+          `
+          ,
+          center2: `
+            <img src="assets/photos/cube13.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            <h2 style="text-align:center;">MORSE SIDE</h2>
+            <p style="text-align:left; font-size: 15px;">On this side, the center light will turn on and off in morse code. The code will be 2 letters of those on this side. Using the provided deciphering key, the player needs to figure out which two letters is being transmitted and press the corrisponding buttons. Once this is completed, the side will be cleared.</p>
+
+          `
+          ,
+          right: `
+            <img src="assets/photos/cube14.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            <h2 style="text-align:center;">SEARCH SIDE</h2>
+            <p style="text-align:left; font-size: 14px;">This is probably the most difficult side to figure out. The player needs to follow the four colored lines on the box until the end. There, a 7 segment digit will appear (with the top of it being where the line ends).  They then need to put in each number into the code on this side. The LEDs above will correspond to each color. Once completed, the side is cleared.</p>
+
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <img src="assets/photos/cube15.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            <h2 style="text-align:center;">Wiring Schematic</h2>
+            `,
+          right: `
+            <img src="assets/photos/cube16.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            <h2 style="text-align:center;">3D Models</h2>
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr-1fr",
+          left: `
+            <video controls width="60%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/Cube-arm_works.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p style="text-align:center;">This is the arm mechanism working for the first time!</p>
+              
+            `,
+          center: `
+            <video controls width="60%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/Cube-input_shift.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p style="text-align:center;">Input shift registers finally work! (Don't mind the groggy voice, it was late for me)</p>
+              
+          `,
+          right: `
+            <video controls width="60%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/Cube-output_shift.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <p style="text-align:center;">Output shift registers finally work!</p>
+              
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr-1fr-1fr",
+          left: `
+            <h2 style="text-align:center;">How the panels were made!</h2>
+            `,
+          center: `
+            <img src="assets/photos/cube17.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            
+          `,
+          center2: `
+            <img src="assets/photos/cube18.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            
+          `,
+          right: `
+            <img src="assets/photos/cube19.png" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+            
+          `
+        },
+      ]
+    },
+    "about-1": {
+      title: "Bio",
+      sections: [
+        {
+          customClass: "cols-2fr-1fr", // Options: cols-2fr-1fr, cols-3fr-1fr, cols-1fr-2fr, cols-1fr (or leave empty for default 1fr 1fr)
+          left: `
+            <div style="font-size: 16px;">
+              <p>Hey! I am Andrew Stevens. I'm a Electrical and Computer Engineering student at Virginia Tech with an interest in the mix between developing real-time systems for sensing, control, automation, and embedded systems in general. I am passionate about designing and building efficient, reliable systems, and love bringing ideas to life with hands on projects. </p>
+              <p>Through my academic coursework and personal projects, I have gained experience with microcontrollers as well as programming in Python, C++, and C#. One of my recent projects involved creating an Arduino-powered puzzle box, which deepened my understanding of embedded systems, circuit design, and logical programming. I am currently diving into Python by developing a hand tracking interface program powered by YoloV8.</p>
+              <p>As I continue to grow technically, I'm also working to expand my professional network in preparation for entering the industry. I am seeking internship opportunities in electrical and computer engineering. My goal is to contribute to innovative teams while growing my technical and problem solving skills. </p>
+              <p>I am driven by curiosity, a passion for problem solving, and a desire to create innovative solutions to real-world problems.</p>
+            </div>
+          `,
+          right: `
+            <img src="assets/photos/bioandrew.jpg" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+          `
+        }
+      ]
+
+    },
+    "about-2": {
+      title: "Resume",
+      sections: [
+        {
+          customClass: "cols-1fr",
+          left: `
+            <p style="text-align: center; margin-bottom: 16px;">
+            <a href="assets/Andrew Stevens - Resume.pdf" target="_blank" download style="font-size: 18px;">View Resume (PDF)</a>
+            </p>`
+            
+            //<img src="assets/Andrew Stevens - Resume_page-0001 (1).jpg" alt="Andrew Stevens Resume" style="width: 120%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
+          ,
+          right: ``
+        }
+      ]
+    },
+    "about-3": {
+      title: "Life",
+      description: `
+        <p>What I am like outside the classroom!</p>
+      `
+    },
+    "about-4": {
+      title: "Contact",
+      description: `
+        <p>Get in touch with me:</p>
+        <ul>
+          <li>Email: <a href="mailto:andrew.stevens0310@gmail.com" target="_blank">andrew.stevens0310@gmail.com</a></li>
+          <p>or</p>
+          <li>Email: <a href="mailto:andrews29@vt.edu" target="_blank">andrews29@vt.edu</a></li>
+          <li>LinkedIn: <a href="https://www.linkedin.com/in/as-vtech" target="_blank">linkedin.com/in/as-vtech</a></li>
+        </ul>
+      `
+    },
+    "award-1": {
+      title: "Arduino",
+      sections: [
+        {
+          customClass: "cols-1fr-2fr",
+          left: `
+            <h3>Certification:</h3>
+            <p>The official Arduino certificate is a document that affirms your successful completion of the Arduino exam, and serves as a guarantee of your competence in the Arduino-related subjects. It is used to highlight your skills and learning progress, and to advance in your career or education.</p>
+            
+          `,
+          right: `
+            <img src="assets/photos/arduino2.jpg" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <img src="assets/photos/arduino3.jpg" alt="Andrew Stevens" style="width: 70%; height: auto; margin: 0 auto; display: block;">
+          `,
+          right: `
+          `
+        }
+      ]
+    },
+    "award-2": {
+      title: "Patent",
+      sections: [
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <h3>The Story:</h3>
+            <p style="text-align: left; margin-bottom: 16px; font-size: 16px;">In 8th grade, my school had chromebooks for students to use, and they had cameras but they were always exposed and could be turned on by hacking into it. One day I saw my friend cover his with a Band Aid and I thought that there had to be a better way. So I got to work with my 3D printer, designing many different prototypes. I eventually settled on this design (the one that got patented). At first I only did a provisional patent (which lasts 1 year) as it was an easier process and way cheaper. During the year I had it, I ended up selling it to local businesses with their logos on it as well as at trade shows and even sold them in two brick and mortar stores. After that year time frame, I decided to go forth and make an actual patent for it. It was a long process, but it was succesful! It is patent D1,049,200!</p>
+            
+          `,
+          right: `
+            <img src="assets/photos/patent1.png" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
+          `
+        }, 
+        {
+          customClass: "cols-1fr",
+          left: `
+            
+            <p style="text-align: center; margin-bottom: 16px;">
+              <a href="assets/D1049200.pdf" target="_blank" download style="font-size: 18px;">View Patent Here (PDF)</a>
+            </p>
+          `,
+          right: ``
+        }
+      
+      ]
+    }
+  };
+
   // DOM refs
   let nodeEls = [];
-  let subEls = []; // currently rendered sub-bubbles
-  let activeNodeId = null;
+  let childNodeEls = new Map(); // parentId -> [childElements]
   let hoverRAF = 0;
+  let openParents = new Set(); // Track which parent nodes have children open
+  let animatingParents = new Set(); // Track which parents are currently animating
+  let closeTimers = new Map(); // parentId -> timeout ID for delayed closing
 
   // Lines map: nodeEl -> svgPath
   const lines = new Map();
+  const childLines = new Map(); // childEl -> svgPath
 
-  // For restoring node transforms after zoom
-  const nodeBaseTransform = new Map();
+  // Popup refs
+  const popup = document.getElementById("description-popup");
+  const popupTitle = document.getElementById("popup-title");
+  const popupBody = document.getElementById("popup-body");
+  const popupClose = document.querySelector(".popup-close");
+
+  // Lightbox refs
+  let lightbox = null;
+  let lightboxImage = null;
+
+  // Create lightbox element
+  function createLightbox() {
+    lightbox = document.createElement("div");
+    lightbox.className = "lightbox-overlay";
+    lightbox.innerHTML = `<img class="lightbox-image" src="" alt="Full size image">`;
+    document.body.appendChild(lightbox);
+    lightboxImage = lightbox.querySelector(".lightbox-image");
+
+    // Close on click anywhere
+    lightbox.addEventListener("click", closeLightbox);
+
+    // Prevent image click from closing (optional - remove if you want click on image to close too)
+    lightboxImage.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+  }
+
+  function openLightbox(imgSrc) {
+    if (!lightbox) createLightbox();
+    lightboxImage.src = imgSrc;
+    lightbox.style.display = "flex";
+    // Trigger reflow for transition
+    void lightbox.offsetWidth;
+    lightbox.classList.add("show");
+  }
+
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.classList.remove("show");
+    setTimeout(() => {
+      lightbox.style.display = "none";
+      lightboxImage.src = "";
+    }, 300);
+  }
 
   // ----------------------------
   // Deterministic speck background (unchanged)
@@ -213,56 +826,278 @@
   function renderNodes() {
     nodeEls.forEach((el) => el.remove());
     nodeEls = [];
-    nodeBaseTransform.clear();
 
     for (const cfg of NODES) {
-      const a = document.createElement("a");
-      a.className = "bubble node";
-      a.id = cfg.id;
-      a.href = "#"; // we intercept clicks to zoom instead of navigating
-      a.setAttribute("role", "button");
-      a.setAttribute("aria-label", cfg.label);
-      a.dataset.nodeId = cfg.id;
+      const div = document.createElement("div");
+      div.className = "bubble node";
+      div.id = cfg.id;
+      div.setAttribute("role", "button");
+      div.setAttribute("tabindex", "0");
+      div.setAttribute("aria-label", cfg.label);
+      div.dataset.nodeId = cfg.id;
 
       if (typeof cfg.size === "number") {
-        a.style.width = `${cfg.size}px`;
-        a.style.height = `${cfg.size}px`;
+        div.style.width = `${cfg.size}px`;
+        div.style.height = `${cfg.size}px`;
       }
 
       if (cfg.image) {
-        a.classList.add("has-image");
+        div.classList.add("has-image");
         const absImg = new URL(cfg.image, document.baseURI).href;
-        a.style.setProperty("--img", `url("${absImg}")`);
+        div.style.setProperty("--img", `url("${absImg}")`);
         const media = document.createElement("div");
         media.className = "node-media";
-        a.appendChild(media);
+        div.appendChild(media);
       }
 
       const title = document.createElement("div");
       title.className = "node-title";
       title.textContent = cfg.label;
-      a.appendChild(title);
+      div.appendChild(title);
 
-      // Click to open/close
-      a.addEventListener("click", (e) => {
-        e.preventDefault();
-        const id = a.dataset.nodeId;
-        if (activeNodeId === id) closeNode();
-        else openNode(id);
-      });
+      map.appendChild(div);
+      nodeEls.push(div);
+    }
+  }
 
-      // Keyboard (Enter/Space)
-      a.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          const id = a.dataset.nodeId;
-          if (activeNodeId === id) closeNode();
-          else openNode(id);
+  // ----------------------------
+  // Render child nodes for a parent
+  // ----------------------------
+  function renderChildNodes(parentCfg, parentEl) {
+    if (!parentCfg.children || parentCfg.children.length === 0) return [];
+
+    const children = [];
+    const parentRect = parentEl.getBoundingClientRect();
+    const mapRect = map.getBoundingClientRect();
+    const parentCenterX = parentRect.left - mapRect.left + parentRect.width / 2;
+    const parentCenterY = parentRect.top - mapRect.top + parentRect.height / 2;
+
+    for (const childCfg of parentCfg.children) {
+      const childEl = document.createElement("div");
+      childEl.className = "bubble child-node";
+      childEl.id = childCfg.id;
+      childEl.dataset.parentId = parentCfg.id;
+
+      if (typeof childCfg.size === "number") {
+        childEl.style.width = `${childCfg.size}px`;
+        childEl.style.height = `${childCfg.size}px`;
+      }
+
+      if (childCfg.image) {
+        childEl.classList.add("has-image");
+        const absImg = new URL(childCfg.image, document.baseURI).href;
+        childEl.style.setProperty("--img", `url("${absImg}")`);
+        const media = document.createElement("div");
+        media.className = "node-media";
+        childEl.appendChild(media);
+      }
+
+      const title = document.createElement("div");
+      title.className = "node-title";
+      title.textContent = childCfg.label;
+      if (typeof childCfg.textSize === "number") {
+        title.style.fontSize = `${childCfg.textSize}px`;
+      }
+      childEl.appendChild(title);
+
+      // Start at parent center
+      childEl.style.left = `${parentCenterX - (childCfg.size || 120) / 2}px`;
+      childEl.style.top = `${parentCenterY - (childCfg.size || 120) / 2}px`;
+      childEl.style.opacity = "0";
+      childEl.style.transform = "scale(0)";
+
+      map.appendChild(childEl);
+      children.push({ el: childEl, cfg: childCfg });
+    }
+
+    return children;
+  }
+
+  // ----------------------------
+  // Animate child nodes in/out
+  // ----------------------------
+  async function animateChildrenIn(parentCfg, parentEl, children) {
+    const parentRect = parentEl.getBoundingClientRect();
+    const mapRect = map.getBoundingClientRect();
+    const parentCenterX = parentRect.left - mapRect.left + parentRect.width / 2;
+    const parentCenterY = parentRect.top - mapRect.top + parentRect.height / 2;
+
+    // Auto-distribute angles if not specified
+    const angles = children.map((child, i) => {
+      if (typeof child.cfg.angleDeg === "number") {
+        return child.cfg.angleDeg;
+      }
+      const step = 360 / children.length;
+      return -90 + step * i;
+    });
+
+    // Calculate constant stagger delay based on total animation time
+    const totalAnimTime = 50; // Total time for all children to start animating
+    const staggerDelay = children.length > 1 ? totalAnimTime / (children.length - 1) : 0;
+
+    // Create SVG paths for each child
+    for (let i = 0; i < children.length; i++) {
+      const { el, cfg } = children[i];
+      const angle = (angles[i] * Math.PI) / 180;
+      const distance = cfg.distance || 170;
+
+      const targetX = parentCenterX + Math.cos(angle) * distance - (cfg.size || 120) / 2;
+      const targetY = parentCenterY + Math.sin(angle) * distance - (cfg.size || 120) / 2;
+
+      // Create connecting line
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      path.setAttribute("d", "");
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", "rgba(255, 255, 255, 0.30)");
+      path.setAttribute("stroke-width", "2.2");
+      path.setAttribute("stroke-linecap", "round");
+      path.setAttribute("filter", "url(#softGlow)");
+      svg.appendChild(path);
+      childLines.set(el, path);
+
+      // Animate to target position
+      await sleep(i * staggerDelay);
+      el.style.opacity = "1";
+      el.style.transform = "scale(1)";
+      el.style.left = `${targetX}px`;
+      el.style.top = `${targetY}px`;
+      el.style.transition = "all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
+    }
+
+    // Update child lines
+    updateChildLines(parentEl, children);
+
+    // Continue updating lines during animation
+    const animDuration = 500;
+    const animStart = performance.now();
+    const tick = (now) => {
+      updateChildLines(parentEl, children);
+      if (now - animStart < animDuration) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    // Attach click and hover handlers to child nodes after they're rendered
+    await sleep(100); // Small delay to ensure DOM is ready
+    attachChildNodeClickHandlers();
+    attachChildNodeHoverHandlers(parentCfg.id);
+  }
+
+
+  // ----------------------------
+  // Update child node connector lines
+  // ----------------------------
+  function updateChildLines(parentEl, children) {
+    const parentPoint = centerPointInMap(parentEl);
+
+    for (const { el } of children) {
+      const childPoint = centerPointInMap(el);
+      const mx = (parentPoint.x + childPoint.x) / 2;
+      const my = (parentPoint.y + childPoint.y) / 2;
+      const bend = 0.15;
+      const cx1 = mx + (childPoint.x - parentPoint.x) * bend;
+      const cy1 = my + (childPoint.y - parentPoint.y) * bend;
+
+      const d = `M ${parentPoint.x.toFixed(2)} ${parentPoint.y.toFixed(2)}
+                 Q ${cx1.toFixed(2)} ${cy1.toFixed(2)}
+                   ${childPoint.x.toFixed(2)} ${childPoint.y.toFixed(2)}`;
+
+      const path = childLines.get(el);
+      if (path) path.setAttribute("d", d);
+    }
+  }
+
+  // ----------------------------
+  // Animate children out (back to parent)
+  // ----------------------------
+  async function animateChildrenOut(parentEl, children) {
+    const parentRect = parentEl.getBoundingClientRect();
+    const mapRect = map.getBoundingClientRect();
+    const parentCenterX = parentRect.left - mapRect.left + parentRect.width / 2;
+    const parentCenterY = parentRect.top - mapRect.top + parentRect.height / 2;
+
+    // Animate lines fading during return
+    const animDuration = 400;
+    const animStart = performance.now();
+    const tick = (now) => {
+      updateChildLines(parentEl, children);
+      if (now - animStart < animDuration) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    // Calculate constant stagger delay for closing animation
+    const totalAnimTime = 50; // Total time for all children to start closing // TO CHANGE LOOK AT THE OTHER ONE, AROUND LINE 314
+    const staggerDelay = children.length > 1 ? totalAnimTime / (children.length - 1) : 0;
+
+    // Animate each child back to parent center in reverse order
+    for (let i = children.length - 1; i >= 0; i--) {
+      const { el, cfg } = children[i];
+
+      // Move back to parent center with scale down
+      el.style.transition = "all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)";
+      el.style.left = `${parentCenterX - (cfg.size || 120) / 2}px`;
+      el.style.top = `${parentCenterY - (cfg.size || 120) / 2}px`;
+      el.style.opacity = "0";
+      el.style.transform = "scale(0)";
+
+      // Fade out the connecting line
+      const path = childLines.get(el);
+      if (path) {
+        path.style.transition = "opacity 0.3s ease";
+        path.style.opacity = "0";
+      }
+
+      await sleep(staggerDelay);
+    }
+
+    // Wait for animations to complete
+    await sleep(350);
+
+    // Clean up DOM elements
+    for (const { el } of children) {
+      const path = childLines.get(el);
+      if (path) {
+        path.remove();
+        childLines.delete(el);
+      }
+      el.remove();
+    }
+  }
+
+  // ----------------------------
+  // Toggle child nodes for a parent
+  // ----------------------------
+  async function toggleChildNodes(parentId) {
+    const parentCfg = NODES.find((n) => n.id === parentId);
+    if (!parentCfg || !parentCfg.children || parentCfg.children.length === 0) return;
+
+    const parentEl = nodeEls.find((el) => el.id === parentId);
+    if (!parentEl) return;
+
+    // Prevent multiple simultaneous animations for the same parent
+    if (animatingParents.has(parentId)) return;
+
+    // Mark as animating
+    animatingParents.add(parentId);
+
+    try {
+      // If already open, close with animation
+      if (openParents.has(parentId)) {
+        openParents.delete(parentId);
+        const children = childNodeEls.get(parentId);
+        if (children) {
+          await animateChildrenOut(parentEl, children);
+          childNodeEls.delete(parentId);
         }
-      });
-
-      map.appendChild(a);
-      nodeEls.push(a);
+      } else {
+        // Open children with animation
+        openParents.add(parentId);
+        const children = renderChildNodes(parentCfg, parentEl);
+        childNodeEls.set(parentId, children);
+        await animateChildrenIn(parentCfg, parentEl, children);
+      }
+    } finally {
+      // Always remove from animating set when done
+      animatingParents.delete(parentId);
     }
   }
 
@@ -349,14 +1184,12 @@
   }
 
   // After intro animation, lock each node at its final position with an inline transform.
-  // This makes later zoom transitions clean and reliable.
   function lockNodesToTargets() {
     nodeEls.forEach((el) => {
       const tx = el.style.getPropertyValue("--tx") || "0px";
       const ty = el.style.getPropertyValue("--ty") || "0px";
       const base = `translate3d(${tx}, ${ty}, 0) scale(1)`;
       el.style.transform = base;
-      nodeBaseTransform.set(el.id, base);
     });
   }
 
@@ -398,7 +1231,6 @@
   }
 
   function updateLines() {
-    // When zoomed, CSS fades the svg anyway; but we can still keep it correct
     const c = centerPointInMap(center);
 
     for (const nodeEl of nodeEls) {
@@ -446,19 +1278,412 @@
   }
 
   // ----------------------------
+  // Popup functions
+  // ----------------------------
+  function showPopup(childId) {
+    const content = POPUP_CONTENT[childId];
+    if (!content) {
+      console.warn(`No popup content found for child ID: ${childId}`);
+      return;
+    }
+
+    popupTitle.textContent = content.title;
+
+    // Check if using sections layout
+    if (content.sections && Array.isArray(content.sections)) {
+      // Horizontal groups stacked vertically
+      const sectionsHTML = content.sections.map(section => {
+        // Check if this is a 4-column layout
+        const hasCenter2 = section.center2 !== undefined;
+        // Check if this is a 3-column layout
+        const hasCenter = section.center !== undefined;
+
+        if (hasCenter2) {
+          // 4-column layout: left, center, center2, right
+          return `
+            <div class="popup-section ${section.customClass || ''}">
+              <div class="popup-section-left">
+                ${section.left || ''}
+              </div>
+              <div class="popup-section-center">
+                ${section.center || ''}
+              </div>
+              <div class="popup-section-center2">
+                ${section.center2 || ''}
+              </div>
+              <div class="popup-section-right">
+                ${section.right || ''}
+              </div>
+            </div>
+          `;
+        } else if (hasCenter) {
+          // 3-column layout: left, center, right
+          return `
+            <div class="popup-section ${section.customClass || ''}">
+              <div class="popup-section-left">
+                ${section.left || ''}
+              </div>
+              <div class="popup-section-center">
+                ${section.center || ''}
+              </div>
+              <div class="popup-section-right">
+                ${section.right || ''}
+              </div>
+            </div>
+          `;
+        } else {
+          // 2-column layout: left, right
+          return `
+            <div class="popup-section ${section.customClass || ''}">
+              <div class="popup-section-left">
+                ${section.left || ''}
+              </div>
+              <div class="popup-section-right">
+                ${section.right || ''}
+              </div>
+            </div>
+          `;
+        }
+      }).join('');
+
+      popupBody.innerHTML = `<div class="popup-sections-container">${sectionsHTML}</div>`;
+    } else if (content.leftColumn || content.rightColumn) {
+      // Legacy two-column layout support
+      popupBody.innerHTML = `
+        <div class="popup-two-column">
+          <div class="popup-left">
+            ${content.leftColumn || ''}
+          </div>
+          <div class="popup-right">
+            ${content.rightColumn || ''}
+          </div>
+        </div>
+      `;
+    } else {
+      // Simple single-column layout
+      popupBody.innerHTML = content.description || '';
+    }
+
+    popup.style.display = "flex";
+    // Scroll to top of popup content
+    const scrollable = popup.querySelector(".popup-scrollable");
+    if (scrollable) scrollable.scrollTop = 0;
+    // Trigger reflow to enable transition
+    void popup.offsetWidth;
+    popup.classList.add("show");
+
+    // Initialize carousels after popup is shown
+    setTimeout(() => {
+      initCarousels();
+      attachLightboxHandlers();
+    }, 50);
+  }
+
+  // ----------------------------
+  // Carousel functionality
+  // ----------------------------
+  function initCarousels() {
+    const carousels = popupBody.querySelectorAll('.carousel');
+
+    carousels.forEach(carousel => {
+      const track = carousel.querySelector('.carousel-track');
+      const slides = carousel.querySelectorAll('.carousel-slide');
+      const prevBtn = carousel.querySelector('.carousel-prev');
+      const nextBtn = carousel.querySelector('.carousel-next');
+      const dotsContainer = carousel.querySelector('.carousel-dots');
+
+      if (!track || slides.length === 0) return;
+
+      let currentIndex = 0;
+
+      // Create dots
+      if (dotsContainer) {
+        dotsContainer.innerHTML = '';
+        slides.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+          dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+          dot.addEventListener('click', () => goToSlide(i));
+          dotsContainer.appendChild(dot);
+        });
+      }
+
+      const dots = dotsContainer ? dotsContainer.querySelectorAll('.carousel-dot') : [];
+
+      function goToSlide(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        currentIndex = index;
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        // Update dots
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === currentIndex);
+        });
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          goToSlide(currentIndex - 1);
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          goToSlide(currentIndex + 1);
+        });
+      }
+
+      // Touch/swipe support
+      let touchStartX = 0;
+      let touchEndX = 0;
+
+      track.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      track.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) goToSlide(currentIndex + 1);
+          else goToSlide(currentIndex - 1);
+        }
+      }, { passive: true });
+
+      // Keyboard navigation when carousel is focused
+      carousel.setAttribute('tabindex', '0');
+      carousel.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') goToSlide(currentIndex - 1);
+        if (e.key === 'ArrowRight') goToSlide(currentIndex + 1);
+      });
+
+      // Auto-advance every 5 seconds
+      const autoPlayDelay = 5000;
+      let autoPlayInterval = setInterval(() => {
+        goToSlide(currentIndex + 1);
+      }, autoPlayDelay);
+
+      // Pause on hover/focus
+      carousel.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
+      carousel.addEventListener('mouseleave', () => {
+        autoPlayInterval = setInterval(() => goToSlide(currentIndex + 1), autoPlayDelay);
+      });
+      carousel.addEventListener('focus', () => clearInterval(autoPlayInterval));
+      carousel.addEventListener('blur', () => {
+        autoPlayInterval = setInterval(() => goToSlide(currentIndex + 1), autoPlayDelay);
+      });
+
+      // Store interval reference to clear when popup closes
+      carousel.dataset.autoPlayInterval = autoPlayInterval;
+    });
+  }
+
+  function closePopup() {
+    // Clear any carousel auto-play intervals
+    const carousels = popupBody.querySelectorAll('.carousel');
+    carousels.forEach(carousel => {
+      if (carousel.dataset.autoPlayInterval) {
+        clearInterval(parseInt(carousel.dataset.autoPlayInterval));
+      }
+    });
+
+    // Pause any playing videos
+    const videos = popupBody.querySelectorAll('video');
+    videos.forEach(video => {
+      video.pause();
+    });
+
+    popup.classList.remove("show");
+    setTimeout(() => {
+      popup.style.display = "none";
+    }, 300); // Match transition duration
+  }
+
+  // Setup close button and overlay click
+  if (popupClose) {
+    popupClose.addEventListener("click", closePopup);
+  }
+
+  if (popup) {
+    popup.addEventListener("click", (e) => {
+      // Close if clicking the overlay (not the content)
+      if (e.target === popup) {
+        closePopup();
+      }
+    });
+  }
+
+  // Close popup or lightbox with Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      // Close lightbox first if open
+      if (lightbox && lightbox.classList.contains("show")) {
+        closeLightbox();
+      } else if (popup.classList.contains("show")) {
+        closePopup();
+      }
+    }
+  });
+
+  // Attach click handlers to images inside popup for lightbox
+  function attachLightboxHandlers() {
+    const images = popupBody.querySelectorAll("img");
+    images.forEach((img) => {
+      img.style.cursor = "pointer";
+      img.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openLightbox(img.src);
+      });
+    });
+  }
+
+  // ----------------------------
+  // Hover management for parent nodes
+  // ----------------------------
+  function cancelCloseTimer(parentId) {
+    const timer = closeTimers.get(parentId);
+    if (timer) {
+      clearTimeout(timer);
+      closeTimers.delete(parentId);
+    }
+  }
+
+  function scheduleClose(parentId) {
+    // Cancel any existing timer first
+    cancelCloseTimer(parentId);
+
+    // Schedule close after delay (gives time to move cursor to children)
+    const timer = setTimeout(() => {
+      closeChildNodes(parentId);
+      closeTimers.delete(parentId);
+    }, 300); // 300ms delay before closing
+
+    closeTimers.set(parentId, timer);
+  }
+
+  async function openChildNodes(parentId) {
+    const parentCfg = NODES.find((n) => n.id === parentId);
+    if (!parentCfg || !parentCfg.children || parentCfg.children.length === 0) return;
+
+    const parentEl = nodeEls.find((el) => el.id === parentId);
+    if (!parentEl) return;
+
+    // Already open or animating - do nothing
+    if (openParents.has(parentId) || animatingParents.has(parentId)) return;
+
+    // Cancel any pending close
+    cancelCloseTimer(parentId);
+
+    // Mark as animating
+    animatingParents.add(parentId);
+
+    try {
+      openParents.add(parentId);
+      const children = renderChildNodes(parentCfg, parentEl);
+      childNodeEls.set(parentId, children);
+      await animateChildrenIn(parentCfg, parentEl, children);
+    } finally {
+      animatingParents.delete(parentId);
+    }
+  }
+
+  async function closeChildNodes(parentId) {
+    if (!openParents.has(parentId)) return;
+    if (animatingParents.has(parentId)) return;
+
+    const parentEl = nodeEls.find((el) => el.id === parentId);
+    if (!parentEl) return;
+
+    animatingParents.add(parentId);
+
+    try {
+      openParents.delete(parentId);
+      const children = childNodeEls.get(parentId);
+      if (children) {
+        await animateChildrenOut(parentEl, children);
+        childNodeEls.delete(parentId);
+      }
+    } finally {
+      animatingParents.delete(parentId);
+    }
+  }
+
+  // ----------------------------
+  // Attach hover handlers for parent nodes
+  // ----------------------------
+  function attachNodeHoverHandlers() {
+    nodeEls.forEach((nodeEl) => {
+      const nodeId = nodeEl.dataset.nodeId;
+      if (!nodeId) return;
+
+      // Open on mouse enter and cancel any pending close
+      nodeEl.addEventListener("mouseenter", () => {
+        cancelCloseTimer(nodeId);
+        openChildNodes(nodeId);
+      });
+
+      // Schedule close on mouse leave (with delay)
+      nodeEl.addEventListener("mouseleave", () => {
+        scheduleClose(nodeId);
+      });
+
+      // Handle keyboard interaction (Enter/Space for accessibility)
+      nodeEl.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggleChildNodes(nodeId);
+        }
+      });
+    });
+  }
+
+  // ----------------------------
+  // Attach hover handlers to child nodes to keep parent open
+  // ----------------------------
+  function attachChildNodeHoverHandlers(parentId) {
+    const children = childNodeEls.get(parentId);
+    if (!children) return;
+
+    for (const { el } of children) {
+      // When hovering over a child, cancel the parent's close timer
+      el.addEventListener("mouseenter", () => {
+        cancelCloseTimer(parentId);
+      });
+
+      // When leaving a child, schedule close for the parent
+      el.addEventListener("mouseleave", () => {
+        scheduleClose(parentId);
+      });
+    }
+  }
+
+  // ----------------------------
+  // Attach click handlers for child nodes to show popup
+  // ----------------------------
+  function attachChildNodeClickHandlers() {
+    // This will be called after child nodes are rendered
+    const allChildNodes = document.querySelectorAll(".child-node");
+    allChildNodes.forEach((childEl) => {
+      // Check if already has listener to avoid duplicates
+      if (!childEl.dataset.hasPopupListener) {
+        childEl.dataset.hasPopupListener = "true";
+        childEl.addEventListener("click", (e) => {
+          e.stopPropagation(); // Prevent parent node toggle
+          const childId = childEl.id;
+          showPopup(childId);
+        });
+      }
+    });
+  }
+
+  // ----------------------------
   // Intro animation
   // ----------------------------
   async function playIntro() {
     svg.classList.remove("ready");
-
-    // Clear zoom state on init/re-init
-    activeNodeId = null;
-    map.classList.remove("zoomed");
-    backBtn.classList.remove("show");
-    nodeEls.forEach((n) => n.classList.remove("active"));
-
-    // Remove any sub-bubbles
-    clearSubs();
 
     nodeEls.forEach((n) => {
       n.classList.remove("ready");
@@ -495,7 +1720,7 @@
     };
     requestAnimationFrame(tick);
 
-    // After the fly animation finishes, lock final transforms (for zoom transitions)
+    // After the fly animation finishes, lock final transforms
     setTimeout(() => {
       lockNodesToTargets();
       updateLines();
@@ -503,216 +1728,32 @@
   }
 
   // ----------------------------
-  // Sub-bubbles
-  // ----------------------------
-  function clearSubs() {
-    subEls.forEach((el) => el.remove());
-    subEls = [];
-  }
-
-  function renderSubsForNode(nodeCfg, parentEl) {
-    clearSubs();
-
-    const children = Array.isArray(nodeCfg.children) ? nodeCfg.children : [];
-    if (children.length === 0) return;
-
-    // Auto-angle distribution for any child missing angleDeg
-    const autoIdx = [];
-    for (let i = 0; i < children.length; i++) {
-      if (typeof children[i].angleDeg !== "number") autoIdx.push(i);
-    }
-    const startDeg = -90;
-    const step = autoIdx.length ? 360 / autoIdx.length : 360;
-
-    const childAngles = new Array(children.length).fill(0);
-    let k = 0;
-    for (let i = 0; i < children.length; i++) {
-      if (typeof children[i].angleDeg === "number") childAngles[i] = children[i].angleDeg;
-      else {
-        childAngles[i] = startDeg + step * k;
-        k++;
-      }
-    }
-
-    // Parent center point in map coords
-    const p = centerPointInMap(parentEl);
-
-    const mapR = map.getBoundingClientRect();
-    const cx = mapR.width / 2;
-    const cy = mapR.height / 2;
-
-    // Responsive scale down for sub bubbles on small maps
-    const minDim = Math.min(mapR.width, mapR.height);
-    let subScale = 1;
-    if (minDim < 520) subScale = 0.9;
-    if (minDim < 420) subScale = 0.82;
-
-    children.forEach((c, i) => {
-      const a = document.createElement("a");
-      a.className = "bubble sub";
-      a.id = c.id;
-      a.href = "#";
-      a.setAttribute("role", "button");
-      a.setAttribute("aria-label", c.label);
-
-      const size = Math.round((c.size || 110) * subScale);
-      a.style.width = `${size}px`;
-      a.style.height = `${size}px`;
-
-      if (c.image) {
-        a.classList.add("has-image");
-        const absImg = new URL(c.image, document.baseURI).href;
-        a.style.setProperty("--img", `url("${absImg}")`);
-        const media = document.createElement("div");
-        media.className = "node-media";
-        a.appendChild(media);
-      }
-
-      const title = document.createElement("div");
-      title.className = "sub-title";
-      title.textContent = c.label;
-      a.appendChild(title);
-
-      // Start at parent center
-      const sx = p.x - size / 2;
-      const sy = p.y - size / 2;
-
-      // Target around parent
-      const dist = typeof c.distance === "number" ? c.distance : 160;
-      const ang = (childAngles[i] * Math.PI) / 180;
-
-      let tx = p.x + Math.cos(ang) * dist - size / 2;
-      let ty = p.y + Math.sin(ang) * dist - size / 2;
-
-      // Clamp within map
-      const pad = 10;
-      tx = Math.max(pad, Math.min(mapR.width - size - pad, tx));
-      ty = Math.max(pad, Math.min(mapR.height - size - pad, ty));
-
-      a.style.setProperty("--psx", `${sx}px`);
-      a.style.setProperty("--psy", `${sy}px`);
-      a.style.setProperty("--ptx", `${tx}px`);
-      a.style.setProperty("--pty", `${ty}px`);
-
-      // Show + animate
-      map.appendChild(a);
-      subEls.push(a);
-
-      // click behavior: for now does nothing besides a subtle pulse (easy to change later)
-      a.addEventListener("click", (e) => {
-        e.preventDefault();
-        // optional: close on sub click, or open deeper, etc.
-      });
-
-      // Stagger pop
-      setTimeout(() => {
-        a.classList.add("ready");
-        a.classList.add("pop");
-      }, i * 90);
-    });
-
-    // A couple frames to ensure layout is committed
-    requestAnimationFrame(() => requestAnimationFrame(() => {}));
-  }
-
-  // ----------------------------
-  // Zoom open/close behavior
-  // ----------------------------
-  function getNodeCfgById(id) {
-    return NODES.find((n) => n.id === id) || null;
-  }
-
-  async function openNode(id) {
-    const nodeEl = nodeEls.find((el) => el.id === id);
-    const cfg = getNodeCfgById(id);
-    if (!nodeEl || !cfg) return;
-
-    // Ensure nodes are locked (if user clicks fast during intro)
-    if (!nodeBaseTransform.size) lockNodesToTargets();
-
-    activeNodeId = id;
-    map.classList.add("zoomed");
-    backBtn.classList.add("show");
-
-    nodeEls.forEach((n) => n.classList.toggle("active", n.id === id));
-
-    // Compute zoom transform to bring clicked node to center + scale up
-    const mapR = map.getBoundingClientRect();
-    const mapCx = mapR.width / 2;
-    const mapCy = mapR.height / 2;
-
-    const nodeCenter = centerPointInMap(nodeEl);
-
-    const minDim = Math.min(mapR.width, mapR.height);
-    const targetPx = minDim * 0.55;
-    const baseSize = nodeCenter.w;
-
-    let scale = targetPx / baseSize;
-    scale = Math.max(1.2, Math.min(2.6, scale));
-
-    const dx = mapCx - nodeCenter.x;
-    const dy = mapCy - nodeCenter.y;
-
-    const base = nodeBaseTransform.get(nodeEl.id) || nodeEl.style.transform || "";
-
-    // IMPORTANT: set base first, then next frame set zoom transform
-    nodeEl.style.transform = base;
-    // Force a paint boundary so transition actually runs
-    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-
-    nodeEl.style.transform = `${base} translate3d(${dx}px, ${dy}px, 0) scale(${scale})`;
-
-    // Keep lines updating while the node is transitioning
-    const start = performance.now();
-    const dur = 520;
-    function tick(now) {
-      updateLines();
-      if (now - start < dur) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
-
-    renderSubsForNode(cfg, nodeEl);
-  }
-
-
-  function closeNode() {
-    if (!activeNodeId) return;
-
-    const nodeEl = nodeEls.find((el) => el.id === activeNodeId);
-    if (nodeEl) {
-      // Restore original transform
-      const base = nodeBaseTransform.get(nodeEl.id);
-      if (base) nodeEl.style.transform = base;
-    }
-
-    activeNodeId = null;
-    map.classList.remove("zoomed");
-    backBtn.classList.remove("show");
-    nodeEls.forEach((n) => n.classList.remove("active"));
-
-    // Remove sub bubbles
-    clearSubs();
-
-    // Recompute lines after zoom closes
-    updateLines();
-  }
-
-  // Back button behavior
-  backBtn.addEventListener("click", () => closeNode());
-
-  // Optional: ESC to close
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && activeNodeId) closeNode();
-  });
-
-  // ----------------------------
   // Init + resize
   // ----------------------------
   function init() {
     buildSpecks(260);
 
+    // Close all child nodes on re-init
+    for (const children of childNodeEls.values()) {
+      for (const { el } of children) {
+        const path = childLines.get(el);
+        if (path) path.remove();
+        el.remove();
+      }
+    }
+    childNodeEls.clear();
+    openParents.clear();
+    animatingParents.clear();
+
+    // Clear any pending close timers
+    for (const timer of closeTimers.values()) {
+      clearTimeout(timer);
+    }
+    closeTimers.clear();
+
     renderNodes();
     attachHoverLineTracking();
+    attachNodeHoverHandlers();
 
     // Layout + lines + intro animation
     setStartAndTargetVars();
@@ -726,3 +1767,61 @@
   // Responsive: re-init on resize (keeps everything clamped on-screen)
   window.addEventListener("resize", init);
 })();
+
+/**
+ * ===============================================
+ * QUICK CUSTOMIZATION GUIDE
+ * ===============================================
+ *
+ * TO ADD/EDIT POPUP CONTENT:
+ * 1. Scroll to the POPUP_CONTENT object (around line 122)
+ * 2. Find the child node ID (e.g., "teams-1", "proj-1")
+ * 3. Use this template:
+ *
+ *    "your-node-id": {
+ *      title: "Your Title Here",
+ *      sections: [
+ *        {
+ *          left: `
+ *            <h3>Updates:</h3>
+ *            <p>Text content here</p>
+ *          `,
+ *          right: `
+ *            <img src="path/to/image.jpg" alt="Description">
+ *          `
+ *        },
+ *        {
+ *          left: `
+ *            <h3>To-Do:</h3>
+ *            <ul>
+ *              <li>Task 1</li>
+ *              <li>Task 2</li>
+ *            </ul>
+ *          `,
+ *          right: `
+ *            <iframe src="https://youtube.com/embed/..."></iframe>
+ *          `
+ *        }
+ *      ]
+ *    }
+ *
+ * FEATURES:
+ * - Title is centered with orange underline
+ * - Horizontal sections (left: text, right: media) stack vertically
+ * - Each section has a subtle divider line
+ * - Add as many sections as you want
+ * - Responsive (each section stacks on mobile)
+ * - Supports images, videos, iframes, lists, and more
+ * - Simple HTML - easy to customize!
+ * 
+ * Available customClass options:
+ *
+ * No class - 1fr 1fr (equal 50/50 split) - DEFAULT
+ * cols-2fr-1fr - Text takes 2/3, image takes 1/3
+ * cols-3fr-1fr - Text takes 3/4, image takes 1/4 (currently applied to your Bio)
+ * cols-1fr-2fr - Text takes 1/3, image takes 2/3
+ * cols-1fr - Full width for text only
+ * cols-1fr-1fr-1fr - Three equal columns (use left, center, right properties)
+ * cols-1fr-1fr-1fr-1fr - Four equal columns (use left, center, center2, right properties)
+ *
+ */
