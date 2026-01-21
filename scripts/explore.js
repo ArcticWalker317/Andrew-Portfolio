@@ -343,7 +343,7 @@
       ]
     },
     "proj-1": {
-      title: "Hand Tracking",
+      title: "Hand Tracking - Summer 2025",
       sections: [
         {
           customClass: "cols-1fr",
@@ -384,7 +384,7 @@
       ]
     },
     "proj-2": {
-      title: "THE CUBE",
+      title: "THE CUBE - Spring 2024",
       sections: [
         {
           customClass: "cols-1fr",
@@ -592,7 +592,7 @@
           customClass: "cols-1fr-2fr",
           left: `
             <h3>Certification:</h3>
-            <p>The official Arduino certificate is a document that affirms your successful completion of the Arduino exam, and serves as a guarantee of your competence in the Arduino-related subjects. It is used to highlight your skills and learning progress, and to advance in your career or education.</p>
+            <p>The official Arduino certificate is a document that affirms the successful completion of the Arduino exam, and serves as a guarantee of competence in the Arduino-related subjects. It is used to highlight skills and learning progress, and to advance career or education.</p>
             
           `,
           right: `
@@ -616,7 +616,9 @@
           customClass: "cols-1fr-1fr",
           left: `
             <h3>The Story:</h3>
-            <p style="text-align: left; margin-bottom: 16px; font-size: 16px;">In 8th grade, my school had chromebooks for students to use, and they had cameras but they were always exposed and could be turned on by hacking into it. One day I saw my friend cover his with a Band Aid and I thought that there had to be a better way. So I got to work with my 3D printer, designing many different prototypes. I eventually settled on this design (the one that got patented). At first I only did a provisional patent (which lasts 1 year) as it was an easier process and way cheaper. During the year I had it, I ended up selling it to local businesses with their logos on it as well as at trade shows and even sold them in two brick and mortar stores. After that year time frame, I decided to go forth and make an actual patent for it. It was a long process, but it was succesful! It is patent D1,049,200!</p>
+            <p style="text-align: left; margin-bottom: 16px; font-size: 16px;">Back in 8th grade, my school gave us Chromebooks to use, and they all had exposed cameras that could be turned on if someone hacked into them. One day, I noticed my friend had covered his camera with a Band-Aid, and that’s when I realized there had to be a better solution. So I started designing one using my 3D printer, going through tons of different prototypes until I finally landed on the design that ended up getting patented. At first, I filed a provisional patent since it was easier and way more affordable. During that year, I sold the covers to local businesses with their logos on them, showcased them at trade shows, and even got them into two brick-and-mortar stores. When the provisional patent expired, I decided to go all in and file for a full patent. It was a long process, but totally worth it because it was approved! The final patent is D1,049,200.
+
+            </p>
             
           `,
           right: `
