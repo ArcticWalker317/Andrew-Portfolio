@@ -31,9 +31,9 @@
       angleDeg: -30,
       children: [
         { id: "teams-1", label: "VT BAJA SAE", size: childNodeDefaultSize, distance: 170, angleDeg: -75, textSize: 13, image: "assets/photos/baja1.jpg" },
-        { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -12, textSize: 13, image: "assets/photos/workcell1.png" },
-        { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -140, textSize: 16, image: "assets/photos/hevt1.png" },
-        { id: "teams-4", label: "VEX ROBOTICS", size: childNodeDefaultSize, distance: 170, angleDeg: 60, textSize: 13, image: "assets/photos/vex3.jpg" },
+        { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -18, textSize: 13, image: "assets/photos/workcell1.png" },
+        { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -130, textSize: 16, image: "assets/photos/hevt1.png" },
+        { id: "teams-4", label: "VEX ROBOTICS", size: childNodeDefaultSize, distance: 170, angleDeg: 40, textSize: 13, image: "assets/photos/vex3.jpg" },
       ],
     },
     {
@@ -72,8 +72,9 @@
       distance: 0.22,
       angleDeg: 50,
       children: [
-        { id: "award-1", label: "Arduino", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 30, image: "assets/photos/arduino1.png" },
-        { id: "award-2", label: "Patent", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 130, image: "assets/photos/patent1.png" },
+        { id: "award-1", label: "Arduino", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: -20, image: "assets/photos/arduino1.png" },
+        { id: "award-2", label: "Patent", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 50, image: "assets/photos/patent1.png" },
+        { id: "award-3", label: "Guitar", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 130, image: "assets/photos/guitar2.jpg" },
       ],
     },
   ];
@@ -616,8 +617,9 @@
           customClass: "cols-1fr-1fr",
           left: `
             <h3>The Story:</h3>
-            <p style="text-align: left; margin-bottom: 16px; font-size: 16px;">Back in 8th grade, my school gave us Chromebooks to use, and they all had exposed cameras that could be turned on if someone hacked into them. One day, I noticed my friend had covered his camera with a Band-Aid, and that’s when I realized there had to be a better solution. So I started designing one using my 3D printer, going through tons of different prototypes until I finally landed on the design that ended up getting patented. At first, I filed a provisional patent since it was easier and way more affordable. During that year, I sold the covers to local businesses with their logos on them, showcased them at trade shows, and even got them into two brick-and-mortar stores. When the provisional patent expired, I decided to go all in and file for a full patent. It was a long process, but totally worth it because it was approved! The final patent is D1,049,200.
+            <p style="text-align: left; margin-bottom: 16px; font-size: 16px;">In eighth grade, as COVID-19 unfolded and classes shifted to distance learning, we relied heavily on our school issued Chromebooks. Although they were equipped with cameras, those cameras were always exposed and could potentially be accessed through hacking. One day, I noticed a friend had covered his camera with a Band-Aid, and that moment sparked an idea. I felt there had to be a more practical and professional solution. I began designing prototypes using my 3D printer, refining the concept through many iterations until I arrived at a final design that would later become patented. Initially, I filed a provisional patent, which lasted for one year, as it was a more affordable and accessible option at the time. During that year, I sold the product to local businesses with custom logos, showcased it at trade shows, and placed it in two brick-and-mortar stores. After the provisional patent expired, I decided to move forward with a full patent application. Although the process was long, it was ultimately successful, resulting in U.S. Patent D1,049,200.
 
+            
             </p>
             
           `,
@@ -634,6 +636,49 @@
             </p>
           `,
           right: ``
+        }
+      
+      ]
+    },
+    "award-3": {
+      title: "Guitar",
+      sections: [
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <h3>The Story:</h3>
+            <p style="text-align: left; margin-bottom: 16px; font-size: 16px;">
+            
+            Outside of the STEM world, I am passionate about classical guitar, an interest in which I always pushed myself to improve and excel. Through years of dedication, I placed in multiple regional competitions, took first place in my age group and won the overall grand prize my senior year, and as the number one high school classical guitar player in Virginia I was named concertmaster of the All Virginia Guitar Ensemble. This creative outlet brought me both joy and a strong sense of accomplishment, but also taught me the value of consistency, discipline, and perseverance.
+            
+            </p>
+            
+          `,
+          right: `
+            <img src="assets/photos/guitar1.jpg" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
+          `
+        }, 
+        {
+          customClass: "cols-1fr-2fr",
+          left: `
+            
+            <img src="assets/photos/guitar3.jpg" alt="Andrew Stevens" style="width: 120%; height: auto; margin: 0 auto; display: block;">
+          
+          `,
+          right: `          
+          <img src="assets/photos/guitar4.jpg" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+          `
+        }, 
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            
+            <img src="assets/photos/guitar5.jpg" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+          
+          `,
+          right: `          
+          <img src="assets/photos/guitar6.jpg" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+          `
         }
       
       ]
