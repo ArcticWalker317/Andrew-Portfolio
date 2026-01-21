@@ -268,7 +268,7 @@
       
     },
     "teams-4": {
-      title: "VEX ROBOTICS",
+      title: "VEX ROBOTICS 2023-2025",
       sections: [
         {
           customClass: "cols-1fr-2fr",
