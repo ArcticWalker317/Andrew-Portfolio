@@ -656,7 +656,7 @@
           `,
           right: `
             <img src="assets/photos/guitar1.jpg" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
-          `
+          ` 
         }, 
         {
           customClass: "cols-1fr-2fr",
