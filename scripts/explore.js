@@ -375,7 +375,7 @@
           customClass: "cols-1fr",
           left: `
             <p style="text-align: center; margin-bottom: 16px;">
-            <a href="assets/code.pdf" target="_blank" download style="font-size: 18px;">View code Here (PDF)</a>
+            <a href="assets/code.pdf" target="_blank" style="font-size: 18px;">View code Here (PDF)</a>
             </p>
           `,
           right: `
@@ -559,7 +559,7 @@
           customClass: "cols-1fr",
           left: `
             <p style="text-align: center; margin-bottom: 16px;">
-            <a href="assets/Andrew Stevens - Resume.pdf" target="_blank" download style="font-size: 18px;">View Resume (PDF)</a>
+            <a href="assets/Andrew Stevens - Resume.pdf" target="_blank" style="font-size: 18px;">View Resume (PDF)</a>
             </p>`
             
             //<img src="assets/Andrew Stevens - Resume_page-0001 (1).jpg" alt="Andrew Stevens Resume" style="width: 120%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
@@ -632,7 +632,7 @@
           left: `
             
             <p style="text-align: center; margin-bottom: 16px;">
-              <a href="assets/D1049200.pdf" target="_blank" download style="font-size: 18px;">View Patent Here (PDF)</a>
+              <a href="assets/D1049200.pdf" target="_blank" style="font-size: 18px;">View Patent Here (PDF)</a>
             </p>
           `,
           right: ``
