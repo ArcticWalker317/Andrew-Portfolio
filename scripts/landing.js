@@ -3,45 +3,59 @@
   const blackout = document.getElementById("blackout");
 
   const WORD_COUNT = 40;
-  const PHOTO_COUNT = 40;
 
   // ✅ Hardcode your photo filenames here (must exist in /assets/photos/)
   // Example file paths: assets/photos/01.jpg, assets/photos/IMG_1234.png, etc.
   const PHOTO_FILES = [
+    // Me
     "me.jpg",
+    "me2.jpg",
     "me3.jpg",
     "me4.jpg",
     "bioandrewlanding.jpg",
 
-    //"baja2.png",
-    //"baja3.png",
-    "baja1.jpg",
-    
-    "HEVT1.png",
+    // HEVT
+    "hevt1.png",
+    "hevt2.png",
     "hevt3.jpg",
+    "hevt4.png",
+    "hevt6.png",
+
+    // Baja
+    "baja1.jpg",
+
+    // VEX
     "vex1.jpg",
     "vex3.jpg",
-    "vex7.jpg",
+    "vex5.jpg",
     "vex6.jpg",
     "vex19.png",
-    "vex3.jpg",
 
+    // Workcell
     "workcell1.png",
     "workcell3.png",
     "workcell5.png",
-    "patent1.png",
 
+    // Guitar
+    "guitar1.jpg",
+    "guitar2.jpg",
+    "guitar5.jpg",
+
+    // Other
+    "patent1.png",
+    "handtrack1.png",
     "cube1.png",
     "cube2.jpg",
-    "cube3.jpg",
     "cube5.png",
     "cube20.jpg",
-    "handtrack1.png"
     // add more...
   ];
 
   // Build full URLs from filenames
   const PHOTO_URLS = PHOTO_FILES.map((name) => `assets/photos/${name}`);
+
+  // Stay below unique image count so there's always a free image to pick (no duplicates)
+  const PHOTO_COUNT = PHOTO_URLS.length;
 
   const WORDS = [
     "engineer","build","innovate","curious","create","solder","prototype",

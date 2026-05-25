@@ -292,10 +292,13 @@
           right: ``
         },
         {
-          customClass: "cols-2fr-1fr",
+          customClass: "cols-1fr-1fr",
           left: `
-            <img src="assets/photos/workcell3.png" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
-
+            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+              <img src="assets/photos/hevt4.png" alt="Andrew Stevens" style="width: 50%; height: auto; object-fit: cover;">
+              <img src="assets/photos/hevt5.png" alt="Andrew Stevens" style="width: 50%; height: auto; object-fit: cover;">
+            </div>
+            <img src="assets/photos/hevt6.png" alt="Andrew Stevens" style="width: 100%; height: auto; display: block;">
           `,
           right: `
             <img src="assets/photos/workcell4.png" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
