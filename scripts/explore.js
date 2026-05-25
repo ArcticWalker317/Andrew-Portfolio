@@ -32,7 +32,7 @@
       children: [
         { id: "teams-1", label: "VT BAJA SAE", size: childNodeDefaultSize, distance: 170, angleDeg: -75, textSize: 13, image: "assets/photos/baja1.jpg" },
         { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -18, textSize: 13, image: "assets/photos/workcell1.png" },
-        { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -130, textSize: 16, image: "assets/photos/hevt1.png" },
+        { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -130, textSize: 16, image: "assets/photos/hevt2.png" },
         { id: "teams-4", label: "VEX ROBOTICS", size: childNodeDefaultSize, distance: 170, angleDeg: 40, textSize: 13, image: "assets/photos/vex3.jpg" },
       ],
     },
@@ -60,9 +60,9 @@
         //{ id: "about-3", label: "Life", size: childNodeDefaultSize, distance: 150, angleDeg: -157},
         //{ id: "about-4", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -40 },
         { id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 150 },
-        { id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -145},
+        { id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -145 },
         { id: "about-4", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -80 },
-      
+
       ],
     },
     {
@@ -72,9 +72,9 @@
       distance: 0.22,
       angleDeg: 50,
       children: [
-        { id: "award-1", label: "Arduino", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: -20, image: "assets/photos/arduino1.png" },
-        { id: "award-2", label: "Patent", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 50, image: "assets/photos/patent1.png" },
-        { id: "award-3", label: "Guitar", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 130, image: "assets/photos/guitar2.jpg" },
+        { id: "award-1", label: "Arduino", size: childNodeDefaultSize, distance: childNodeDefaultDist - 10, angleDeg: -20, image: "assets/photos/arduino1.png" },
+        { id: "award-2", label: "Patent", size: childNodeDefaultSize, distance: childNodeDefaultDist - 10, angleDeg: 50, image: "assets/photos/patent1.png" },
+        { id: "award-3", label: "Guitar", size: childNodeDefaultSize, distance: childNodeDefaultDist - 10, angleDeg: 130, image: "assets/photos/guitar2.jpg" },
       ],
     },
   ];
@@ -148,12 +148,12 @@
             <p>Ultimately, from this we should be able to get context for other sensor readings based off where in the track we are.</p>
             <p>So far, I have made a successful breadboard and prototyping board. I finished PCB schematics and I am waiting for the team lead to approve the order.</p>
             `
-            //<h3>To-Do:</h3>
-            
-            //<ul>
-            //  <li>Redo Range test with better practices</li>
-            //  <li>Improve antenna positioning</li>
-            //</ul>
+          //<h3>To-Do:</h3>
+
+          //<ul>
+          //  <li>Redo Range test with better practices</li>
+          //  <li>Improve antenna positioning</li>
+          //</ul>
           ,
           right: `
             <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQHxt8-8iOnFaJb-t8mORe7kmuIcG3hwQPV6Bubd5IzX5z1dwsHYCOeXEtGfRvfbYQxXD2L7SdHY1Jg/pubembed?start=false&loop=false&delayms=3000" frameborder="0" style="width:100%; height:365px; border-radius:12px;" allowfullscreen="true"></iframe>
@@ -166,12 +166,12 @@
             <p>Ultimately, we will be able to see the data reading from a computer in live time which, would allow for things like early warning before a part breaking.</p>
             <p>So far, I have successfully set up and tested a LoRa system for range. My first test was flawed as I had poor antenna positioning.</p>
             `
-            //<h3>To-Do:</h3>
-            
-            //<ul>
-            //  <li>Redo Range test with better practices</li>
-            //  <li>Improve antenna positioning</li>
-            //</ul>
+          //<h3>To-Do:</h3>
+
+          //<ul>
+          //  <li>Redo Range test with better practices</li>
+          //  <li>Improve antenna positioning</li>
+          //</ul>
           ,
           left: `
             <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vT9xztWy5S9qUmagXMc2wXe3isrr7zzJMbYf4u6IST3H_vJGP1cQ4UXQs6tpKci9LlZD400oZGYMy94/pubembed?start=false&loop=false&delayms=3000" frameborder="0" style="width:100%; height:365px; border-radius:12px;" allowfullscreen="true"></iframe>
@@ -183,8 +183,8 @@
             <p style="text-align:center;">On this team, I joined the Testing & Data Acquisition Subteam and have worked on projects such as the GPS & LoRa systems.</p>
             <p style="text-align:center;">(I also got to drive the car, that was awesome)</p>
             `
-            
-            //<img src="assets/Andrew Stevens - Resume_page-0001 (1).jpg" alt="Andrew Stevens Resume" style="width: 120%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
+
+          //<img src="assets/Andrew Stevens - Resume_page-0001 (1).jpg" alt="Andrew Stevens Resume" style="width: 120%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
           ,
           right: ``
         }
@@ -194,11 +194,13 @@
       title: "VT CRO WORKCELL",
       sections: [
         {
-          customClass: "cols-1fr",
+          customClass: "cols-1fr-1fr",
           left: `
-            <img src="assets/photos/workcell2.jpg" alt="Andrew Stevens" style="width: 55%; height: auto; margin: 0 auto; display: block;">
+            <img src="assets/photos/workcell2.jpg" alt="Andrew Stevens" style="width: 75%; height: auto; margin: 0 auto; display: block;">
           `,
-          right: ``
+          right: `
+            <img src="assets/photos/workcell5.png" alt="Andrew Stevens" style="width: 75%; height: auto; margin: 0 auto; display: block;">
+          `
         },
         {
           customClass: "cols-1fr-1fr",
@@ -229,7 +231,7 @@
             <img src="assets/photos/workcell3.png" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
 
           `,
-          center:`
+          center: `
             <h3 style="text-align:center;">Limit Switch PCB</h3> 
             <p style="text-align:center;">One of the things I have worked on for Workcell, is a custom daisy chained limit switch PCB. </p>
             <p style="text-align:center;">The limit switches are used for the print storage to see which shelves are being used.</p>
@@ -257,15 +259,81 @@
       ]
     },
     "teams-3": {
-      title: "HEVT",
-      description:`
-          <h2 style="text-align:center;">COMING SOON</h2>
-          <p style="text-align:center;">I have been accepted into the HEVT team, but have not done any work yet as I am still being onboarded. </p>
-          <p style="text-align:center;"> For about the first 6 weeks of the Spring 2026 semester, I will attend lectures that introduce essential topics related to team operations and competition structure. </p>
-          <p style="text-align:center;">At the end of that semester, team leads will evaluate my contributions and progress to determine my eligibility to continue with the team. </p>
+      title: "Hybrid Electric Vehicle Team",
+      sections: [
+        {
+          customClass: "cols-1fr",
+          left: `
+            <img src="assets/photos/hevt3.jpg" alt="Andrew Stevens" style="width: 45%; height: auto; margin: 0 auto; display: block;">
+          `,
+          right: ``
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <div style="font-size: 21px;">
+              <p style="text-align:center;">Hybrid Electric Vehicle Team (HEVT) is a design team at Virginia Tech that participates in the EcoCar Challenge put on by General Motors. The goal of this competition is to develop the physical systems, propulsion systems, and connected and automated vehicle (CAV) systems of a General Motors provided vehicle.</p>
+              <p></p>
+              <p style="text-align:center;">This competition runs on a 4-year cycle, where teams start over every 4 years. I joined on the 4th year of the Cadillac Lyriq where we proceded to win 3rd overall. HEVT has been selected to continue in the competition and will be working on a Chevy Blazer as the next cycle vehicle.</p>
+            </div>
+          `,
+          right: `
+            <video controls width="100%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/HEVT_LCC.MOV" type="video/MOV">
+              Your browser does not support the video tag.
+            </video>
+            `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h2 style="text-align:center;">Highlighted Projects:</h2>            
+          `,
+          right: ``
+        },
+        {
+          customClass: "cols-2fr-1fr",
+          left: `
+            <img src="assets/photos/workcell3.png" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+
+          `,
+          right: `
+            <img src="assets/photos/workcell4.png" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
           `
-        
-      
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <video controls width="40%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/WorkcellCalibrationTesting.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            `,
+          right: `
+            <h3 style="text-align:center;">Calibration Script</h3> 
+            <p style="text-align:center;">I also worked on the calibration system for the gantry.</p>
+            <p style="text-align:center;">The previous system relied solely on predefined locations to know where to move the gantry to. This led to decreased precision over time. </p>
+            <p style="text-align:center;">This new system uses a camera and april tag system to help guarantee precision. The system is tested on an Ender 3 since the mechanical team is still working on the improved gantry. Testing showed we can now achieve +- 0.5 mm accuracy in x & y directions.</p>
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <video controls width="40%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/WorkcellCalibrationTesting.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            `,
+          right: `
+            <h3 style="text-align:center;">Calibration Script</h3> 
+            <p style="text-align:center;">I also worked on the calibration system for the gantry.</p>
+            <p style="text-align:center;">The previous system relied solely on predefined locations to know where to move the gantry to. This led to decreased precision over time. </p>
+            <p style="text-align:center;">This new system uses a camera and april tag system to help guarantee precision. The system is tested on an Ender 3 since the mechanical team is still working on the improved gantry. Testing showed we can now achieve +- 0.5 mm accuracy in x & y directions.</p>
+          `
+        }
+      ]
+
+
     },
     "teams-4": {
       title: "VEX ROBOTICS 2023-2025",
@@ -561,8 +629,8 @@
             <p style="text-align: center; margin-bottom: 16px;">
             <a href="assets/Andrew Stevens - Resume.pdf" target="_blank" style="font-size: 18px;">View Resume (PDF)</a>
             </p>`
-            
-            //<img src="assets/Andrew Stevens - Resume_page-0001 (1).jpg" alt="Andrew Stevens Resume" style="width: 120%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
+
+          //<img src="assets/Andrew Stevens - Resume_page-0001 (1).jpg" alt="Andrew Stevens Resume" style="width: 120%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
           ,
           right: ``
         }
@@ -626,7 +694,7 @@
           right: `
             <img src="assets/photos/patent1.png" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
           `
-        }, 
+        },
         {
           customClass: "cols-1fr",
           left: `
@@ -637,7 +705,7 @@
           `,
           right: ``
         }
-      
+
       ]
     },
     "award-3": {
@@ -657,7 +725,7 @@
           right: `
             <img src="assets/photos/guitar1.jpg" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
           `
-        }, 
+        },
         {
           customClass: "cols-1fr-2fr",
           left: `
@@ -668,7 +736,7 @@
           right: `          
           <img src="assets/photos/guitar4.jpg" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
           `
-        }, 
+        },
         {
           customClass: "cols-1fr-1fr",
           left: `
@@ -680,7 +748,7 @@
           <img src="assets/photos/guitar6.jpg" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
           `
         }
-      
+
       ]
     }
   };

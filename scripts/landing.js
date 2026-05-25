@@ -2,13 +2,15 @@
   const stage = document.getElementById("stage");
   const blackout = document.getElementById("blackout");
 
-  const WORD_COUNT = 50;
-  const PHOTO_COUNT = 50;
+  const WORD_COUNT = 40;
+  const PHOTO_COUNT = 40;
 
   // ✅ Hardcode your photo filenames here (must exist in /assets/photos/)
   // Example file paths: assets/photos/01.jpg, assets/photos/IMG_1234.png, etc.
   const PHOTO_FILES = [
     "me.jpg",
+    "me3.jpg",
+    "me4.jpg",
     "bioandrewlanding.jpg",
 
     //"baja2.png",
@@ -16,15 +18,17 @@
     "baja1.jpg",
     
     "HEVT1.png",
+    "hevt3.jpg",
     "vex1.jpg",
     "vex3.jpg",
     "vex7.jpg",
     "vex6.jpg",
     "vex19.png",
     "vex3.jpg",
-    
+
     "workcell1.png",
     "workcell3.png",
+    "workcell5.png",
     "patent1.png",
 
     "cube1.png",
@@ -57,9 +61,17 @@
     return arr[(Math.random() * arr.length) | 0];
   }
 
-  function pickPhotoUrl() {
+  function pickUniquePhotoUrl(excludeBubble) {
     if (!PHOTO_URLS.length) return null;
-    return pick(PHOTO_URLS);
+    const inUse = new Set();
+    for (const b of photoBubbles) {
+      if (b === excludeBubble) continue;
+      if (b.photoUrl && !b.hasPopped && b.y >= -150 && b.y <= H + 150) {
+        inUse.add(b.photoUrl);
+      }
+    }
+    const available = PHOTO_URLS.filter(url => !inUse.has(url));
+    return available.length > 0 ? pick(available) : pick(PHOTO_URLS);
   }
 
   const wordBubbles = [];
@@ -71,31 +83,33 @@
     const el = document.createElement("div");
     el.className = isPhoto ? "bubble photo-bubble" : "bubble word-bubble";
 
+    let photoUrl = null;
     if (isPhoto) {
-      const url = pickPhotoUrl();
-      el.style.backgroundImage = url ? `url("${url}")` : "none";
+      photoUrl = pickUniquePhotoUrl();
+      el.style.backgroundImage = photoUrl ? `url("${photoUrl}")` : "none";
     } else {
       el.textContent = pick(WORDS);
     }
 
     stage.appendChild(el);
 
-    const scaleRange = isPhoto ? [2.0, 2.2] : [0.8, 1.2];
+    const scaleRange = isPhoto ? [1.2, 1.8] : [0.8, 1.2];
 
     const b = {
       el,
       type,
+      photoUrl,
       x: rand(0, W),
       y: rand(0, H),
       vx: rand(-12, 12),
-      vy: rand(20, 50),
+      vy: rand(30, 65),
       wobblePhase: rand(0, Math.PI * 2),
       wobbleSpeed: rand(0.6, 1.4),
       wobbleAmp: rand(4, 14),
       scale: rand(scaleRange[0], scaleRange[1]),
       mode: "pop", // All bubbles pop
       hasPopped: false,
-      popY: rand(-50, H * 0.3) // Pop in top 30% of screen
+      popY: rand(-150, -20) // Pop just above the screen
     };
 
     el.style.opacity = isPhoto ? 0.75 : rand(0.6, 0.95);
@@ -106,28 +120,30 @@
   // Unified bubble respawn
   function respawnBubble(b) {
     const isPhoto = b.type === "photo";
-    const scaleRange = isPhoto ? [2.0, 2.2] : [0.8, 1.2];
+    const scaleRange = isPhoto ? [1.2, 1.8] : [0.8, 1.2];
 
     b.x = rand(0, W);
     b.y = H + rand(20, 80); // Spawn closer to bottom edge so they appear sooner
     b.vx = rand(-14, 14);
-    b.vy = rand(20, 50);
+    b.vy = rand(30, 65);
     b.wobblePhase = rand(0, Math.PI * 2);
     b.wobbleSpeed = rand(0.6, 1.4);
     b.wobbleAmp = rand(4, 14);
     b.scale = rand(scaleRange[0], scaleRange[1]);
     b.mode = "pop"; // All bubbles pop
     b.hasPopped = false;
-    b.popY = rand(-50, H * 0.3); // Pop in top 30% of screen
+    b.popY = rand(-150, -20); // Pop just above the screen
 
     if (isPhoto) {
-      const url = pickPhotoUrl();
+      const url = pickUniquePhotoUrl(b);
+      b.photoUrl = url;
       b.el.style.backgroundImage = url ? `url("${url}")` : "none";
     } else {
       b.el.textContent = pick(WORDS);
     }
 
     b.el.classList.remove("pop");
+    b.el.style.animation = "none";
     b.el.style.opacity = isPhoto ? 0.75 : rand(0.6, 0.95);
   }
 

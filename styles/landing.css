@@ -51,7 +51,6 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  will-change: transform, opacity;
   pointer-events: none;
 }
 
@@ -69,7 +68,6 @@ body {
   background: rgba(255, 255, 255, 0.75);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(6px);
 }
 
 /* Photo bubbles */
@@ -86,9 +84,6 @@ body {
   background-color: rgba(255, 255, 255, 0.55);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(6px);
-
-  position: relative;
 }
 
 .photo-bubble::after {
