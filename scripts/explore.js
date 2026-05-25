@@ -30,9 +30,10 @@
       distance: 0.5,
       angleDeg: -30,
       children: [
-        { id: "teams-1", label: "VT BAJA SAE", size: childNodeDefaultSize, distance: 170, angleDeg: -75, textSize: 13, image: "assets/photos/baja1.jpg" },
-        { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -18, textSize: 13, image: "assets/photos/workcell1.png" },
-        { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -130, textSize: 16, image: "assets/photos/hevt2.png" },
+        { id: "teams-1", label: "VT BAJA SAE", size: childNodeDefaultSize, distance: 170, angleDeg: -95, textSize: 13, image: "assets/photos/baja1.jpg" },
+        { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -5, textSize: 13, image: "assets/photos/workcell1.png" },
+        { id: "teams-5", label: "VT CRO RePLA", size: childNodeDefaultSize, distance: 170, angleDeg: -50, textSize: 13, image: "assets/photos/cro1.png" },
+        { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -140, textSize: 16, image: "assets/photos/hevt2.png" },
         { id: "teams-4", label: "VEX ROBOTICS", size: childNodeDefaultSize, distance: 170, angleDeg: 40, textSize: 13, image: "assets/photos/vex3.jpg" },
       ],
     },
@@ -68,13 +69,15 @@
     {
       id: "node-awards",
       label: "Awards",
-      size: 125,
-      distance: 0.22,
-      angleDeg: 50,
+      size: 100,
+      distance: 0.18,
+      angleDeg: 40,
       children: [
-        { id: "award-1", label: "Arduino", size: childNodeDefaultSize, distance: childNodeDefaultDist - 10, angleDeg: -20, image: "assets/photos/arduino1.png" },
-        { id: "award-2", label: "Patent", size: childNodeDefaultSize, distance: childNodeDefaultDist - 10, angleDeg: 50, image: "assets/photos/patent1.png" },
-        { id: "award-3", label: "Guitar", size: childNodeDefaultSize, distance: childNodeDefaultDist - 10, angleDeg: 130, image: "assets/photos/guitar2.jpg" },
+        { id: "award-1", label: "Arduino", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: -20, image: "assets/photos/arduino1.png" },
+        { id: "award-2", label: "Patent", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 35, image: "assets/photos/patent1.png" },
+        { id: "award-3", label: "Guitar", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 160, image: "assets/photos/guitar2.jpg" },
+        { id: "award-4", label: "Deans List", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 100, image: "assets/photos/vt1.png" },
+
       ],
     },
   ];
@@ -255,6 +258,25 @@
             <p style="text-align:center;">The previous system relied solely on predefined locations to know where to move the gantry to. This led to decreased precision over time. </p>
             <p style="text-align:center;">This new system uses a camera and april tag system to help guarantee precision. The system is tested on an Ender 3 since the mechanical team is still working on the improved gantry. Testing showed we can now achieve +- 0.5 mm accuracy in x & y directions.</p>
           `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h3 style="text-align:center;">This project has been brought to a close as CRO limits each project to 2 years. However, this team is continuing on to create RePLA, our next project. 😉</h3> 
+            `
+        }
+      ]
+    },
+    "teams-5": {
+      title: "VT CRO RePLA",
+      sections: [
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h1 style="text-align:center;">Coming Soon!</h1> 
+            <p style="text-align:center;">This project is still in the early phases. I am proud to say I will be the lead of the Electrical and Computer Engineering subteam. This project will be developing an easy to use, simple filament recycler.</p>
+              
+            `
         }
       ]
     },
@@ -279,7 +301,7 @@
           `,
           right: `
             <video controls width="100%" style="border-radius: 12px; display: block; margin: 0 auto;">
-              <source src="assets/videos/HEVT_LCC.MOV" type="video/MOV">
+              <source src="assets/videos/HEVT_LCC.MOV" type="video/mp4">
               Your browser does not support the video tag.
             </video>
             `
@@ -301,37 +323,48 @@
             <img src="assets/photos/hevt6.png" alt="Andrew Stevens" style="width: 100%; height: auto; display: block;">
           `,
           right: `
-            <img src="assets/photos/workcell4.png" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+            <h3 style="text-align:center;">CACC Simulink Model</h3> 
+            <p style="text-align:center;">Cooperative Adaptive Cruise Control (CACC) is a longitudinal control of the cars propulsion. The goal is to act like a cruise control that is responsive to the cars in front of the current vehicle. Using new Vehicle to Vehicle (V2V) technology provided by the competition, we use the position, velocity, and acceleration of the three vehicles in front of us to minimize energy consumption whilst keeping a safe distance from the closest vehicle.</p>
+            <p style="text-align:center;">I was tasked with creating a simulink model that achieves the goal above. I was already given a model that does it fairly well and added onto it what is boxed in red. This includes an adaptive distance goal, a square root error, and a weighted acceleration modification.</p>
+            <p style="text-align:center;">My goal was to minimize torque output request, since this is what uses up the energy. Before my modifications, the torque output is 55,240 N for this drive cycle. After my changes, I was able to reduce that output to 21,883 N. The graph on the right (green and blue) shows the torque requested. The graph on the left shows the velocity (green) and distance to next car (orange).</p>
           `
         },
         {
           customClass: "cols-1fr-1fr",
           left: `
-            <video controls width="40%" style="border-radius: 12px; display: block; margin: 0 auto;">
-              <source src="assets/videos/WorkcellCalibrationTesting.mp4" type="video/mp4">
+            <video controls width="65%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/ain_simulation.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
+            <img src="assets/photos/hevt9.png" alt="Andrew Stevens" style="width: 45%; height: auto; display: block; margin: 0 auto;">
+
             `,
           right: `
-            <h3 style="text-align:center;">Calibration Script</h3> 
-            <p style="text-align:center;">I also worked on the calibration system for the gantry.</p>
-            <p style="text-align:center;">The previous system relied solely on predefined locations to know where to move the gantry to. This led to decreased precision over time. </p>
-            <p style="text-align:center;">This new system uses a camera and april tag system to help guarantee precision. The system is tested on an Ender 3 since the mechanical team is still working on the improved gantry. Testing showed we can now achieve +- 0.5 mm accuracy in x & y directions.</p>
-          `
+            <h3 style="text-align:center;">Automatic Intersection Navigation (AIN)</h3> 
+            <p style="text-align:center;">AIN is another longitudinal control of the cars propulsion. The goal is to recieve inputs about an intersection's status and decide whether to cross or stop before it. Using Vehicle to Infrastructure (V2I) technology provided by the competition, we use the current phase, distance, and time until next phase to decide if we cross.</p>
+            <p style="text-align:center;">I was already provided with a model in simulink that can control stopping at a certain spot, but couldn't decide to cross or not well. My logic is to try to slow down just enough to make sure that we cross right as it turns green, conserving energy and momentum.</p>
+          
+            `
         },
         {
-          customClass: "cols-1fr-1fr",
+          customClass: "cols-1fr-1fr-1fr",
           left: `
-            <video controls width="40%" style="border-radius: 12px; display: block; margin: 0 auto;">
-              <source src="assets/videos/WorkcellCalibrationTesting.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
+            <p style="text-align:center;"></p>
+            <p style="text-align:center;"></p>
+            <img src="assets/photos/hevt10.png" alt="Andrew Stevens" style="width: 95%; height: auto; display: block; margin: 0 auto;">
+
             `,
+          center: `
+            <h3 style="text-align:center;">CACC in Python</h3> 
+            <p style="text-align:center;">After creating the CACC in simulink, I was tasked with improving the Python version of the controller and simulator to support three vehicles instead of the previous one vehicle.</p>
+            <p style="text-align:center;">This task was also challenging because I had to redo the data structure for which car information was passed from ROS2 node to node because up until this point, it only had one car's speed and position. This lead to a major haul of the system structure, which a graduate student kindly helped with.</p>
+          `,
           right: `
-            <h3 style="text-align:center;">Calibration Script</h3> 
-            <p style="text-align:center;">I also worked on the calibration system for the gantry.</p>
-            <p style="text-align:center;">The previous system relied solely on predefined locations to know where to move the gantry to. This led to decreased precision over time. </p>
-            <p style="text-align:center;">This new system uses a camera and april tag system to help guarantee precision. The system is tested on an Ender 3 since the mechanical team is still working on the improved gantry. Testing showed we can now achieve +- 0.5 mm accuracy in x & y directions.</p>
+            <p style="text-align:center;"></p>
+            <p style="text-align:center;"></p>
+            <img src="assets/photos/hevt11.png" alt="Andrew Stevens" style="width: 95%; height: auto; display: block; margin: 0 auto;">
+            <img src="assets/photos/hevt12.png" alt="Andrew Stevens" style="width: 95%; height: auto; display: block; margin: 0 auto;">
+
           `
         }
       ]
@@ -749,6 +782,40 @@
           `,
           right: `          
           <img src="assets/photos/guitar6.jpg" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+          `
+        }
+
+      ]
+    },
+    "award-4": {
+      title: "Dean's List",
+      sections: [
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h3 style="text-align: center;">Links:</h3>
+            <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
+            (Search "Andrew J. Stevens")
+          
+            </p>
+            <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
+            <a href="https://news.vt.edu/awards/students/deans-list/deans-list-fall-2025.html">
+            Virginia Tech Fall 2025 Dean's List
+            </a>
+            </p>
+            <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
+            Virginia Tech Spring 2026 Dean's List (Not officially Posted Yet)
+          
+            </p>
+            
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            
+            <img src="assets/photos/vt2.png" alt="Andrew Stevens" style="width: 25%; height: auto; margin: 0 auto; display: block;">
+          
           `
         }
 

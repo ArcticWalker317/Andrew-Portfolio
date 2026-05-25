@@ -8,8 +8,6 @@
   // Example file paths: assets/photos/01.jpg, assets/photos/IMG_1234.png, etc.
   const PHOTO_FILES = [
     // Me
-    "me.jpg",
-    "me2.jpg",
     "me3.jpg",
     "me4.jpg",
     "bioandrewlanding.jpg",
@@ -20,6 +18,10 @@
     "hevt3.jpg",
     "hevt4.png",
     "hevt6.png",
+    "hevt7.png",
+    "hevt8.png",
+    "hevt9.png",
+    "hevt11.png",
 
     // Baja
     "baja1.jpg",
@@ -59,7 +61,7 @@
 
   const WORDS = [
     "engineer","build","innovate","curious","create","solder","prototype",
-    "systems","leader","iterate","Arduino","embedded","design","collaborate",
+    "systems","leader","iterate","embedded","design","collaborate",
     "maker","inventor","circuits","precision","driven","problem-solver",
     "hardware","software","technical","visionary","passionate"
   ];
