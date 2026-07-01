@@ -2,7 +2,17 @@
   const stage = document.getElementById("stage");
   const blackout = document.getElementById("blackout");
 
-  const WORD_COUNT = 40;
+  // Fewer bubbles on small screens - the same counts that look lively spread
+  // across a wide desktop viewport just feel cluttered packed into a phone's
+  // width.
+  const isSmallScreen = window.innerWidth <= 768;
+
+  // Bubbles never auto-pop - they float up and get removed once off screen,
+  // unless clicked, in which case they pop immediately. Automatic popping
+  // logic is left in place (see randomPopY/bubbleMode) to bring back later.
+  const POP_ENABLED = false;
+
+  const WORD_COUNT = isSmallScreen ? 16 : 40;
 
   // ✅ Hardcode your photo filenames here (must exist in /assets/photos/)
   // Example file paths: assets/photos/01.jpg, assets/photos/IMG_1234.png, etc.
@@ -62,7 +72,9 @@
   });
 
   // Stay below unique image count so there's always a free image to pick (no duplicates)
-  const PHOTO_COUNT = PHOTO_URLS.length;
+  const PHOTO_COUNT = isSmallScreen
+    ? Math.min(12, PHOTO_URLS.length)
+    : PHOTO_URLS.length;
 
   const WORDS = [
     "engineer","build","innovate","curious","create","solder","prototype",
@@ -80,6 +92,20 @@
 
   function pick(arr) {
     return arr[(Math.random() * arr.length) | 0];
+  }
+
+  // Desktop pops bubbles just above the screen (unchanged, by request). On
+  // mobile that made the pop invisible, so there it pops anywhere on
+  // screen instead.
+  function randomPopY() {
+    return isSmallScreen ? rand(0, H) : rand(-150, -20);
+  }
+
+  // Pops only while POP_ENABLED is on; otherwise bubbles just float up and
+  // get removed once off screen (see the "b.y < -120" respawn fallback in
+  // stepBubble) unless clicked.
+  function bubbleMode() {
+    return POP_ENABLED ? "pop" : "float";
   }
 
   function pickUniquePhotoUrl(excludeBubble) {
@@ -128,10 +154,15 @@
       wobbleSpeed: rand(0.6, 1.4),
       wobbleAmp: rand(4, 14),
       scale: rand(scaleRange[0], scaleRange[1]),
-      mode: "pop", // All bubbles pop
+      mode: bubbleMode(),
       hasPopped: false,
-      popY: rand(-150, -20) // Pop just above the screen
+      popY: randomPopY()
     };
+
+    // Bubbles don't auto-pop (see POP_ENABLED) - a click/tap pops them
+    // instead. Attached once here since respawnBubble reuses this same
+    // element/b pair rather than recreating it.
+    el.addEventListener("click", () => triggerPop(b, respawnBubble));
 
     el.style.opacity = isPhoto ? 0.75 : rand(0.6, 0.95);
     el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
@@ -151,9 +182,9 @@
     b.wobbleSpeed = rand(0.6, 1.4);
     b.wobbleAmp = rand(4, 14);
     b.scale = rand(scaleRange[0], scaleRange[1]);
-    b.mode = "pop"; // All bubbles pop
+    b.mode = bubbleMode();
     b.hasPopped = false;
-    b.popY = rand(-150, -20); // Pop just above the screen
+    b.popY = randomPopY();
 
     if (isPhoto) {
       const url = pickUniquePhotoUrl(b);
@@ -164,7 +195,10 @@
     }
 
     b.el.classList.remove("pop");
-    b.el.style.animation = "none";
+    // Clear (not "none") - an inline "none" would permanently override the
+    // .pop class's animation via inline-style precedence, silently
+    // preventing this element from ever animating on a future pop.
+    b.el.style.animation = "";
     b.el.style.opacity = isPhoto ? 0.75 : rand(0.6, 0.95);
   }
 
@@ -184,16 +218,22 @@
     step();
   }
 
-  // Spawn word bubbles
+  // Spawn word bubbles. On mobile, popY can be a real on-screen position
+  // (unlike desktop's off-screen negative one), so the initial spread must
+  // stay below every possible pop line - otherwise bubbles spawn already
+  // past their own pop point and instantly fake-pop on page load. popY
+  // now goes up to H itself, so the floor has to clear all of it.
+  const initialSpawnFloor = isSmallScreen ? H + 20 : 0;
+
   spawnGradually(WORD_COUNT, "word", wordBubbles, (b) => {
-    b.y = rand(0, H + 600);
+    b.y = rand(initialSpawnFloor, H + 600);
     b.el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
   });
 
   // Spawn photo bubbles - spread them out across the screen
   spawnGradually(PHOTO_COUNT, "photo", photoBubbles, (b) => {
     b.x = rand(0, W);
-    b.y = rand(-100, H + 100);
+    b.y = rand(isSmallScreen ? initialSpawnFloor : -100, H + 100);
     b.el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
   });
 
@@ -280,25 +320,39 @@
     }
   });
 
+  // Shared by the automatic pop check and click-to-pop, so both play the
+  // same burst animation and respawn the same way.
+  function triggerPop(b, respawnFn) {
+    if (b.hasPopped) return;
+    b.hasPopped = true;
+    b.el.classList.add("pop");
+    // Use both animationend and a timeout fallback to ensure respawn
+    let respawned = false;
+    const doRespawn = () => {
+      if (respawned) return;
+      respawned = true;
+      respawnFn(b);
+    };
+    b.el.addEventListener("animationend", doRespawn, { once: true });
+    setTimeout(doRespawn, 400); // Fallback in case animationend doesn't fire
+  }
+
   function stepBubble(b, dt, respawnFn) {
+    // Once popped, the CSS animation + triggerPop's own respawn timer own
+    // this bubble entirely. Physics used to keep running here, which could
+    // carry it past the "b.y < -120" off-screen check below and force an
+    // early respawn mid-animation - yanking the pop class off and making it
+    // just vanish instead of finishing the burst.
+    if (b.hasPopped) return;
+
     b.y -= b.vy * dt;
     b.x += b.vx * dt;
 
     b.wobblePhase += b.wobbleSpeed * dt;
     const wob = Math.sin(b.wobblePhase) * b.wobbleAmp;
 
-    if (b.mode === "pop" && !b.hasPopped && b.y < b.popY) {
-      b.hasPopped = true;
-      b.el.classList.add("pop");
-      // Use both animationend and a timeout fallback to ensure respawn
-      let respawned = false;
-      const doRespawn = () => {
-        if (respawned) return;
-        respawned = true;
-        respawnFn(b);
-      };
-      b.el.addEventListener("animationend", doRespawn, { once: true });
-      setTimeout(doRespawn, 400); // Fallback in case animationend doesn't fire
+    if (b.mode === "pop" && b.y < b.popY) {
+      triggerPop(b, respawnFn);
     }
 
     if (b.y < -120) respawnFn(b);
@@ -309,10 +363,7 @@
     b.el.style.setProperty("--tx", `${tx}px`);
     b.el.style.setProperty("--ty", `${ty}px`);
     b.el.style.setProperty("--s", b.scale);
-
-    if (!b.el.classList.contains("pop")) {
-      b.el.style.transform = `translate(${tx}px, ${ty}px) scale(${b.scale})`;
-    }
+    b.el.style.transform = `translate(${tx}px, ${ty}px) scale(${b.scale})`;
   }
 
   function tick(ts) {

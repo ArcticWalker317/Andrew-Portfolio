@@ -52,6 +52,12 @@ body {
   top: 0;
   left: 0;
   pointer-events: none;
+
+  /* Rapid clicks on the word bubbles' text would otherwise trigger native
+     text selection instead of just popping the bubble. */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Word bubbles */
@@ -68,6 +74,10 @@ body {
   background: rgba(255, 255, 255, 0.75);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+
+  /* Bubbles don't auto-pop - clicking one pops it (see POP_ENABLED in landing.js) */
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 /* Photo bubbles */
@@ -84,6 +94,9 @@ body {
   background-color: rgba(255, 255, 255, 0.55);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .photo-bubble::after {
