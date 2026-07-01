@@ -677,11 +677,38 @@ body {
   line-height: 1.6;
 }
 
-/* Responsive - Stack sections on mobile */
+/* Responsive - Stack sections on mobile.
+   Must override every cols-* modifier too (not just the bare .popup-section),
+   since each modifier sets its own grid-template-columns with higher
+   specificity and would otherwise keep its desktop column count and force
+   images/videos/iframes to overflow past the screen edge. */
 @media (max-width: 768px) {
-  .popup-section {
+  .popup-section,
+  .popup-section.cols-2fr-1fr,
+  .popup-section.cols-3fr-1fr,
+  .popup-section.cols-1fr-2fr,
+  .popup-section.cols-1fr,
+  .popup-section.cols-1fr-1fr-1fr,
+  .popup-section.cols-1fr-1fr-1fr-1fr {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+
+  .popup-section.cols-1fr-1fr-1fr-1fr p {
+    padding: 0;
+  }
+
+  /* Some content images use one-sided margin-left/right:auto to hug the
+     gap between two side-by-side desktop columns (e.g. the Baja/Cube
+     sections). Once stacked to a single column on mobile that pins them
+     to one edge with a lopsided gap on the other. Re-center them here
+     instead of editing each image's desktop-only alignment. */
+  .popup-section-left img,
+  .popup-section-right img,
+  .popup-section-center img,
+  .popup-section-center2 img {
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 }
 
@@ -925,4 +952,132 @@ body {
     height: 36px;
     font-size: 24px;
   }
+}
+
+/* ===== Mobile tap-list (replaces the hover-driven bubble map on touch/small screens) ===== */
+#mobile-list {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .map,
+  #links {
+    display: none;
+  }
+
+  /* The desktop map is a fixed, full-viewport canvas, so body/html lock
+     scrolling with overflow:hidden + height:100%. The mobile tap-list is
+     taller than one screen, so scrolling needs to be re-enabled here. */
+  html,
+  body {
+    height: auto;
+    min-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* legacy Edge/IE */
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/WebKit */
+  }
+
+  .screen {
+    display: block;
+    padding: 0;
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
+  }
+
+  #mobile-list {
+    display: block;
+    position: relative;
+    z-index: 1;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 48px 16px 64px;
+    box-sizing: border-box;
+  }
+}
+
+.mobile-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.mobile-avatar {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-header h1 {
+  margin: 16px 0 4px;
+  font-size: 22px;
+  color: #fff;
+}
+
+.mobile-header p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.mobile-group {
+  margin-bottom: 28px;
+}
+
+.mobile-group-title {
+  margin: 0 0 10px 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.mobile-group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mobile-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-item:active {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.mobile-item.has-thumb::before {
+  content: "";
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  border-radius: 10px;
+  background-image: var(--thumb);
+  background-size: cover;
+  background-position: center;
+}
+
+.mobile-item-label {
+  flex: 1;
 }

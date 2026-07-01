@@ -218,9 +218,13 @@
   centerEl.appendChild(hint);
   stage.appendChild(centerEl);
 
+  // Half the center bubble's rendered size (CSS shrinks it on small screens),
+  // used to keep the bubble truly centered instead of assuming a fixed 210px size.
+  let centerHalf = centerEl.offsetWidth / 2;
+
   const centerState = {
-    x: W * 0.5 - 105,
-    y: H * 0.5 - 105,
+    x: W * 0.5 - centerHalf,
+    y: H * 0.5 - centerHalf,
     vx: 0,
     vy: 0,
     t: 0,
@@ -239,8 +243,8 @@
     centerEl.style.setProperty("--ty", `${y}px`);
     centerEl.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
 
-    blackout.style.left = `${x + 105}px`;
-    blackout.style.top = `${y + 105}px`;
+    blackout.style.left = `${x + centerHalf}px`;
+    blackout.style.top = `${y + centerHalf}px`;
   }
 
   centerEl.addEventListener("mouseenter", () => {
@@ -318,8 +322,8 @@
     for (const b of wordBubbles) stepBubble(b, dt, respawnBubble);
     for (const b of photoBubbles) stepBubble(b, dt, respawnBubble);
 
-    const targetX = W * 0.5 - 105;
-    const targetY = H * 0.5 - 105;
+    const targetX = W * 0.5 - centerHalf;
+    const targetY = H * 0.5 - centerHalf;
 
     centerState.t += dt;
     const wigX = Math.sin(centerState.t * 1.1) * centerState.wiggleStrength;
@@ -353,6 +357,7 @@
   window.addEventListener("resize", () => {
     W = window.innerWidth;
     H = window.innerHeight;
+    centerHalf = centerEl.offsetWidth / 2;
   });
 
   setCenterTransform(centerState.x, centerState.y, 1);

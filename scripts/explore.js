@@ -1913,6 +1913,78 @@
   }
 
   // ----------------------------
+  // Mobile fallback: simple tap-list
+  // ----------------------------
+  // The bubble map opens child nodes on hover, which has no real equivalent
+  // on touchscreens. Below this width we skip the map entirely and render
+  // the same NODES/POPUP_CONTENT data as a plain scrolling tap-list instead.
+  const MOBILE_BREAKPOINT = 768;
+
+  function isMobileLayout() {
+    return window.innerWidth <= MOBILE_BREAKPOINT;
+  }
+
+  function thumbUrl(imagePath) {
+    if (!imagePath) return null;
+    const stem = imagePath.split("/").pop().replace(/\.[^.]+$/, "");
+    return `assets/photos/thumbs/${stem}.jpg`;
+  }
+
+  function renderMobileList() {
+    const mobileList = document.getElementById("mobile-list");
+    mobileList.innerHTML = "";
+
+    const header = document.createElement("div");
+    header.className = "mobile-header";
+    header.innerHTML = `
+      <img src="assets/photos/thumbs/me-avatar.jpg" alt="Andrew Stevens" class="mobile-avatar" />
+      <h1>Andrew Stevens</h1>
+      <p>Tap a section to explore</p>
+    `;
+    mobileList.appendChild(header);
+
+    for (const group of NODES) {
+      const section = document.createElement("section");
+      section.className = "mobile-group";
+
+      const title = document.createElement("h2");
+      title.className = "mobile-group-title";
+      title.textContent = group.label;
+      section.appendChild(title);
+
+      const list = document.createElement("div");
+      list.className = "mobile-group-list";
+
+      for (const child of group.children || []) {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "mobile-item";
+
+        const thumb = thumbUrl(child.image);
+        if (thumb) {
+          // Custom properties resolve url() relative to the stylesheet, not
+          // the page, so this must be absolute (same workaround used above
+          // for the desktop bubble images' --img property).
+          const absThumb = new URL(thumb, document.baseURI).href;
+          item.classList.add("has-thumb");
+          item.style.setProperty("--thumb", `url("${absThumb}")`);
+        }
+
+        const label = document.createElement("span");
+        label.className = "mobile-item-label";
+        label.textContent = child.label;
+        item.appendChild(label);
+
+        item.addEventListener("click", () => showPopup(child.id));
+        list.appendChild(item);
+      }
+
+      section.appendChild(list);
+      mobileList.appendChild(section);
+    }
+  }
+
+  // ----------------------------
   // Init + resize
   // ----------------------------
   function init() {
@@ -1935,6 +2007,12 @@
       clearTimeout(timer);
     }
     closeTimers.clear();
+
+    if (isMobileLayout()) {
+      renderMobileList();
+      return;
+    }
+    document.getElementById("mobile-list").innerHTML = "";
 
     renderNodes();
     attachHoverLineTracking();
