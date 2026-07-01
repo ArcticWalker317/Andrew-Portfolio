@@ -2,12 +2,10 @@ html,
 body {
   height: 100%;
   margin: 0;
-  overflow: hidden;
-  overscroll-behavior: none;
-  touch-action: none;
 }
 
 body {
+  overflow: hidden;
   background: radial-gradient(
     1200px 800px at 50% 40%,
     #eef2ff 0%,
