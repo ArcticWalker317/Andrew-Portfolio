@@ -53,8 +53,13 @@
     // add more...
   ];
 
-  // Build full URLs from filenames
-  const PHOTO_URLS = PHOTO_FILES.map((name) => `assets/photos/${name}`);
+  // Build full URLs, pointing at the small pre-generated thumbnails (always .jpg)
+  // instead of the multi-megabyte originals used by explore.html's gallery.
+  // Regenerate via `python scripts/generate_thumbs.py` after adding/changing photos.
+  const PHOTO_URLS = PHOTO_FILES.map((name) => {
+    const stem = name.replace(/\.[^.]+$/, "");
+    return `assets/photos/thumbs/${stem}.jpg`;
+  });
 
   // Stay below unique image count so there's always a free image to pick (no duplicates)
   const PHOTO_COUNT = PHOTO_URLS.length;
@@ -163,29 +168,41 @@
     b.el.style.opacity = isPhoto ? 0.75 : rand(0.6, 0.95);
   }
 
-  // Spawn word bubbles
-  for (let i = 0; i < WORD_COUNT; i++) {
-    const b = createBubble("word");
-    b.y = rand(0, H + 600);
-    b.el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
-    wordBubbles.push(b);
+  // Spawn bubbles gradually across a handful of frames instead of all at once,
+  // so creating ~70 DOM nodes + background-images doesn't block the first paint.
+  function spawnGradually(count, type, arr, initBubble, perFrame = 8) {
+    let created = 0;
+    function step() {
+      const end = Math.min(count, created + perFrame);
+      for (; created < end; created++) {
+        const b = createBubble(type);
+        initBubble(b);
+        arr.push(b);
+      }
+      if (created < count) requestAnimationFrame(step);
+    }
+    step();
   }
 
+  // Spawn word bubbles
+  spawnGradually(WORD_COUNT, "word", wordBubbles, (b) => {
+    b.y = rand(0, H + 600);
+    b.el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
+  });
+
   // Spawn photo bubbles - spread them out across the screen
-  for (let i = 0; i < PHOTO_COUNT; i++) {
-    const b = createBubble("photo");
+  spawnGradually(PHOTO_COUNT, "photo", photoBubbles, (b) => {
     b.x = rand(0, W);
     b.y = rand(-100, H + 100);
     b.el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
-    photoBubbles.push(b);
-  }
+  });
 
   // Center bubble
   const centerEl = document.createElement("div");
   centerEl.className = "bubble center-bubble";
 
   const img = document.createElement("img");
-  img.src = "assets/me.jpg"; // make sure this file exists
+  img.src = "assets/photos/thumbs/me-avatar.jpg"; // small thumbnail; make sure this file exists
 
   const text = document.createElement("div");
   text.className = "enter-text";
