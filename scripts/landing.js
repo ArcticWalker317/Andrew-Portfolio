@@ -27,7 +27,6 @@
     "hevt2.png",
     "hevt3.jpg",
     "hevt4.png",
-    "hevt6.png",
     "hevt7.png",
     "hevt8.png",
     "hevt9.png",

@@ -76,7 +76,7 @@
         { id: "award-1", label: "Arduino", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: -20, image: "assets/photos/arduino1.png" },
         { id: "award-2", label: "Patent", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 35, image: "assets/photos/patent1.png" },
         { id: "award-3", label: "Guitar", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 160, image: "assets/photos/guitar2.jpg" },
-        { id: "award-4", label: "Deans List", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 100, image: "assets/photos/vt1.png" },
+        { id: "award-4", label: "Academic", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 100, image: "assets/photos/vt1.png" },
 
       ],
     },
@@ -327,18 +327,16 @@
         },
         {
           customClass: "cols-1fr-1fr",
-          left: `
-            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-              <img src="assets/photos/hevt4.png" alt="Andrew Stevens" style="width: 50%; height: auto; object-fit: cover;">
-              <img src="assets/photos/hevt5.png" alt="Andrew Stevens" style="width: 50%; height: auto; object-fit: cover;">
-            </div>
-            <img src="assets/photos/hevt6.png" alt="Andrew Stevens" style="width: 100%; height: auto; display: block;">
-          `,
           right: `
+            <img src="assets/photos/hevt4.png" alt="Andrew Stevens" style="width: 50%; height: auto; display: block; margin: 0 auto;">
+            <img src="assets/photos/hevt5.png" alt="Andrew Stevens" style="width: 50%; height: auto; display: block; margin: 0 auto;">
+            
+          `,
+          left: `
             <h3 style="text-align:center;">CACC Simulink Model</h3> 
-            <p style="text-align:center;">Cooperative Adaptive Cruise Control (CACC) is a longitudinal control of the cars propulsion. The goal is to act like a cruise control that is responsive to the cars in front of the current vehicle. Using new Vehicle to Vehicle (V2V) technology provided by the competition, we use the position, velocity, and acceleration of the three vehicles in front of us to minimize energy consumption whilst keeping a safe distance from the closest vehicle.</p>
-            <p style="text-align:center;">I was tasked with creating a simulink model that achieves the goal above. I was already given a model that does it fairly well and added onto it what is boxed in red. This includes an adaptive distance goal, a square root error, and a weighted acceleration modification.</p>
-            <p style="text-align:center;">My goal was to minimize torque output request, since this is what uses up the energy. Before my modifications, the torque output is 55,240 N for this drive cycle. After my changes, I was able to reduce that output to 21,883 N. The graph on the right (green and blue) shows the torque requested. The graph on the left shows the velocity (green) and distance to next car (orange).</p>
+            <p style="text-align:center;">Cooperative Adaptive Cruise Control (CACC) is a longitudinal control of the cars propulsion. The goal is to act like a cruise control that is responsive to the cars in front of the current vehicle. Using new Vehicle to Vehicle (V2V) technology provided by the competition, we can minimize energy consumption whilst keeping a safe distance from the closest vehicle.</p>
+            <p style="text-align:center;">I was tasked with creating a simulink model that achieves the goal above.</p>
+            <p style="text-align:center;">My goal was to minimize torque output request, since this is what uses up the energy. After my changes, I was able to reduce that output by 60.3%. The graph on the bottom (green and blue) shows the torque requested. The graph on the top shows the velocity (green) and distance to next car (orange).</p>
           `
         },
         {
@@ -359,24 +357,15 @@
             `
         },
         {
-          customClass: "cols-1fr-1fr-1fr",
+          customClass: "cols-1fr-1fr",
           left: `
-            <p style="text-align:center;"></p>
-            <p style="text-align:center;"></p>
-            <img src="assets/photos/hevt10.png" alt="Andrew Stevens" style="width: 95%; height: auto; display: block; margin: 0 auto;">
-
-            `,
-          center: `
             <h3 style="text-align:center;">CACC in Python</h3> 
             <p style="text-align:center;">After creating the CACC in simulink, I was tasked with improving the Python version of the controller and simulator to support three vehicles instead of the previous one vehicle.</p>
             <p style="text-align:center;">This task was also challenging because I had to redo the data structure for which car information was passed from ROS2 node to node because up until this point, it only had one car's speed and position. This lead to a major haul of the system structure, which a graduate student kindly helped with.</p>
           `,
           right: `
             <p style="text-align:center;"></p>
-            <p style="text-align:center;"></p>
             <img src="assets/photos/hevt11.png" alt="Andrew Stevens" style="width: 95%; height: auto; display: block; margin: 0 auto;">
-            <img src="assets/photos/hevt12.png" alt="Andrew Stevens" style="width: 95%; height: auto; display: block; margin: 0 auto;">
-
           `
         }
       ]
@@ -800,7 +789,7 @@
       ]
     },
     "award-4": {
-      title: "Dean's List",
+      title: "Academic",
       sections: [
         {
           customClass: "cols-1fr",
@@ -2075,7 +2064,14 @@
       const list = document.createElement("div");
       list.className = "mobile-group-list";
 
-      for (const child of group.children || []) {
+      // Awards: lead with "Academic" on mobile, desktop bubble placement
+      // (angle/distance-based) is unaffected since it doesn't read this order.
+      const children =
+        group.id === "node-awards"
+          ? [...group.children].sort((a, b) => (a.label === "Academic" ? -1 : b.label === "Academic" ? 1 : 0))
+          : group.children;
+
+      for (const child of children || []) {
         const item = document.createElement("button");
         item.type = "button";
         item.className = "mobile-item";
