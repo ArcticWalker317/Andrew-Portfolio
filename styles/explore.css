@@ -952,6 +952,33 @@ body {
     height: 36px;
     font-size: 24px;
   }
+
+  /* iOS Safari's plain "vh" is based on the largest viewport (address bar
+     hidden), so a fixed 90vh popup can end up taller than what's actually
+     visible and get clipped behind the address bar / home-indicator bar
+     while it's shown. svh/dvh recompute against the real visible viewport,
+     and safe-area padding keeps the close button clear of notches/bars. */
+  .popup-overlay {
+    height: 100vh;
+    height: 100svh;
+    height: 100dvh;
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+  }
+
+  .popup-content {
+    max-height: 90vh;
+    max-height: 90svh;
+    max-height: 90dvh;
+  }
+
+  .popup-scrollable {
+    max-height: 90vh;
+    max-height: 90svh;
+    max-height: 90dvh;
+  }
 }
 
 /* ===== Mobile tap-list (replaces the hover-driven bubble map on touch/small screens) ===== */
