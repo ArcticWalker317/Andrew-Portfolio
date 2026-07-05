@@ -840,7 +840,7 @@
             <div style="width: 66%; margin: 0 auto;">
             <h3 style="text-align: center;">Hitachi Energy</h3>
             <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
-            I spent the summer of 2026 in a 12 week software engineering internship with Hitachi Energy in Raleigh, NC.
+            I spent this summer (2026) in a 12 week software engineering internship with Hitachi Energy in Raleigh, NC.
             </p>
             <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
             So far, I have scoped, planned, and built a Python report generator that parses transformer service test files and generates formatted reports, which cuts documentation time from 4-6 hours, down to about 5 minutes.
@@ -1994,6 +1994,17 @@
     const mobileList = document.getElementById("mobile-list");
     mobileList.innerHTML = "";
 
+    // Staggered top-to-bottom fade-in: each element gets an increasing
+    // animation-delay so the list reveals in reading order instead of
+    // popping in all at once.
+    let fadeIndex = 0;
+    const FADE_STEP_MS = 60;
+    function applyFadeIn(el) {
+      el.classList.add("mobile-fade-in");
+      el.style.animationDelay = `${fadeIndex * FADE_STEP_MS}ms`;
+      fadeIndex++;
+    }
+
     const header = document.createElement("div");
     header.className = "mobile-header";
     header.innerHTML = `
@@ -2001,6 +2012,7 @@
       <h1>Andrew Stevens</h1>
       <p>Tap a section to explore</p>
     `;
+    applyFadeIn(header);
     mobileList.appendChild(header);
 
     // Solo nodes (e.g. "Internship") float to the top of the mobile list;
@@ -2021,11 +2033,13 @@
         const title = document.createElement("h2");
         title.className = "mobile-group-title";
         title.textContent = group.label;
+        applyFadeIn(title);
         section.appendChild(title);
 
         const item = document.createElement("button");
         item.type = "button";
         item.className = "mobile-item mobile-item-solo";
+        applyFadeIn(item);
 
         const thumb = thumbUrl(group.image);
         if (thumb) {
@@ -2048,6 +2062,7 @@
       const title = document.createElement("h2");
       title.className = "mobile-group-title";
       title.textContent = group.label;
+      applyFadeIn(title);
       section.appendChild(title);
 
       const list = document.createElement("div");
@@ -2057,6 +2072,7 @@
         const item = document.createElement("button");
         item.type = "button";
         item.className = "mobile-item";
+        applyFadeIn(item);
 
         const thumb = thumbUrl(child.image);
         if (thumb) {
