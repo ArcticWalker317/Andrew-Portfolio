@@ -2,46 +2,84 @@
   const stage = document.getElementById("stage");
   const blackout = document.getElementById("blackout");
 
-  const WORD_COUNT = 50;
-  const PHOTO_COUNT = 50;
+  // Fewer bubbles on small screens - the same counts that look lively spread
+  // across a wide desktop viewport just feel cluttered packed into a phone's
+  // width.
+  const isSmallScreen = window.innerWidth <= 768;
+
+  // Bubbles never auto-pop - they float up and get removed once off screen,
+  // unless clicked, in which case they pop immediately. Automatic popping
+  // logic is left in place (see randomPopY/bubbleMode) to bring back later.
+  const POP_ENABLED = false;
+
+  const WORD_COUNT = isSmallScreen ? 16 : 40;
 
   // ✅ Hardcode your photo filenames here (must exist in /assets/photos/)
   // Example file paths: assets/photos/01.jpg, assets/photos/IMG_1234.png, etc.
   const PHOTO_FILES = [
-    "me.jpg",
+    // Me
+    "me3.jpg",
+    "me4.jpg",
     "bioandrewlanding.jpg",
 
-    //"baja2.png",
-    //"baja3.png",
+    // HEVT
+    "hevt1.png",
+    "hevt2.png",
+    "hevt3.jpg",
+    "hevt4.png",
+    "hevt6.png",
+    "hevt7.png",
+    "hevt8.png",
+    "hevt9.png",
+    "hevt11.png",
+
+    // Baja
     "baja1.jpg",
-    
-    "HEVT1.png",
+
+    // VEX
     "vex1.jpg",
     "vex3.jpg",
-    "vex7.jpg",
+    "vex5.jpg",
     "vex6.jpg",
     "vex19.png",
-    "vex3.jpg",
-    
+
+    // Workcell
     "workcell1.png",
     "workcell3.png",
-    "patent1.png",
+    "workcell5.png",
 
+    // Guitar
+    "guitar1.jpg",
+    "guitar2.jpg",
+    "guitar5.jpg",
+
+    // Other
+    "hitachi1.png",
+    "patent1.png",
+    "handtrack1.png",
     "cube1.png",
     "cube2.jpg",
-    "cube3.jpg",
     "cube5.png",
     "cube20.jpg",
-    "handtrack1.png"
     // add more...
   ];
 
-  // Build full URLs from filenames
-  const PHOTO_URLS = PHOTO_FILES.map((name) => `assets/photos/${name}`);
+  // Build full URLs, pointing at the small pre-generated thumbnails (always .jpg)
+  // instead of the multi-megabyte originals used by explore.html's gallery.
+  // Regenerate via `python scripts/generate_thumbs.py` after adding/changing photos.
+  const PHOTO_URLS = PHOTO_FILES.map((name) => {
+    const stem = name.replace(/\.[^.]+$/, "");
+    return `assets/photos/thumbs/${stem}.jpg`;
+  });
+
+  // Stay below unique image count so there's always a free image to pick (no duplicates)
+  const PHOTO_COUNT = isSmallScreen
+    ? Math.min(12, PHOTO_URLS.length)
+    : PHOTO_URLS.length;
 
   const WORDS = [
     "engineer","build","innovate","curious","create","solder","prototype",
-    "systems","leader","iterate","Arduino","embedded","design","collaborate",
+    "systems","leader","iterate","embedded","design","collaborate",
     "maker","inventor","circuits","precision","driven","problem-solver",
     "hardware","software","technical","visionary","passionate"
   ];
@@ -57,9 +95,31 @@
     return arr[(Math.random() * arr.length) | 0];
   }
 
-  function pickPhotoUrl() {
+  // Desktop pops bubbles just above the screen (unchanged, by request). On
+  // mobile that made the pop invisible, so there it pops anywhere on
+  // screen instead.
+  function randomPopY() {
+    return isSmallScreen ? rand(0, H) : rand(-150, -20);
+  }
+
+  // Pops only while POP_ENABLED is on; otherwise bubbles just float up and
+  // get removed once off screen (see the "b.y < -120" respawn fallback in
+  // stepBubble) unless clicked.
+  function bubbleMode() {
+    return POP_ENABLED ? "pop" : "float";
+  }
+
+  function pickUniquePhotoUrl(excludeBubble) {
     if (!PHOTO_URLS.length) return null;
-    return pick(PHOTO_URLS);
+    const inUse = new Set();
+    for (const b of photoBubbles) {
+      if (b === excludeBubble) continue;
+      if (b.photoUrl && !b.hasPopped && b.y >= -150 && b.y <= H + 150) {
+        inUse.add(b.photoUrl);
+      }
+    }
+    const available = PHOTO_URLS.filter(url => !inUse.has(url));
+    return available.length > 0 ? pick(available) : pick(PHOTO_URLS);
   }
 
   const wordBubbles = [];
@@ -71,32 +131,39 @@
     const el = document.createElement("div");
     el.className = isPhoto ? "bubble photo-bubble" : "bubble word-bubble";
 
+    let photoUrl = null;
     if (isPhoto) {
-      const url = pickPhotoUrl();
-      el.style.backgroundImage = url ? `url("${url}")` : "none";
+      photoUrl = pickUniquePhotoUrl();
+      el.style.backgroundImage = photoUrl ? `url("${photoUrl}")` : "none";
     } else {
       el.textContent = pick(WORDS);
     }
 
     stage.appendChild(el);
 
-    const scaleRange = isPhoto ? [2.0, 2.2] : [0.8, 1.2];
+    const scaleRange = isPhoto ? [1.2, 1.8] : [0.8, 1.2];
 
     const b = {
       el,
       type,
+      photoUrl,
       x: rand(0, W),
       y: rand(0, H),
       vx: rand(-12, 12),
-      vy: rand(20, 50),
+      vy: rand(30, 65),
       wobblePhase: rand(0, Math.PI * 2),
       wobbleSpeed: rand(0.6, 1.4),
       wobbleAmp: rand(4, 14),
       scale: rand(scaleRange[0], scaleRange[1]),
-      mode: "pop", // All bubbles pop
+      mode: bubbleMode(),
       hasPopped: false,
-      popY: rand(-50, H * 0.3) // Pop in top 30% of screen
+      popY: randomPopY()
     };
+
+    // Bubbles don't auto-pop (see POP_ENABLED) - a click/tap pops them
+    // instead. Attached once here since respawnBubble reuses this same
+    // element/b pair rather than recreating it.
+    el.addEventListener("click", () => triggerPop(b, respawnBubble));
 
     el.style.opacity = isPhoto ? 0.75 : rand(0.6, 0.95);
     el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
@@ -106,54 +173,77 @@
   // Unified bubble respawn
   function respawnBubble(b) {
     const isPhoto = b.type === "photo";
-    const scaleRange = isPhoto ? [2.0, 2.2] : [0.8, 1.2];
+    const scaleRange = isPhoto ? [1.2, 1.8] : [0.8, 1.2];
 
     b.x = rand(0, W);
     b.y = H + rand(20, 80); // Spawn closer to bottom edge so they appear sooner
     b.vx = rand(-14, 14);
-    b.vy = rand(20, 50);
+    b.vy = rand(30, 65);
     b.wobblePhase = rand(0, Math.PI * 2);
     b.wobbleSpeed = rand(0.6, 1.4);
     b.wobbleAmp = rand(4, 14);
     b.scale = rand(scaleRange[0], scaleRange[1]);
-    b.mode = "pop"; // All bubbles pop
+    b.mode = bubbleMode();
     b.hasPopped = false;
-    b.popY = rand(-50, H * 0.3); // Pop in top 30% of screen
+    b.popY = randomPopY();
 
     if (isPhoto) {
-      const url = pickPhotoUrl();
+      const url = pickUniquePhotoUrl(b);
+      b.photoUrl = url;
       b.el.style.backgroundImage = url ? `url("${url}")` : "none";
     } else {
       b.el.textContent = pick(WORDS);
     }
 
     b.el.classList.remove("pop");
+    // Clear (not "none") - an inline "none" would permanently override the
+    // .pop class's animation via inline-style precedence, silently
+    // preventing this element from ever animating on a future pop.
+    b.el.style.animation = "";
     b.el.style.opacity = isPhoto ? 0.75 : rand(0.6, 0.95);
   }
 
-  // Spawn word bubbles
-  for (let i = 0; i < WORD_COUNT; i++) {
-    const b = createBubble("word");
-    b.y = rand(0, H + 600);
-    b.el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
-    wordBubbles.push(b);
+  // Spawn bubbles gradually across a handful of frames instead of all at once,
+  // so creating ~70 DOM nodes + background-images doesn't block the first paint.
+  function spawnGradually(count, type, arr, initBubble, perFrame = 8) {
+    let created = 0;
+    function step() {
+      const end = Math.min(count, created + perFrame);
+      for (; created < end; created++) {
+        const b = createBubble(type);
+        initBubble(b);
+        arr.push(b);
+      }
+      if (created < count) requestAnimationFrame(step);
+    }
+    step();
   }
 
-  // Spawn photo bubbles - spread them out across the screen
-  for (let i = 0; i < PHOTO_COUNT; i++) {
-    const b = createBubble("photo");
-    b.x = rand(0, W);
-    b.y = rand(-100, H + 100);
+  // Spawn word bubbles. On mobile, popY can be a real on-screen position
+  // (unlike desktop's off-screen negative one), so the initial spread must
+  // stay below every possible pop line - otherwise bubbles spawn already
+  // past their own pop point and instantly fake-pop on page load. popY
+  // now goes up to H itself, so the floor has to clear all of it.
+  const initialSpawnFloor = isSmallScreen ? H + 20 : 0;
+
+  spawnGradually(WORD_COUNT, "word", wordBubbles, (b) => {
+    b.y = rand(initialSpawnFloor, H + 600);
     b.el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
-    photoBubbles.push(b);
-  }
+  });
+
+  // Spawn photo bubbles - spread them out across the screen
+  spawnGradually(PHOTO_COUNT, "photo", photoBubbles, (b) => {
+    b.x = rand(0, W);
+    b.y = rand(isSmallScreen ? initialSpawnFloor : -100, H + 100);
+    b.el.style.transform = `translate(${b.x}px, ${b.y}px) scale(${b.scale})`;
+  });
 
   // Center bubble
   const centerEl = document.createElement("div");
   centerEl.className = "bubble center-bubble";
 
   const img = document.createElement("img");
-  img.src = "assets/me.jpg"; // make sure this file exists
+  img.src = "assets/photos/thumbs/me-avatar.jpg"; // small thumbnail; make sure this file exists
 
   const text = document.createElement("div");
   text.className = "enter-text";
@@ -169,9 +259,13 @@
   centerEl.appendChild(hint);
   stage.appendChild(centerEl);
 
+  // Half the center bubble's rendered size (CSS shrinks it on small screens),
+  // used to keep the bubble truly centered instead of assuming a fixed 210px size.
+  let centerHalf = centerEl.offsetWidth / 2;
+
   const centerState = {
-    x: W * 0.5 - 105,
-    y: H * 0.5 - 105,
+    x: W * 0.5 - centerHalf,
+    y: H * 0.5 - centerHalf,
     vx: 0,
     vy: 0,
     t: 0,
@@ -190,8 +284,8 @@
     centerEl.style.setProperty("--ty", `${y}px`);
     centerEl.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
 
-    blackout.style.left = `${x + 105}px`;
-    blackout.style.top = `${y + 105}px`;
+    blackout.style.left = `${x + centerHalf}px`;
+    blackout.style.top = `${y + centerHalf}px`;
   }
 
   centerEl.addEventListener("mouseenter", () => {
@@ -227,25 +321,39 @@
     }
   });
 
+  // Shared by the automatic pop check and click-to-pop, so both play the
+  // same burst animation and respawn the same way.
+  function triggerPop(b, respawnFn) {
+    if (b.hasPopped) return;
+    b.hasPopped = true;
+    b.el.classList.add("pop");
+    // Use both animationend and a timeout fallback to ensure respawn
+    let respawned = false;
+    const doRespawn = () => {
+      if (respawned) return;
+      respawned = true;
+      respawnFn(b);
+    };
+    b.el.addEventListener("animationend", doRespawn, { once: true });
+    setTimeout(doRespawn, 400); // Fallback in case animationend doesn't fire
+  }
+
   function stepBubble(b, dt, respawnFn) {
+    // Once popped, the CSS animation + triggerPop's own respawn timer own
+    // this bubble entirely. Physics used to keep running here, which could
+    // carry it past the "b.y < -120" off-screen check below and force an
+    // early respawn mid-animation - yanking the pop class off and making it
+    // just vanish instead of finishing the burst.
+    if (b.hasPopped) return;
+
     b.y -= b.vy * dt;
     b.x += b.vx * dt;
 
     b.wobblePhase += b.wobbleSpeed * dt;
     const wob = Math.sin(b.wobblePhase) * b.wobbleAmp;
 
-    if (b.mode === "pop" && !b.hasPopped && b.y < b.popY) {
-      b.hasPopped = true;
-      b.el.classList.add("pop");
-      // Use both animationend and a timeout fallback to ensure respawn
-      let respawned = false;
-      const doRespawn = () => {
-        if (respawned) return;
-        respawned = true;
-        respawnFn(b);
-      };
-      b.el.addEventListener("animationend", doRespawn, { once: true });
-      setTimeout(doRespawn, 400); // Fallback in case animationend doesn't fire
+    if (b.mode === "pop" && b.y < b.popY) {
+      triggerPop(b, respawnFn);
     }
 
     if (b.y < -120) respawnFn(b);
@@ -256,10 +364,7 @@
     b.el.style.setProperty("--tx", `${tx}px`);
     b.el.style.setProperty("--ty", `${ty}px`);
     b.el.style.setProperty("--s", b.scale);
-
-    if (!b.el.classList.contains("pop")) {
-      b.el.style.transform = `translate(${tx}px, ${ty}px) scale(${b.scale})`;
-    }
+    b.el.style.transform = `translate(${tx}px, ${ty}px) scale(${b.scale})`;
   }
 
   function tick(ts) {
@@ -269,8 +374,8 @@
     for (const b of wordBubbles) stepBubble(b, dt, respawnBubble);
     for (const b of photoBubbles) stepBubble(b, dt, respawnBubble);
 
-    const targetX = W * 0.5 - 105;
-    const targetY = H * 0.5 - 105;
+    const targetX = W * 0.5 - centerHalf;
+    const targetY = H * 0.5 - centerHalf;
 
     centerState.t += dt;
     const wigX = Math.sin(centerState.t * 1.1) * centerState.wiggleStrength;
@@ -304,6 +409,7 @@
   window.addEventListener("resize", () => {
     W = window.innerWidth;
     H = window.innerHeight;
+    centerHalf = centerEl.offsetWidth / 2;
   });
 
   setCenterTransform(centerState.x, centerState.y, 1);

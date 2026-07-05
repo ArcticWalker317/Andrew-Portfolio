@@ -51,8 +51,13 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  will-change: transform, opacity;
   pointer-events: none;
+
+  /* Rapid clicks on the word bubbles' text would otherwise trigger native
+     text selection instead of just popping the bubble. */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Word bubbles */
@@ -69,7 +74,10 @@ body {
   background: rgba(255, 255, 255, 0.75);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(6px);
+
+  /* Bubbles don't auto-pop - clicking one pops it (see POP_ENABLED in landing.js) */
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 /* Photo bubbles */
@@ -86,9 +94,9 @@ body {
   background-color: rgba(255, 255, 255, 0.55);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(6px);
 
-  position: relative;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .photo-bubble::after {
@@ -250,52 +258,24 @@ body {
   }
 }
 
-/* Mobile warning overlay */
-#mobile-warning {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: radial-gradient(
-    1200px 800px at 50% 40%,
-    #eef2ff 0%,
-    #dbe3ff 45%,
-    #c7d2ff 100%
-  );
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-}
-
-.warning-content {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
-  padding: 40px 30px;
-  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.15);
-  max-width: 300px;
-}
-
-.warning-content h1 {
-  margin: 0 0 15px 0;
-  font-size: 28px;
-  color: #3a3a6a;
-}
-
-.warning-content p {
-  margin: 10px 0;
-  font-size: 16px;
-  color: #5a5a8a;
-  line-height: 1.5;
-}
-
-@media (max-width: 768px) {
-  #mobile-warning {
-    display: flex;
+/* Small screens: shrink the center bubble and move the click hint underneath
+   it instead of to the right, so it can't run off the edge of a phone screen. */
+@media (max-width: 480px) {
+  .center-bubble {
+    width: 170px;
+    height: 170px;
   }
 
-  #stage,
-  #blackout {
+  .click-hint {
+    right: auto;
+    top: auto;
+    left: 50%;
+    bottom: -56px;
+    transform: translateX(-50%);
+    animation: none;
+  }
+
+  .hint-arrow {
     display: none;
   }
 }

@@ -30,10 +30,11 @@
       distance: 0.5,
       angleDeg: -30,
       children: [
-        { id: "teams-1", label: "VT BAJA SAE", size: childNodeDefaultSize, distance: 170, angleDeg: -75, textSize: 13, image: "assets/photos/baja1.jpg" },
-        { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -12, textSize: 13, image: "assets/photos/workcell1.png" },
-        { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -140, textSize: 16, image: "assets/photos/hevt1.png" },
-        { id: "teams-4", label: "VEX ROBOTICS", size: childNodeDefaultSize, distance: 170, angleDeg: 60, textSize: 13, image: "assets/photos/vex3.jpg" },
+        { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -140, textSize: 16, image: "assets/photos/hevt2.png" },
+        { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -5, textSize: 13, image: "assets/photos/workcell1.png" },
+        { id: "teams-1", label: "VT BAJA SAE", size: childNodeDefaultSize, distance: 170, angleDeg: -95, textSize: 13, image: "assets/photos/baja1.jpg" },
+        { id: "teams-5", label: "VT CRO RePLA", size: childNodeDefaultSize, distance: 170, angleDeg: -50, textSize: 13, image: "assets/photos/cro1.png" },
+        { id: "teams-4", label: "VEX ROBOTICS", size: childNodeDefaultSize, distance: 170, angleDeg: 40, textSize: 13, image: "assets/photos/vex3.jpg" },
       ],
     },
     {
@@ -50,9 +51,9 @@
     {
       id: "node-about",
       label: "About Me",
-      size: 135,
+      size: 120,
       distance: 0.36,
-      angleDeg: -150,
+      angleDeg: -160,
       image: null, // e.g. "assets/photos/about.jpg"
       children: [
         //{ id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 150 },
@@ -60,21 +61,34 @@
         //{ id: "about-3", label: "Life", size: childNodeDefaultSize, distance: 150, angleDeg: -157},
         //{ id: "about-4", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -40 },
         { id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 150 },
-        { id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -145},
+        { id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -145 },
         { id: "about-4", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -80 },
-      
+
       ],
     },
     {
       id: "node-awards",
       label: "Awards",
-      size: 125,
-      distance: 0.22,
-      angleDeg: 50,
+      size: 100,
+      distance: 0.18,
+      angleDeg: 40,
       children: [
-        { id: "award-1", label: "Arduino", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 30, image: "assets/photos/arduino1.png" },
-        { id: "award-2", label: "Patent", size: childNodeDefaultSize, distance: childNodeDefaultDist -10, angleDeg: 130, image: "assets/photos/patent1.png" },
+        { id: "award-1", label: "Arduino", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: -20, image: "assets/photos/arduino1.png" },
+        { id: "award-2", label: "Patent", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 35, image: "assets/photos/patent1.png" },
+        { id: "award-3", label: "Guitar", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 160, image: "assets/photos/guitar2.jpg" },
+        { id: "award-4", label: "Deans List", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 100, image: "assets/photos/vt1.png" },
+
       ],
+    },
+    {
+      // Solo node: no children, clicking it opens its own popup directly.
+      id: "node-internship",
+      label: "Internship",
+      size: 140,
+      distance: 0.25,
+      angleDeg: -100,
+      image: "assets/photos/hitachi1.png",
+      children: [],
     },
   ];
 
@@ -147,12 +161,12 @@
             <p>Ultimately, from this we should be able to get context for other sensor readings based off where in the track we are.</p>
             <p>So far, I have made a successful breadboard and prototyping board. I finished PCB schematics and I am waiting for the team lead to approve the order.</p>
             `
-            //<h3>To-Do:</h3>
-            
-            //<ul>
-            //  <li>Redo Range test with better practices</li>
-            //  <li>Improve antenna positioning</li>
-            //</ul>
+          //<h3>To-Do:</h3>
+
+          //<ul>
+          //  <li>Redo Range test with better practices</li>
+          //  <li>Improve antenna positioning</li>
+          //</ul>
           ,
           right: `
             <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQHxt8-8iOnFaJb-t8mORe7kmuIcG3hwQPV6Bubd5IzX5z1dwsHYCOeXEtGfRvfbYQxXD2L7SdHY1Jg/pubembed?start=false&loop=false&delayms=3000" frameborder="0" style="width:100%; height:365px; border-radius:12px;" allowfullscreen="true"></iframe>
@@ -165,12 +179,12 @@
             <p>Ultimately, we will be able to see the data reading from a computer in live time which, would allow for things like early warning before a part breaking.</p>
             <p>So far, I have successfully set up and tested a LoRa system for range. My first test was flawed as I had poor antenna positioning.</p>
             `
-            //<h3>To-Do:</h3>
-            
-            //<ul>
-            //  <li>Redo Range test with better practices</li>
-            //  <li>Improve antenna positioning</li>
-            //</ul>
+          //<h3>To-Do:</h3>
+
+          //<ul>
+          //  <li>Redo Range test with better practices</li>
+          //  <li>Improve antenna positioning</li>
+          //</ul>
           ,
           left: `
             <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vT9xztWy5S9qUmagXMc2wXe3isrr7zzJMbYf4u6IST3H_vJGP1cQ4UXQs6tpKci9LlZD400oZGYMy94/pubembed?start=false&loop=false&delayms=3000" frameborder="0" style="width:100%; height:365px; border-radius:12px;" allowfullscreen="true"></iframe>
@@ -182,8 +196,8 @@
             <p style="text-align:center;">On this team, I joined the Testing & Data Acquisition Subteam and have worked on projects such as the GPS & LoRa systems.</p>
             <p style="text-align:center;">(I also got to drive the car, that was awesome)</p>
             `
-            
-            //<img src="assets/Andrew Stevens - Resume_page-0001 (1).jpg" alt="Andrew Stevens Resume" style="width: 120%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
+
+          //<img src="assets/Andrew Stevens - Resume_page-0001 (1).jpg" alt="Andrew Stevens Resume" style="width: 120%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
           ,
           right: ``
         }
@@ -193,11 +207,13 @@
       title: "VT CRO WORKCELL",
       sections: [
         {
-          customClass: "cols-1fr",
+          customClass: "cols-1fr-1fr",
           left: `
-            <img src="assets/photos/workcell2.jpg" alt="Andrew Stevens" style="width: 55%; height: auto; margin: 0 auto; display: block;">
+            <img src="assets/photos/workcell2.jpg" alt="Andrew Stevens" style="width: 75%; height: auto; margin: 0 auto; display: block;">
           `,
-          right: ``
+          right: `
+            <img src="assets/photos/workcell5.png" alt="Andrew Stevens" style="width: 75%; height: auto; margin: 0 auto; display: block;">
+          `
         },
         {
           customClass: "cols-1fr-1fr",
@@ -228,7 +244,7 @@
             <img src="assets/photos/workcell3.png" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
 
           `,
-          center:`
+          center: `
             <h3 style="text-align:center;">Limit Switch PCB</h3> 
             <p style="text-align:center;">One of the things I have worked on for Workcell, is a custom daisy chained limit switch PCB. </p>
             <p style="text-align:center;">The limit switches are used for the print storage to see which shelves are being used.</p>
@@ -252,22 +268,121 @@
             <p style="text-align:center;">The previous system relied solely on predefined locations to know where to move the gantry to. This led to decreased precision over time. </p>
             <p style="text-align:center;">This new system uses a camera and april tag system to help guarantee precision. The system is tested on an Ender 3 since the mechanical team is still working on the improved gantry. Testing showed we can now achieve +- 0.5 mm accuracy in x & y directions.</p>
           `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h3 style="text-align:center;">This project has been brought to a close as CRO limits each project to 2 years. However, this team is continuing on to create RePLA, our next project. 😉</h3> 
+            `
+        }
+      ]
+    },
+    "teams-5": {
+      title: "VT CRO RePLA",
+      sections: [
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h1 style="text-align:center;">Coming Soon!</h1> 
+            <p style="text-align:center;">This project is still in the early phases. I am proud to say I will be the lead of the Electrical and Computer Engineering subteam. This project will be developing an easy to use, simple filament recycler.</p>
+              
+            `
         }
       ]
     },
     "teams-3": {
-      title: "HEVT",
-      description:`
-          <h2 style="text-align:center;">COMING SOON</h2>
-          <p style="text-align:center;">I have been accepted into the HEVT team, but have not done any work yet as I am still being onboarded. </p>
-          <p style="text-align:center;"> For about the first 6 weeks of the Spring 2026 semester, I will attend lectures that introduce essential topics related to team operations and competition structure. </p>
-          <p style="text-align:center;">At the end of that semester, team leads will evaluate my contributions and progress to determine my eligibility to continue with the team. </p>
+      title: "Hybrid Electric Vehicle Team",
+      sections: [
+        {
+          customClass: "cols-1fr",
+          left: `
+            <img src="assets/photos/hevt3.jpg" alt="Andrew Stevens" style="width: 45%; height: auto; margin: 0 auto; display: block;">
+          `,
+          right: ``
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <div style="font-size: 21px;">
+              <p style="text-align:center;">Hybrid Electric Vehicle Team (HEVT) is a design team at Virginia Tech that participates in the EcoCar Challenge put on by General Motors. The goal of this competition is to develop the physical systems, propulsion systems, and connected and automated vehicle (CAV) systems of a General Motors provided vehicle.</p>
+              <p></p>
+              <p style="text-align:center;">This competition runs on a 4-year cycle, where teams start over every 4 years. I joined on the 4th year of the Cadillac Lyriq where we proceded to win 3rd overall. HEVT has been selected to continue in the competition and will be working on a Chevy Blazer as the next cycle vehicle.</p>
+            </div>
+          `,
+          right: `
+            <video controls width="100%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/HEVT_LCC.MOV" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h2 style="text-align:center;">Highlighted Projects:</h2>            
+          `,
+          right: ``
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+              <img src="assets/photos/hevt4.png" alt="Andrew Stevens" style="width: 50%; height: auto; object-fit: cover;">
+              <img src="assets/photos/hevt5.png" alt="Andrew Stevens" style="width: 50%; height: auto; object-fit: cover;">
+            </div>
+            <img src="assets/photos/hevt6.png" alt="Andrew Stevens" style="width: 100%; height: auto; display: block;">
+          `,
+          right: `
+            <h3 style="text-align:center;">CACC Simulink Model</h3> 
+            <p style="text-align:center;">Cooperative Adaptive Cruise Control (CACC) is a longitudinal control of the cars propulsion. The goal is to act like a cruise control that is responsive to the cars in front of the current vehicle. Using new Vehicle to Vehicle (V2V) technology provided by the competition, we use the position, velocity, and acceleration of the three vehicles in front of us to minimize energy consumption whilst keeping a safe distance from the closest vehicle.</p>
+            <p style="text-align:center;">I was tasked with creating a simulink model that achieves the goal above. I was already given a model that does it fairly well and added onto it what is boxed in red. This includes an adaptive distance goal, a square root error, and a weighted acceleration modification.</p>
+            <p style="text-align:center;">My goal was to minimize torque output request, since this is what uses up the energy. Before my modifications, the torque output is 55,240 N for this drive cycle. After my changes, I was able to reduce that output to 21,883 N. The graph on the right (green and blue) shows the torque requested. The graph on the left shows the velocity (green) and distance to next car (orange).</p>
           `
-        
-      
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <video controls width="65%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/ain_simulation.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            <img src="assets/photos/hevt9.png" alt="Andrew Stevens" style="width: 45%; height: auto; display: block; margin: 0 auto;">
+
+            `,
+          right: `
+            <h3 style="text-align:center;">Automatic Intersection Navigation (AIN)</h3> 
+            <p style="text-align:center;">AIN is another longitudinal control of the cars propulsion. The goal is to recieve inputs about an intersection's status and decide whether to cross or stop before it. Using Vehicle to Infrastructure (V2I) technology provided by the competition, we use the current phase, distance, and time until next phase to decide if we cross.</p>
+            <p style="text-align:center;">I was already provided with a model in simulink that can control stopping at a certain spot, but couldn't decide to cross or not well. My logic is to try to slow down just enough to make sure that we cross right as it turns green, conserving energy and momentum.</p>
+          
+            `
+        },
+        {
+          customClass: "cols-1fr-1fr-1fr",
+          left: `
+            <p style="text-align:center;"></p>
+            <p style="text-align:center;"></p>
+            <img src="assets/photos/hevt10.png" alt="Andrew Stevens" style="width: 95%; height: auto; display: block; margin: 0 auto;">
+
+            `,
+          center: `
+            <h3 style="text-align:center;">CACC in Python</h3> 
+            <p style="text-align:center;">After creating the CACC in simulink, I was tasked with improving the Python version of the controller and simulator to support three vehicles instead of the previous one vehicle.</p>
+            <p style="text-align:center;">This task was also challenging because I had to redo the data structure for which car information was passed from ROS2 node to node because up until this point, it only had one car's speed and position. This lead to a major haul of the system structure, which a graduate student kindly helped with.</p>
+          `,
+          right: `
+            <p style="text-align:center;"></p>
+            <p style="text-align:center;"></p>
+            <img src="assets/photos/hevt11.png" alt="Andrew Stevens" style="width: 95%; height: auto; display: block; margin: 0 auto;">
+            <img src="assets/photos/hevt12.png" alt="Andrew Stevens" style="width: 95%; height: auto; display: block; margin: 0 auto;">
+
+          `
+        }
+      ]
+
+
     },
     "teams-4": {
-      title: "VEX ROBOTICS",
+      title: "VEX ROBOTICS 2023-2025",
       sections: [
         {
           customClass: "cols-1fr-2fr",
@@ -343,7 +458,7 @@
       ]
     },
     "proj-1": {
-      title: "Hand Tracking",
+      title: "Hand Tracking - Summer 2025",
       sections: [
         {
           customClass: "cols-1fr",
@@ -374,7 +489,7 @@
           customClass: "cols-1fr",
           left: `
             <p style="text-align: center; margin-bottom: 16px;">
-            <a href="assets/code.pdf" target="_blank" download style="font-size: 18px;">View code Here (PDF)</a>
+            <a href="assets/code.pdf" target="_blank" style="font-size: 18px;">View code Here (PDF)</a>
             </p>
           `,
           right: `
@@ -384,7 +499,7 @@
       ]
     },
     "proj-2": {
-      title: "THE CUBE",
+      title: "THE CUBE - Spring 2024",
       sections: [
         {
           customClass: "cols-1fr",
@@ -538,7 +653,7 @@
           customClass: "cols-2fr-1fr", // Options: cols-2fr-1fr, cols-3fr-1fr, cols-1fr-2fr, cols-1fr (or leave empty for default 1fr 1fr)
           left: `
             <div style="font-size: 16px;">
-              <p>Hey! I am Andrew Stevens. I'm a Electrical and Computer Engineering student at Virginia Tech with an interest in the mix between developing real-time systems for sensing, control, automation, and embedded systems in general. I am passionate about designing and building efficient, reliable systems, and love bringing ideas to life with hands on projects. </p>
+              <p>I am Andrew Stevens. I'm a Electrical and Computer Engineering student at Virginia Tech with an interest in the mix between developing real-time systems for sensing, control, automation, and embedded systems in general. I am passionate about designing and building efficient, reliable systems, and love bringing ideas to life with hands on projects. </p>
               <p>Through my academic coursework and personal projects, I have gained experience with microcontrollers as well as programming in Python, C++, and C#. One of my recent projects involved creating an Arduino-powered puzzle box, which deepened my understanding of embedded systems, circuit design, and logical programming. I am currently diving into Python by developing a hand tracking interface program powered by YoloV8.</p>
               <p>As I continue to grow technically, I'm also working to expand my professional network in preparation for entering the industry. I am seeking internship opportunities in electrical and computer engineering. My goal is to contribute to innovative teams while growing my technical and problem solving skills. </p>
               <p>I am driven by curiosity, a passion for problem solving, and a desire to create innovative solutions to real-world problems.</p>
@@ -558,10 +673,10 @@
           customClass: "cols-1fr",
           left: `
             <p style="text-align: center; margin-bottom: 16px;">
-            <a href="assets/Andrew Stevens - Resume.pdf" target="_blank" download style="font-size: 18px;">View Resume (PDF)</a>
+            <a href="assets/Andrew Stevens - Resume.pdf" target="_blank" style="font-size: 18px;">View Resume (PDF)</a>
             </p>`
-            
-            //<img src="assets/Andrew Stevens - Resume_page-0001 (1).jpg" alt="Andrew Stevens Resume" style="width: 120%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
+
+          //<img src="assets/Andrew Stevens - Resume_page-0001 (1).jpg" alt="Andrew Stevens Resume" style="width: 120%; height: auto; border-radius: 12px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);">
           ,
           right: ``
         }
@@ -592,7 +707,7 @@
           customClass: "cols-1fr-2fr",
           left: `
             <h3>Certification:</h3>
-            <p>The official Arduino certificate is a document that affirms your successful completion of the Arduino exam, and serves as a guarantee of your competence in the Arduino-related subjects. It is used to highlight your skills and learning progress, and to advance in your career or education.</p>
+            <p>The official Arduino certificate is a document that affirms the successful completion of the Arduino exam, and serves as a guarantee of competence in the Arduino-related subjects. It is used to highlight skills and learning progress, and to advance career or education.</p>
             
           `,
           right: `
@@ -616,25 +731,111 @@
           customClass: "cols-1fr-1fr",
           left: `
             <h3>The Story:</h3>
-            <p style="text-align: left; margin-bottom: 16px; font-size: 16px;">In 8th grade, my school had chromebooks for students to use, and they had cameras but they were always exposed and could be turned on by hacking into it. One day I saw my friend cover his with a Band Aid and I thought that there had to be a better way. So I got to work with my 3D printer, designing many different prototypes. I eventually settled on this design (the one that got patented). At first I only did a provisional patent (which lasts 1 year) as it was an easier process and way cheaper. During the year I had it, I ended up selling it to local businesses with their logos on it as well as at trade shows and even sold them in two brick and mortar stores. After that year time frame, I decided to go forth and make an actual patent for it. It was a long process, but it was succesful! It is patent D1,049,200!</p>
+            <p style="text-align: left; margin-bottom: 16px; font-size: 16px;">In eighth grade, as COVID-19 unfolded and classes shifted to distance learning, we relied heavily on our school issued Chromebooks. Although they were equipped with cameras, those cameras were always exposed and could potentially be accessed through hacking. One day, I noticed a friend had covered his camera with a Band-Aid, and that moment sparked an idea. I felt there had to be a more practical and professional solution. I began designing prototypes using my 3D printer, refining the concept through many iterations until I arrived at a final design that would later become patented. Initially, I filed a provisional patent, which lasted for one year, as it was a more affordable and accessible option at the time. During that year, I sold the product to local businesses with custom logos, showcased it at trade shows, and placed it in two brick-and-mortar stores. After the provisional patent expired, I decided to move forward with a full patent application. Although the process was long, it was ultimately successful, resulting in U.S. Patent D1,049,200.
+
+            
+            </p>
             
           `,
           right: `
             <img src="assets/photos/patent1.png" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
           `
-        }, 
+        },
         {
           customClass: "cols-1fr",
           left: `
             
             <p style="text-align: center; margin-bottom: 16px;">
-              <a href="assets/D1049200.pdf" target="_blank" download style="font-size: 18px;">View Patent Here (PDF)</a>
+              <a href="assets/D1049200.pdf" target="_blank" style="font-size: 18px;">View Patent Here (PDF)</a>
             </p>
           `,
           right: ``
         }
-      
+
       ]
+    },
+    "award-3": {
+      title: "Guitar",
+      sections: [
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <h3>The Story:</h3>
+            <p style="text-align: left; margin-bottom: 16px; font-size: 16px;">
+            
+            Outside of the STEM world, I am passionate about classical guitar, an interest in which I always pushed myself to improve and excel. Through years of dedication, I placed in multiple regional competitions, took first place in my age group and won the overall grand prize my senior year, and as the number one high school classical guitar player in Virginia I was named concertmaster of the All Virginia Guitar Ensemble. This creative outlet brought me both joy and a strong sense of accomplishment, but also taught me the value of consistency, discipline, and perseverance.
+            
+            </p>
+            
+          `,
+          right: `
+            <img src="assets/photos/guitar1.jpg" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
+          `
+        },
+        {
+          customClass: "cols-1fr-2fr",
+          left: `
+            
+            <img src="assets/photos/guitar3.jpg" alt="Andrew Stevens" style="width: 120%; height: auto; margin: 0 auto; display: block;">
+          
+          `,
+          right: `          
+          <img src="assets/photos/guitar4.jpg" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            
+            <img src="assets/photos/guitar5.jpg" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+          
+          `,
+          right: `          
+          <img src="assets/photos/guitar6.jpg" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+          `
+        }
+
+      ]
+    },
+    "award-4": {
+      title: "Dean's List",
+      sections: [
+        {
+          customClass: "cols-1fr",
+          left: `
+            <h3 style="text-align: center;">Links:</h3>
+            <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
+            (Search "Andrew J. Stevens")
+          
+            </p>
+            <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
+            <a href="https://news.vt.edu/awards/students/deans-list/deans-list-fall-2025.html">
+            Virginia Tech Fall 2025 Dean's List
+            </a>
+            </p>
+            <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
+            Virginia Tech Spring 2026 Dean's List (Not officially Posted Yet)
+          
+            </p>
+            
+          `
+        },
+        {
+          customClass: "cols-1fr",
+          left: `
+            
+            <img src="assets/photos/vt2.png" alt="Andrew Stevens" style="width: 25%; height: auto; margin: 0 auto; display: block;">
+          
+          `
+        }
+
+      ]
+    },
+    "node-internship": {
+      title: "Internship",
+      description: `
+        <p>Coming soon!</p>
+      `
     }
   };
 
@@ -1619,6 +1820,21 @@
       const nodeId = nodeEl.dataset.nodeId;
       if (!nodeId) return;
 
+      const nodeCfg = NODES.find((n) => n.id === nodeId);
+      const hasChildren = !!(nodeCfg && nodeCfg.children && nodeCfg.children.length > 0);
+
+      // Solo node (no children): clicking opens its popup directly, no branching.
+      if (!hasChildren) {
+        nodeEl.addEventListener("click", () => showPopup(nodeId));
+        nodeEl.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            showPopup(nodeId);
+          }
+        });
+        return;
+      }
+
       // Open on mouse enter and cancel any pending close
       nodeEl.addEventListener("mouseenter", () => {
         cancelCloseTimer(nodeId);
@@ -1728,6 +1944,116 @@
   }
 
   // ----------------------------
+  // Mobile fallback: simple tap-list
+  // ----------------------------
+  // The bubble map opens child nodes on hover, which has no real equivalent
+  // on touchscreens. Below this width we skip the map entirely and render
+  // the same NODES/POPUP_CONTENT data as a plain scrolling tap-list instead.
+  const MOBILE_BREAKPOINT = 768;
+
+  function isMobileLayout() {
+    return window.innerWidth <= MOBILE_BREAKPOINT;
+  }
+
+  function thumbUrl(imagePath) {
+    if (!imagePath) return null;
+    const stem = imagePath.split("/").pop().replace(/\.[^.]+$/, "");
+    return `assets/photos/thumbs/${stem}.jpg`;
+  }
+
+  function renderMobileList() {
+    const mobileList = document.getElementById("mobile-list");
+    mobileList.innerHTML = "";
+
+    const header = document.createElement("div");
+    header.className = "mobile-header";
+    header.innerHTML = `
+      <img src="assets/photos/thumbs/me-avatar.jpg" alt="Andrew Stevens" class="mobile-avatar" />
+      <h1>Andrew Stevens</h1>
+      <p>Tap a section to explore</p>
+    `;
+    mobileList.appendChild(header);
+
+    // Solo nodes (e.g. "Internship") float to the top of the mobile list;
+    // desktop bubble placement is untouched since that reads NODES directly.
+    const mobileOrder = [...NODES].sort((a, b) => {
+      const aSolo = !a.children || a.children.length === 0;
+      const bSolo = !b.children || b.children.length === 0;
+      if (aSolo === bSolo) return 0;
+      return aSolo ? -1 : 1;
+    });
+
+    for (const group of mobileOrder) {
+      const section = document.createElement("section");
+      section.className = "mobile-group";
+
+      // Solo node (no children): render the group itself as a single tappable item.
+      if (!group.children || group.children.length === 0) {
+        const title = document.createElement("h2");
+        title.className = "mobile-group-title";
+        title.textContent = group.label;
+        section.appendChild(title);
+
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "mobile-item mobile-item-solo";
+
+        const thumb = thumbUrl(group.image);
+        if (thumb) {
+          const absThumb = new URL(thumb, document.baseURI).href;
+          item.classList.add("has-thumb");
+          item.style.setProperty("--thumb", `url("${absThumb}")`);
+        }
+
+        const label = document.createElement("span");
+        label.className = "mobile-item-label";
+        label.textContent = group.label;
+        item.appendChild(label);
+
+        item.addEventListener("click", () => showPopup(group.id));
+        section.appendChild(item);
+        mobileList.appendChild(section);
+        continue;
+      }
+
+      const title = document.createElement("h2");
+      title.className = "mobile-group-title";
+      title.textContent = group.label;
+      section.appendChild(title);
+
+      const list = document.createElement("div");
+      list.className = "mobile-group-list";
+
+      for (const child of group.children || []) {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "mobile-item";
+
+        const thumb = thumbUrl(child.image);
+        if (thumb) {
+          // Custom properties resolve url() relative to the stylesheet, not
+          // the page, so this must be absolute (same workaround used above
+          // for the desktop bubble images' --img property).
+          const absThumb = new URL(thumb, document.baseURI).href;
+          item.classList.add("has-thumb");
+          item.style.setProperty("--thumb", `url("${absThumb}")`);
+        }
+
+        const label = document.createElement("span");
+        label.className = "mobile-item-label";
+        label.textContent = child.label;
+        item.appendChild(label);
+
+        item.addEventListener("click", () => showPopup(child.id));
+        list.appendChild(item);
+      }
+
+      section.appendChild(list);
+      mobileList.appendChild(section);
+    }
+  }
+
+  // ----------------------------
   // Init + resize
   // ----------------------------
   function init() {
@@ -1751,6 +2077,12 @@
     }
     closeTimers.clear();
 
+    if (isMobileLayout()) {
+      renderMobileList();
+      return;
+    }
+    document.getElementById("mobile-list").innerHTML = "";
+
     renderNodes();
     attachHoverLineTracking();
     attachNodeHoverHandlers();
@@ -1764,8 +2096,17 @@
 
   window.addEventListener("load", init);
 
-  // Responsive: re-init on resize (keeps everything clamped on-screen)
-  window.addEventListener("resize", init);
+  // Responsive: re-init on resize (keeps everything clamped on-screen).
+  // Mobile Safari fires "resize" whenever the address bar collapses/expands
+  // during scroll, changing innerHeight but not innerWidth - guard against
+  // that so scrolling doesn't retrigger the speck background + intro animation.
+  let lastResizeWidth = window.innerWidth;
+  window.addEventListener("resize", () => {
+    const w = window.innerWidth;
+    if (w === lastResizeWidth) return;
+    lastResizeWidth = w;
+    init();
+  });
 })();
 
 /**
