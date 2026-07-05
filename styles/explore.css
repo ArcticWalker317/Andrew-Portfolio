@@ -233,7 +233,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35); /* tweak 0.25–0.55 */
+  background: rgba(0, 0, 0, 0.65); /* tweak 0.25–0.55 */
 }
 
 /* ===== Child nodes ===== */

@@ -54,6 +54,7 @@
     "guitar5.jpg",
 
     // Other
+    "hitachi1.png",
     "patent1.png",
     "handtrack1.png",
     "cube1.png",

@@ -30,10 +30,10 @@
       distance: 0.5,
       angleDeg: -30,
       children: [
-        { id: "teams-1", label: "VT BAJA SAE", size: childNodeDefaultSize, distance: 170, angleDeg: -95, textSize: 13, image: "assets/photos/baja1.jpg" },
-        { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -5, textSize: 13, image: "assets/photos/workcell1.png" },
-        { id: "teams-5", label: "VT CRO RePLA", size: childNodeDefaultSize, distance: 170, angleDeg: -50, textSize: 13, image: "assets/photos/cro1.png" },
         { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -140, textSize: 16, image: "assets/photos/hevt2.png" },
+        { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -5, textSize: 13, image: "assets/photos/workcell1.png" },
+        { id: "teams-1", label: "VT BAJA SAE", size: childNodeDefaultSize, distance: 170, angleDeg: -95, textSize: 13, image: "assets/photos/baja1.jpg" },
+        { id: "teams-5", label: "VT CRO RePLA", size: childNodeDefaultSize, distance: 170, angleDeg: -50, textSize: 13, image: "assets/photos/cro1.png" },
         { id: "teams-4", label: "VEX ROBOTICS", size: childNodeDefaultSize, distance: 170, angleDeg: 40, textSize: 13, image: "assets/photos/vex3.jpg" },
       ],
     },
@@ -51,9 +51,9 @@
     {
       id: "node-about",
       label: "About Me",
-      size: 135,
+      size: 120,
       distance: 0.36,
-      angleDeg: -150,
+      angleDeg: -160,
       image: null, // e.g. "assets/photos/about.jpg"
       children: [
         //{ id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 150 },
@@ -79,6 +79,16 @@
         { id: "award-4", label: "Deans List", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 100, image: "assets/photos/vt1.png" },
 
       ],
+    },
+    {
+      // Solo node: no children, clicking it opens its own popup directly.
+      id: "node-internship",
+      label: "Internship",
+      size: 140,
+      distance: 0.25,
+      angleDeg: -100,
+      image: "assets/photos/hitachi1.png",
+      children: [],
     },
   ];
 
@@ -820,6 +830,12 @@
         }
 
       ]
+    },
+    "node-internship": {
+      title: "Internship",
+      description: `
+        <p>Coming soon!</p>
+      `
     }
   };
 
@@ -1804,6 +1820,21 @@
       const nodeId = nodeEl.dataset.nodeId;
       if (!nodeId) return;
 
+      const nodeCfg = NODES.find((n) => n.id === nodeId);
+      const hasChildren = !!(nodeCfg && nodeCfg.children && nodeCfg.children.length > 0);
+
+      // Solo node (no children): clicking opens its popup directly, no branching.
+      if (!hasChildren) {
+        nodeEl.addEventListener("click", () => showPopup(nodeId));
+        nodeEl.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            showPopup(nodeId);
+          }
+        });
+        return;
+      }
+
       // Open on mouse enter and cancel any pending close
       nodeEl.addEventListener("mouseenter", () => {
         cancelCloseTimer(nodeId);
@@ -1943,9 +1974,47 @@
     `;
     mobileList.appendChild(header);
 
-    for (const group of NODES) {
+    // Solo nodes (e.g. "Internship") float to the top of the mobile list;
+    // desktop bubble placement is untouched since that reads NODES directly.
+    const mobileOrder = [...NODES].sort((a, b) => {
+      const aSolo = !a.children || a.children.length === 0;
+      const bSolo = !b.children || b.children.length === 0;
+      if (aSolo === bSolo) return 0;
+      return aSolo ? -1 : 1;
+    });
+
+    for (const group of mobileOrder) {
       const section = document.createElement("section");
       section.className = "mobile-group";
+
+      // Solo node (no children): render the group itself as a single tappable item.
+      if (!group.children || group.children.length === 0) {
+        const title = document.createElement("h2");
+        title.className = "mobile-group-title";
+        title.textContent = group.label;
+        section.appendChild(title);
+
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "mobile-item mobile-item-solo";
+
+        const thumb = thumbUrl(group.image);
+        if (thumb) {
+          const absThumb = new URL(thumb, document.baseURI).href;
+          item.classList.add("has-thumb");
+          item.style.setProperty("--thumb", `url("${absThumb}")`);
+        }
+
+        const label = document.createElement("span");
+        label.className = "mobile-item-label";
+        label.textContent = group.label;
+        item.appendChild(label);
+
+        item.addEventListener("click", () => showPopup(group.id));
+        section.appendChild(item);
+        mobileList.appendChild(section);
+        continue;
+      }
 
       const title = document.createElement("h2");
       title.className = "mobile-group-title";
@@ -2027,8 +2096,17 @@
 
   window.addEventListener("load", init);
 
-  // Responsive: re-init on resize (keeps everything clamped on-screen)
-  window.addEventListener("resize", init);
+  // Responsive: re-init on resize (keeps everything clamped on-screen).
+  // Mobile Safari fires "resize" whenever the address bar collapses/expands
+  // during scroll, changing innerHeight but not innerWidth - guard against
+  // that so scrolling doesn't retrigger the speck background + intro animation.
+  let lastResizeWidth = window.innerWidth;
+  window.addEventListener("resize", () => {
+    const w = window.innerWidth;
+    if (w === lastResizeWidth) return;
+    lastResizeWidth = w;
+    init();
+  });
 })();
 
 /**
