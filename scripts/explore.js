@@ -226,7 +226,7 @@
           `,
           right: `
             <video controls width="100%" style="border-radius: 12px; display: block; margin: 0 auto;">
-              <source src="assets/videos/WorkcellV1Time-lapse.mp4" type="video/mp4">
+              <source src="assets/videos/Introducing WorkCell_VT CRO.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
             `
@@ -241,8 +241,8 @@
         {
           customClass: "cols-1fr-1fr-1fr",
           left: `
-            <img src="assets/photos/workcell3.png" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
-
+            <img src="assets/photos/workcell3.png" alt="Andrew Stevens" style="width: 50%; height: auto; margin: 0 auto; display: block;">
+            <img src="assets/photos/workcell4.png" alt="Andrew Stevens" style="width: 50%; height: auto; margin: 0 auto; display: block;">
           `,
           center: `
             <h3 style="text-align:center;">Limit Switch PCB</h3> 
@@ -251,7 +251,7 @@
             <p style="text-align:center;">Before, each limit switch had it's own wired connection to the main board. This was very messy. This board is made to use shift registers in order to tell which switches are pressed.</p>
           `,
           right: `
-            <img src="assets/photos/workcell4.png" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+            <img src="assets/photos/workcell7.png" alt="Andrew Stevens" style="width: 85%; height: auto; margin: 0 auto; display: block;">
           `
         },
         {
@@ -266,7 +266,7 @@
             <h3 style="text-align:center;">Calibration Script</h3> 
             <p style="text-align:center;">I also worked on the calibration system for the gantry.</p>
             <p style="text-align:center;">The previous system relied solely on predefined locations to know where to move the gantry to. This led to decreased precision over time. </p>
-            <p style="text-align:center;">This new system uses a camera and april tag system to help guarantee precision. The system is tested on an Ender 3 since the mechanical team is still working on the improved gantry. Testing showed we can now achieve +- 0.5 mm accuracy in x & y directions.</p>
+            <p style="text-align:center;">This new system uses a camera and april tag system to help guarantee precision. The system was tested on an Ender 3 since the mechanical team was still working on the improved gantry. Testing showed we can now achieve +- 0.05 mm accuracy in x & y directions.</p>
           `
         },
         {
@@ -309,11 +309,13 @@
               <p style="text-align:center;">This competition runs on a 4-year cycle, where teams start over every 4 years. I joined on the 4th year of the Cadillac Lyriq where we proceded to win 3rd overall. HEVT has been selected to continue in the competition and will be working on a Chevy Blazer as the next cycle vehicle.</p>
             </div>
           `,
-          right: `
-            <video controls width="100%" style="border-radius: 12px; display: block; margin: 0 auto;">
-              <source src="assets/videos/HEVT_LCC.MOV" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
+          right:
+            // <video controls width="100%" style="border-radius: 12px; display: block; margin: 0 auto;">
+            //   <source src="assets/videos/HEVT_LCC.MOV" type="video/mp4">
+            //   Your browser does not support the video tag.
+            // </video>
+            `
+              <img src="assets/photos/hevt2.png" alt="Andrew Stevens" style="width: 50%; height: auto; display: block; margin: 0 auto;">
             `
         },
         {
@@ -821,10 +823,15 @@
           `
         },
         {
-          customClass: "cols-1fr",
+          customClass: "cols-1fr-1fr",
           left: `
             
-            <img src="assets/photos/vt2.png" alt="Andrew Stevens" style="width: 25%; height: auto; margin: 0 auto; display: block;">
+            <img src="assets/photos/vt2.png" alt="Andrew Stevens" style="width: 75%; height: auto; margin: 0 auto; display: block;">
+          
+          `,
+          right: `
+            
+            <img src="assets/photos/vt3.jpg" alt="Andrew Stevens" style="width: 75%; height: auto; margin: 0 auto; display: block;">
           
           `
         }
@@ -840,7 +847,7 @@
             <div style="width: 66%; margin: 0 auto;">
             <h3 style="text-align: center;">Hitachi Energy</h3>
             <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
-            I spent this summer (2026) in a 12 week software engineering internship with Hitachi Energy in Raleigh, NC.
+            I am spending this summer (2026) in a 12 week software engineering internship with Hitachi Energy in Raleigh, NC.
             </p>
             <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
             So far, I have scoped, planned, and built a Python report generator that parses transformer service test files and generates formatted reports, which cuts documentation time from 4-6 hours, down to about 5 minutes.
