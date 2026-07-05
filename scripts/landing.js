@@ -47,6 +47,7 @@
     "workcell1.png",
     "workcell3.png",
     "workcell5.png",
+    "workcell6.PNG",
 
     // Guitar
     "guitar1.jpg",
@@ -55,6 +56,7 @@
 
     // Other
     "hitachi1.png",
+    "hitachi3.jpg",
     "patent1.png",
     "handtrack1.png",
     "cube1.png",

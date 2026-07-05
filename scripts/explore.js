@@ -833,9 +833,38 @@
     },
     "node-internship": {
       title: "Internship",
-      description: `
-        <p>Coming soon!</p>
-      `
+      sections: [
+        {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <div style="width: 66%; margin: 0 auto;">
+            <h3 style="text-align: center;">Hitachi Energy</h3>
+            <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
+            I spent the summer of 2026 in a 12 week software engineering internship with Hitachi Energy in Raleigh, NC.
+            </p>
+            <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
+            So far, I have scoped, planned, and built a Python report generator that parses transformer service test files and generates formatted reports, which cuts documentation time from 4-6 hours, down to about 5 minutes.
+            </p>
+            </div>
+
+          `,
+          right: `          
+          <img src="assets/photos/hitachi2.jpg" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+          `
+        },
+        {
+          customClass: "cols-1fr-1fr",
+          right: `
+            
+            <img src="assets/photos/hitachi3.jpg" alt="Andrew Stevens" style="width: 55%; height: auto; margin: 0 auto; display: block;">
+          
+          `,
+          left: `          
+            <img src="assets/photos/hitachi4.jpg" alt="Andrew Stevens" style="width: 100%; height: auto; margin: 0 auto; display: block;">
+          `
+        }
+
+      ]
     }
   };
 
