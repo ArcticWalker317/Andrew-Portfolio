@@ -115,17 +115,14 @@
             <button class="ctl" id="fwd" type="button" aria-label="Forward 10 seconds">
               <svg viewBox="0 0 24 24"><path d="M3 6 L12 12 L3 18 Z"/><path d="M12 6 L21 12 L12 18 Z"/></svg>
             </button>
-            <a class="ctl ctl--dl" id="dl" href="assets/voice.mp3" download aria-label="Download recording">
+            <a class="ctl ctl--dl" id="dl" href="assets/voice.m4a" download aria-label="Download recording">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 v11"/><path d="M7 10 l5 5 5 -5"/><path d="M4 20 h16"/></svg>
             </a>
           </div>
           <p class="file-foot">Date: 12.31&nbsp;&nbsp;|&nbsp;&nbsp;Status: Verified &#9825;</p>
         </div>
       </div>
-      <audio id="voice-audio" preload="metadata">
-        <source src="assets/voice.mp3" type="audio/mpeg">
-        <source src="assets/voice.m4a" type="audio/mp4">
-      </audio>
+      <audio id="voice-audio" preload="metadata" src="assets/voice.m4a?v=2"></audio>
     </section>
 
   </div>
