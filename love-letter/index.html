@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+  <title>Love Letter</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="lock-screen">
+    <div class="heart-frame" id="heart-frame">
+      <div class="pixel-heart" id="pixel-heart"></div>
+    </div>
+
+    <div class="dots" id="dots">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <div class="keypad">
+      <button class="key" data-digit="1">1</button>
+      <button class="key" data-digit="2">2</button>
+      <button class="key" data-digit="3">3</button>
+      <button class="key" data-digit="4">4</button>
+      <button class="key" data-digit="5">5</button>
+      <button class="key" data-digit="6">6</button>
+      <button class="key" data-digit="7">7</button>
+      <button class="key" data-digit="8">8</button>
+      <button class="key" data-digit="9">9</button>
+      <span class="key key--spacer"></span>
+      <button class="key" data-digit="0">0</button>
+      <button class="key" id="backspace" aria-label="Delete">&times;</button>
+    </div>
+  </div>
+
+  <div id="main-content" hidden>
+
+    <section id="puzzle-screen">
+      <div class="bg-flowers" aria-hidden="true"></div>
+      <div class="puzzle-inner">
+        <h1 class="puzzle-title">solve our little picture &#9825;</h1>
+        <p class="puzzle-sub">tap two tiles to swap them. the page unlocks when the picture is complete.</p>
+        <div id="puzzle-board"></div>
+      </div>
+    </section>
+
+    <section id="envelope-screen" hidden>
+      <button id="envelope" type="button" aria-label="Open the letter">
+        <svg viewBox="0 0 220 150" aria-hidden="true">
+          <!-- body -->
+          <rect x="8" y="26" width="204" height="116" rx="8" fill="#f6efdd" stroke="#e3d7bd" stroke-width="1.5"/>
+          <!-- bottom creases (drawn first so the flap covers their meeting point) -->
+          <path d="M12 138 L110 76 M208 138 L110 76" stroke="#eadfc6" stroke-width="1.2" fill="none" opacity="0.7"/>
+          <!-- envelope interior + letter peeking out, revealed when the flap lifts -->
+          <clipPath id="env-slot"><path d="M10 28 L110 100 L210 28 Z"/></clipPath>
+          <g clip-path="url(#env-slot)">
+            <path d="M10 28 L110 100 L210 28 Z" fill="#e6d9bc"/>
+            <rect x="45" y="31" width="130" height="64" rx="2" fill="#fdfaf2" stroke="#e8ddc4" stroke-width="1"/>
+            <path d="M58 44 h84 M58 54 h84 M58 64 h62" stroke="#dcCfb4" stroke-width="2" opacity="0.8"/>
+          </g>
+          <!-- flap (folds up over its top edge on open) -->
+          <g class="env-flap">
+            <path d="M10 28 L110 100 L210 28 Z" fill="#f9f3e4" stroke="#e0d3b6" stroke-width="1.5" stroke-linejoin="round"/>
+            <!-- botanical sprig -->
+            <path d="M110 86 C 106 72 98 62 88 56" stroke="#93a37f" stroke-width="1.5" fill="none"/>
+            <path d="M110 86 C 112 70 120 60 132 54" stroke="#93a37f" stroke-width="1.5" fill="none"/>
+            <path d="M110 86 C 109 74 110 64 110 52" stroke="#93a37f" stroke-width="1.5" fill="none"/>
+            <ellipse cx="93" cy="63" rx="6" ry="2.6" fill="#a8b790" transform="rotate(-38 93 63)"/>
+            <ellipse cx="100" cy="72" rx="5.5" ry="2.4" fill="#97a97f" transform="rotate(-30 100 72)"/>
+            <ellipse cx="126" cy="60" rx="6" ry="2.6" fill="#a8b790" transform="rotate(32 126 60)"/>
+            <ellipse cx="118" cy="70" rx="5.5" ry="2.4" fill="#97a97f" transform="rotate(24 118 70)"/>
+            <ellipse cx="106" cy="60" rx="5" ry="2.2" fill="#a8b790" transform="rotate(-72 106 60)"/>
+            <circle cx="86" cy="55" r="2" fill="#b9a7cc"/>
+            <circle cx="82" cy="58" r="1.6" fill="#c7b8d6"/>
+            <circle cx="134" cy="53" r="2" fill="#b9a7cc"/>
+            <circle cx="138" cy="56" r="1.6" fill="#c7b8d6"/>
+            <!-- little pink flower -->
+            <circle cx="110" cy="44.5" r="3" fill="#e8a8bc"/>
+            <circle cx="114.3" cy="47.6" r="3" fill="#e8a8bc"/>
+            <circle cx="112.6" cy="52.6" r="3" fill="#eeb6c8"/>
+            <circle cx="107.4" cy="52.6" r="3" fill="#eeb6c8"/>
+            <circle cx="105.7" cy="47.6" r="3" fill="#e8a8bc"/>
+            <circle cx="110" cy="49" r="2.2" fill="#d9b64f"/>
+            <!-- heart seal at the flap tip -->
+            <path d="M110 99 C 107 95.5 104 93.8 104 90.8 C 104 88.6 105.7 87.2 107.6 87.2 C 108.7 87.2 109.5 87.8 110 88.6 C 110.5 87.8 111.3 87.2 112.4 87.2 C 114.3 87.2 116 88.6 116 90.8 C 116 93.8 113 95.5 110 99 Z" fill="#ab8fc6" stroke="#977bb3" stroke-width="0.8"/>
+          </g>
+        </svg>
+      </button>
+      <p class="tap-hint">Tap to open</p>
+    </section>
+
+    <section id="player-screen" hidden>
+      <div class="file-wrap">
+        <div class="file-tab">LOVE FILE 1231</div>
+        <div class="file-card">
+          <h2 class="file-title">TRANSMISSION RECORD // LOVE LETTER FILE</h2>
+          <p class="file-name">LUV-001-1231-ANNIVERSARY_TRANSMISSION-001.mp3</p>
+          <div class="file-times">
+            <span id="time-cur">0:00</span>
+            <span id="time-dur">--:--</span>
+          </div>
+          <input type="range" id="seek" min="0" max="100" step="0.1" value="0" aria-label="Seek">
+          <div class="file-controls">
+            <button class="ctl" id="rew" type="button" aria-label="Back 10 seconds">
+              <svg viewBox="0 0 24 24"><path d="M12 6 L3 12 L12 18 Z"/><path d="M21 6 L12 12 L21 18 Z"/></svg>
+            </button>
+            <button class="ctl ctl--play" id="play" type="button" aria-label="Play">
+              <svg id="icon-play" viewBox="0 0 24 24"><path d="M6 4 L20 12 L6 20 Z"/></svg>
+              <svg id="icon-pause" viewBox="0 0 24 24" hidden><rect x="5" y="4" width="4.5" height="16"/><rect x="14.5" y="4" width="4.5" height="16"/></svg>
+            </button>
+            <button class="ctl" id="fwd" type="button" aria-label="Forward 10 seconds">
+              <svg viewBox="0 0 24 24"><path d="M3 6 L12 12 L3 18 Z"/><path d="M12 6 L21 12 L12 18 Z"/></svg>
+            </button>
+            <a class="ctl ctl--dl" id="dl" href="assets/voice.mp3" download aria-label="Download recording">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 v11"/><path d="M7 10 l5 5 5 -5"/><path d="M4 20 h16"/></svg>
+            </a>
+          </div>
+          <p class="file-foot">Date: 12.31&nbsp;&nbsp;|&nbsp;&nbsp;Status: Verified &#9825;</p>
+        </div>
+      </div>
+      <audio id="voice-audio" preload="metadata">
+        <source src="assets/voice.mp3" type="audio/mpeg">
+        <source src="assets/voice.m4a" type="audio/mp4">
+      </audio>
+    </section>
+
+  </div>
+
+</body>
+<script src="script.js"></script>
+</html>
