@@ -464,6 +464,68 @@ body {
   color: rgba(247, 238, 221, 0.5);
 }
 
+/* ---- elapsed-time counter ---- */
+
+.elapsed {
+  margin-top: 28px;
+  text-align: center;
+}
+
+.elapsed-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 19px;
+  letter-spacing: 0.04em;
+  color: #f7eedd;
+}
+
+.elapsed-grid {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  flex: 1;
+  max-width: 88px;
+}
+
+.unit-num {
+  display: block;
+  width: 100%;
+  padding: 12px 0;
+  border-radius: 10px;
+  background: #f7eedd;
+  color: #b0536d;
+  font-weight: 700;
+  font-size: clamp(24px, 7vw, 32px);
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 3px 8px rgba(60, 20, 35, 0.25);
+}
+
+.unit-label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: rgba(247, 238, 221, 0.65);
+}
+
+.elapsed-note {
+  margin-top: 18px;
+  margin-inline: auto;
+  max-width: 34ch;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(247, 238, 221, 0.75);
+}
+
 /* ---- falling flower wall transition ---- */
 
 #flower-overlay {

@@ -490,9 +490,31 @@ function initPlayer() {
   });
 }
 
+// ---- elapsed-time counter ----
+
+function initElapsed() {
+  const START = new Date(2023, 11, 31, 13, 45, 0).getTime(); // Dec 31 2023, 1:45 PM
+  const days = document.getElementById("el-days");
+  const hours = document.getElementById("el-hours");
+  const mins = document.getElementById("el-mins");
+  const secs = document.getElementById("el-secs");
+
+  function tick() {
+    const total = Math.max(0, Math.floor((Date.now() - START) / 1000));
+    days.textContent = Math.floor(total / 86400);
+    hours.textContent = String(Math.floor((total % 86400) / 3600)).padStart(2, "0");
+    mins.textContent = String(Math.floor((total % 3600) / 60)).padStart(2, "0");
+    secs.textContent = String(total % 60).padStart(2, "0");
+  }
+
+  tick();
+  setInterval(tick, 1000);
+}
+
 drawPixelHeart();
 initLock();
 scatterBgFlowers();
 initPuzzle();
 initEnvelope();
 initPlayer();
+initElapsed();
