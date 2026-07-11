@@ -439,7 +439,9 @@ function initPlayer() {
   let scrubbing = false;
 
   const fmt = (s) =>
-    `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+    Number.isFinite(s)
+      ? `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`
+      : "--:--";
 
   function setIcon(playing) {
     // svg elements lack the HTMLElement `hidden` property, so toggle the attribute
@@ -448,11 +450,14 @@ function initPlayer() {
     playBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
   }
 
-  audio.addEventListener("loadedmetadata", () => {
+  function syncDuration() {
+    if (!Number.isFinite(audio.duration)) return;
     durEl.textContent = fmt(audio.duration);
     seek.max = audio.duration;
     document.getElementById("dl").href = audio.currentSrc;
-  });
+  }
+  audio.addEventListener("loadedmetadata", syncDuration);
+  audio.addEventListener("durationchange", syncDuration);
 
   audio.addEventListener("timeupdate", () => {
     curEl.textContent = fmt(audio.currentTime);
