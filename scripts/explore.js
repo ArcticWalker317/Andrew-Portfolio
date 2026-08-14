@@ -23,46 +23,40 @@
   const childNodeDefaultSize = 100
   const childNodeDefaultDist = 150
   const NODES = [
-    {
-      id: "node-teams",
-      label: "Student Teams",
-      size: 170,
-      distance: 0.5,
-      angleDeg: -30,
-      children: [
-        { id: "teams-3", label: "HEVT", size: childNodeDefaultSize, distance: 170, angleDeg: -140, textSize: 16, image: "assets/photos/hevt2.png" },
-        { id: "teams-2", label: "VT CRO WORKCELL", size: childNodeDefaultSize, distance: 170, angleDeg: -5, textSize: 13, image: "assets/photos/workcell1.png" },
-        { id: "teams-1", label: "VT BAJA SAE", size: childNodeDefaultSize, distance: 170, angleDeg: -95, textSize: 13, image: "assets/photos/baja1.jpg" },
-        { id: "teams-5", label: "VT CRO RePLA", size: childNodeDefaultSize, distance: 170, angleDeg: -50, textSize: 13, image: "assets/photos/cro1.png" },
-        { id: "teams-4", label: "VEX ROBOTICS", size: childNodeDefaultSize, distance: 170, angleDeg: 40, textSize: 13, image: "assets/photos/vex3.jpg" },
-      ],
-    },
+    // Student Team bubbles branch directly off the center bubble (solo nodes:
+    // clicking one opens its popup). mobileGroup bundles them back under one
+    // "Student Teams" section in the mobile tap-list.
+    { id: "teams-3", label: "HEVT", size: 115, distance: 0.27, angleDeg: 105, textSize: 16, image: "assets/photos/hevt2.png", mobileGroup: "Student Teams", children: [] },
+    { id: "teams-1", label: "VT BAJA SAE", size: 105, distance: 0.26, angleDeg: -175, textSize: 13, image: "assets/photos/baja1.jpg", mobileGroup: "Student Teams", children: [] },
+    { id: "teams-5", label: "VT CRO RePLA", size: 100, distance: 0.40, angleDeg: -135, textSize: 13, image: "assets/photos/cro1.png", mobileGroup: "Student Teams", children: [] },
+    { id: "teams-2", label: "VT CRO WORKCELL", size: 115, distance: 0.25, angleDeg: -50, textSize: 13, image: "assets/photos/workcell1.png", mobileGroup: "Student Teams", children: [] },
+    { id: "teams-4", label: "VEX ROBOTICS", size: 105, distance: 0.26, angleDeg: 25, textSize: 13, image: "assets/photos/vex3.jpg", mobileGroup: "Student Teams", children: [] },
     {
       id: "node-projects",
       label: "Projects",
-      size: 150,
-      distance: 0.35,
-      angleDeg: 145,
+      size: 130,
+      distance: 0.42,
+      angleDeg: -90,
       children: [
-        { id: "proj-1", label: "Hand Tracking", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 135, image: "assets/photos/handtrack1.png" },
-        { id: "proj-2", label: "THE CUBE", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -175, image: "assets/photos/cube1.png" },
+        { id: "proj-1", label: "Hand Tracking", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -140, image: "assets/photos/handtrack1.png" },
+        { id: "proj-2", label: "THE CUBE", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -40, image: "assets/photos/cube1.png" },
       ],
     },
     {
       id: "node-about",
       label: "About Me",
-      size: 120,
-      distance: 0.36,
-      angleDeg: -160,
+      size: 140,
+      distance: 0.44,
+      angleDeg: -15,
       image: null, // e.g. "assets/photos/about.jpg"
       children: [
         //{ id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 150 },
         //{ id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: 140, angleDeg: -100},
         //{ id: "about-3", label: "Life", size: childNodeDefaultSize, distance: 150, angleDeg: -157},
         //{ id: "about-4", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -40 },
-        { id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 150 },
-        { id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -155 },
-        { id: "about-4", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -95 },
+        { id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -65 },
+        { id: "about-2", label: "Resume", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -5 },
+        { id: "about-4", label: "Contact", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 55 },
 
       ],
     },
@@ -70,13 +64,13 @@
       id: "node-awards",
       label: "Awards",
       size: 100,
-      distance: 0.18,
-      angleDeg: 40,
+      distance: 0.42,
+      angleDeg: 145,
       children: [
-        { id: "award-1", label: "Arduino", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: -20, image: "assets/photos/arduino1.png" },
-        { id: "award-2", label: "Patent", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 35, image: "assets/photos/patent1.png" },
-        { id: "award-3", label: "Guitar", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 160, image: "assets/photos/guitar2.jpg" },
-        { id: "award-4", label: "Academic", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 100, image: "assets/photos/vt1.png" },
+        { id: "award-1", label: "Arduino", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 85, image: "assets/photos/arduino1.png" },
+        { id: "award-2", label: "Patent", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 125, image: "assets/photos/patent1.png" },
+        { id: "award-3", label: "Guitar", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 165, image: "assets/photos/guitar2.jpg" },
+        { id: "award-4", label: "Academic", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: -155, image: "assets/photos/vt1.png" },
 
       ],
     },
@@ -85,8 +79,8 @@
       id: "node-internship",
       label: "Internship",
       size: 140,
-      distance: 0.25,
-      angleDeg: -110,
+      distance: 0.40,
+      angleDeg: 65,
       image: "assets/photos/hitachi1.png",
       children: [],
     },
@@ -1024,7 +1018,7 @@
     const centerR = center.getBoundingClientRect();
     const centerSize = Math.min(centerR.width, centerR.height);
 
-    const edgePad = Math.max(14, minDim * 0.04);
+    const edgePad = Math.max(12, minDim * 0.02);
 
     const maxNodeSize = Math.max(
       0,
@@ -1079,6 +1073,9 @@
       const title = document.createElement("div");
       title.className = "node-title";
       title.textContent = cfg.label;
+      if (typeof cfg.textSize === "number") {
+        title.style.fontSize = `${cfg.textSize}px`;
+      }
       div.appendChild(title);
 
       map.appendChild(div);
@@ -1337,6 +1334,12 @@
     const cx = mapW / 2;
     const cy = mapH / 2;
 
+    // On wide screens the radius is capped by the (smaller) height, which
+    // leaves the left/right thirds of the screen empty. Stretch the layout
+    // horizontally into an ellipse so the map fills the width; positions are
+    // still clamped to the map bounds below.
+    const stretchX = Math.max(1, Math.min(mapW / mapH, 2.1) * 0.85);
+
     const autoIdx = [];
     for (let i = 0; i < NODES.length; i++) {
       if (typeof NODES[i].angleDeg !== "number") autoIdx.push(i);
@@ -1374,7 +1377,7 @@
 
       const ang = (angleDegByIndex[i] * Math.PI) / 180;
 
-      let tx = cx + Math.cos(ang) * radius - size / 2;
+      let tx = cx + Math.cos(ang) * radius * stretchX - size / 2;
       let ty = cy + Math.sin(ang) * radius - size / 2;
 
       const pad = 10;
@@ -2013,12 +2016,16 @@
 
     // Solo nodes (e.g. "Internship") float to the top of the mobile list;
     // desktop bubble placement is untouched since that reads NODES directly.
-    const mobileOrder = [...NODES].sort((a, b) => {
-      const aSolo = !a.children || a.children.length === 0;
-      const bSolo = !b.children || b.children.length === 0;
-      if (aSolo === bSolo) return 0;
-      return aSolo ? -1 : 1;
-    });
+    // Team bubbles are separate solo nodes on desktop, but read better here
+    // bundled back into a single "Student Teams" section.
+    const teamNodes = NODES.filter((n) => n.mobileGroup);
+    const teamsGroup = teamNodes.length
+      ? { id: "mobile-teams", label: teamNodes[0].mobileGroup, children: teamNodes }
+      : null;
+    const rest = NODES.filter((n) => !n.mobileGroup);
+    const solos = rest.filter((n) => !n.children || n.children.length === 0);
+    const groups = rest.filter((n) => n.children && n.children.length > 0);
+    const mobileOrder = [...solos, ...(teamsGroup ? [teamsGroup] : []), ...groups];
 
     for (const group of mobileOrder) {
       const section = document.createElement("section");
