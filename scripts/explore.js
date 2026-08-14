@@ -35,11 +35,11 @@
       id: "node-projects",
       label: "Projects",
       size: 130,
-      distance: 0.42,
+      distance: 0.38,
       angleDeg: -90,
       children: [
-        { id: "proj-1", label: "Hand Tracking", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -140, image: "assets/photos/handtrack1.png" },
-        { id: "proj-2", label: "THE CUBE", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -40, image: "assets/photos/cube1.png" },
+        { id: "proj-1", label: "Hand Tracking", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -170, image: "assets/photos/handtrack1.png" },
+        { id: "proj-2", label: "THE CUBE", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -10, image: "assets/photos/cube1.png" },
       ],
     },
     {
@@ -67,10 +67,10 @@
       distance: 0.42,
       angleDeg: 145,
       children: [
-        { id: "award-1", label: "Arduino", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 85, image: "assets/photos/arduino1.png" },
-        { id: "award-2", label: "Patent", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 125, image: "assets/photos/patent1.png" },
-        { id: "award-3", label: "Guitar", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: 165, image: "assets/photos/guitar2.jpg" },
-        { id: "award-4", label: "Academic", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 25, angleDeg: -155, image: "assets/photos/vt1.png" },
+        { id: "award-1", label: "Arduino", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 5, angleDeg: 60, image: "assets/photos/arduino1.png" },
+        { id: "award-2", label: "Patent", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 5, angleDeg: 115, image: "assets/photos/patent1.png" },
+        { id: "award-3", label: "Guitar", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 5, angleDeg: 170, image: "assets/photos/guitar2.jpg" },
+        { id: "award-4", label: "Academic", size: childNodeDefaultSize - 5, distance: childNodeDefaultDist - 5, angleDeg: -135, image: "assets/photos/vt1.png" },
 
       ],
     },
