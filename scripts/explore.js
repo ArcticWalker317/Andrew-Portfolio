@@ -28,7 +28,7 @@
     // "Student Teams" section in the mobile tap-list.
     { id: "teams-3", label: "HEVT", size: 115, distance: 0.27, angleDeg: 105, textSize: 16, image: "assets/photos/hevt2.png", mobileGroup: "Student Teams", children: [] },
     { id: "teams-1", label: "VT BAJA SAE", size: 105, distance: 0.26, angleDeg: -175, textSize: 13, image: "assets/photos/baja1.jpg", mobileGroup: "Student Teams", children: [] },
-    { id: "teams-5", label: "VT CRO RePLA", size: 100, distance: 0.40, angleDeg: -135, textSize: 13, image: "assets/photos/cro1.png", mobileGroup: "Student Teams", children: [] },
+    { id: "teams-5", label: "VT CRO CANOPY", size: 100, distance: 0.40, angleDeg: -135, textSize: 13, image: "assets/photos/cro1.png", mobileGroup: "Student Teams", children: [] },
     { id: "teams-2", label: "VT CRO WORKCELL", size: 115, distance: 0.25, angleDeg: -50, textSize: 13, image: "assets/photos/workcell1.png", mobileGroup: "Student Teams", children: [] },
     { id: "teams-4", label: "VEX ROBOTICS", size: 105, distance: 0.26, angleDeg: 25, textSize: 13, image: "assets/photos/vex3.jpg", mobileGroup: "Student Teams", children: [] },
     {
@@ -272,13 +272,13 @@
       ]
     },
     "teams-5": {
-      title: "VT CRO RePLA",
+      title: "VT CRO CANOPY",
       sections: [
         {
           customClass: "cols-1fr",
           left: `
             <h1 style="text-align:center;">Coming Soon!</h1> 
-            <p style="text-align:center;">This project is still in the early phases. I am proud to say I will be the lead of the Electrical and Computer Engineering subteam. This project will be developing an easy to use, simple filament recycler.</p>
+            <p style="text-align:center;">This project is still in the early phases. I am proud to say I will be the lead of the Electrical and Computer Engineering subteam. Details on this project are to come!</p>
               
             `
         }
