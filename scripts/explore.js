@@ -203,7 +203,7 @@
         {
           customClass: "cols-1fr-1fr",
           left: `
-            <img src="assets/photos/workcell2.jpg" alt="Andrew Stevens" style="width: 75%; height: auto; margin: 0 auto; display: block;">
+            <img src="assets/photos/workcell8.jpg" alt="Andrew Stevens" style="width: 90%; height: auto; margin: 0 auto; display: block;">
           `,
           right: `
             <img src="assets/photos/workcell5.png" alt="Andrew Stevens" style="width: 75%; height: auto; margin: 0 auto; display: block;">
@@ -213,9 +213,9 @@
           customClass: "cols-1fr-1fr",
           left: `
             <div style="font-size: 21px;">
-              <p style="text-align:center;">The Workcell Team is developing a fully autonomous 3D-printing solution equipped with two printers, a gantry, and a pick-and-place system.</p>
+              <p style="text-align:center;">The Workcell Team developed a fully autonomous 3D-printing solution equipped with two printers, a gantry, and a pick-and-place system.</p>
               <p></p>
-              <p style="text-align:center;">On the right is a time lapse of the first version the team developed. While it is great, there is a lot of room for improvement. That is what this year is all about. We are working to get a second version that is new and improved in many ways.</p>
+              <p style="text-align:center;">On the right is our launch video. This project is after two years of work, where the first year was about a proof of concept, and the second year was polishing and refining it. In December of 2026, we plan on Open Sourcing all of the files and build instructions.</p>
             </div>
           `,
           right: `
@@ -264,6 +264,20 @@
           `
         },
         {
+          customClass: "cols-1fr-1fr",
+          left: `
+            <p style="text-align:center;"></p>
+            <p style="text-align:center;"></p>
+            <img src="assets/photos/workcell9.jpg" alt="Andrew Stevens" style="width: 110%; height: auto; margin: 0 auto; display: block;">
+          `,
+          right: `
+            <video controls width="50%" style="border-radius: 12px; display: block; margin: 0 auto;">
+              <source src="assets/videos/workcell2.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+            `
+        },
+        {
           customClass: "cols-1fr",
           left: `
             <h3 style="text-align:center;">This project has been brought to a close as CRO limits each project to 2 years. However, this team is continuing on to create RePLA, our next project. 😉</h3> 
@@ -275,12 +289,16 @@
       title: "VT CRO CANOPY",
       sections: [
         {
-          customClass: "cols-1fr",
+          customClass: "cols-1fr-fr",
           left: `
-            <h1 style="text-align:center;">Coming Soon!</h1> 
-            <p style="text-align:center;">This project is still in the early phases. I am proud to say I will be the lead of the Electrical and Computer Engineering subteam. Details on this project are to come!</p>
-              
-            `
+            <p style="text-align:center;">This project is still in the early phases. I am proud to say I will be the lead of the Electrical and Computer Engineering subteam. More details on this project are to come, but so far here is what is accomplished:</p>
+            <p style="text-align:center;">Lead electrical and computer engineering architecture for an autonomous greenhouse robotic system, defining system structure, interfaces, and technical direction.</p>
+            <p style="text-align:center;">I have also been recruiting and interviewing prospective engineers, onboarding new members, and communicating project goals, system architecture, and technical requirements.</p>
+               
+            `,
+          right: `
+            <img src="assets/photos/canopy1.png" alt="Andrew Stevens" style="width: 75%; height: auto; margin: 0 auto; display: block;">
+          `
         }
       ]
     },
