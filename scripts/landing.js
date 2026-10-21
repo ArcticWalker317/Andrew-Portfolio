@@ -59,7 +59,7 @@
     // Other
     "hitachi1.png",
     "hitachi3.jpg",
-    "cat1.jpg",
+    // "cat1.jpg", // Temporarily hidden with the CAT internship
     "patent1.png",
     "handtrack1.png",
     "cube1.png",

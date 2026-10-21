@@ -84,7 +84,8 @@
       mobileFirst: true,
       children: [
         { id: "intern-1", label: "Hitachi Energy", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -10, image: "assets/photos/hitachi1.png" },
-        { id: "intern-2", label: "CAT", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 45, image: "assets/photos/cat1.jpg" },
+        // Temporarily hidden - uncomment to show the CAT internship again
+        //{ id: "intern-2", label: "CAT", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 45, image: "assets/photos/cat1.jpg" },
       ],
     },
   ];
