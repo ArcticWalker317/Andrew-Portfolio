@@ -27,9 +27,9 @@
     // clicking one opens its popup). mobileGroup bundles them back under one
     // "Student Teams" section in the mobile tap-list.
     { id: "teams-3", label: "HEVT", size: 130, distance: 0.35, angleDeg: 105, textSize: 16, image: "assets/photos/hevt2.png", mobileGroup: "Student Teams", children: [] },
-    { id: "teams-1", label: "VT BAJA SAE", size: 105, distance: 0.22, angleDeg: -175, textSize: 13, image: "assets/photos/baja1.jpg", mobileGroup: "Student Teams", children: [] },
     { id: "teams-5", label: "VT CRO CANOPY", size: 100, distance: 0.40, angleDeg: -130, textSize: 13, image: "assets/photos/cro1.png", mobileGroup: "Student Teams", children: [] },
     { id: "teams-2", label: "VT CRO WORKCELL", size: 115, distance: 0.25, angleDeg: -60, textSize: 13, image: "assets/photos/workcell1.png", mobileGroup: "Student Teams", children: [] },
+    { id: "teams-1", label: "VT BAJA SAE", size: 105, distance: 0.22, angleDeg: -175, textSize: 13, image: "assets/photos/baja1.jpg", mobileGroup: "Student Teams", children: [] },
     { id: "teams-4", label: "VEX ROBOTICS", size: 95, distance: 0.26, angleDeg: 70, textSize: 13, image: "assets/photos/vex3.jpg", mobileGroup: "Student Teams", children: [] },
     {
       id: "node-projects",
