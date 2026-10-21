@@ -10,7 +10,7 @@ so it doesn't need to be kept in sync by hand whenever that list changes.
 """
 
 import os
-from PIL import Image
+from PIL import Image, ImageOps
 
 BASE = os.path.join(os.path.dirname(__file__), "..", "assets", "photos")
 OUT_DIR = os.path.join(BASE, "thumbs")
@@ -28,6 +28,9 @@ IMAGE_EXTS = {".jpg", ".jpeg", ".png"}
 
 def make_thumb(src_path, dst_path, max_dim, quality):
     with Image.open(src_path) as im:
+        # Phone photos are often stored sideways with an EXIF rotation tag that
+        # browsers honor; apply it here too, since the saved thumbnail drops it.
+        im = ImageOps.exif_transpose(im)
         im = im.convert("RGB")
         w, h = im.size
         scale = max_dim / max(w, h)

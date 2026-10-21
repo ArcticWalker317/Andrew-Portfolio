@@ -542,6 +542,154 @@ body {
   padding-bottom: 0;
 }
 
+/* Compact row for a standalone heading (e.g. "Highlighted Projects:").
+   gap: 0 also collapses the empty row an unused right column would add. */
+.popup-section.section-heading {
+  gap: 0;
+  padding-bottom: 16px;
+}
+
+.popup-section.section-heading h2 {
+  margin: 0;
+}
+
+/* ===== Popup Tabs (e.g. one tab per competition year) =====
+   Styled after Chrome's tab strip: inactive tabs sit flat on the popup
+   background with thin dividers, and the active tab is a lighter shape that
+   flows into the (same-colored) panel below via curved "feet" at its base. */
+.popup-tabs {
+  --tab-surface: rgba(255, 255, 255, 0.07);
+  --tab-radius: 10px;
+  margin-top: 28px;
+}
+
+/* The gap matches the feet's width so the active tab's feet never overlap a
+   neighboring tab (e.g. its hover background). */
+.popup-tab-bar {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--tab-radius);
+}
+
+.popup-tab {
+  position: relative;
+  flex: 0 1 260px;
+  min-width: 0;
+  padding: 12px 28px;
+  border: none;
+  border-radius: var(--tab-radius) var(--tab-radius) 0 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  isolation: isolate;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.popup-tab-label {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.popup-tab:hover:not(.active) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Hover highlight: an inset rounded box that stops short of the tab's base,
+   so it never touches the panel's rounded corner or the active tab's feet */
+.popup-tab:not(.active)::after {
+  content: "";
+  position: absolute;
+  inset: 5px 4px 7px;
+  z-index: -1;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.popup-tab:hover:not(.active)::after {
+  opacity: 1;
+}
+
+/* Divider centered in the gap between tabs, hidden next to the active or
+   hovered tab */
+.popup-tab:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--tab-radius) / -2 - 0.5px);
+  top: 25%;
+  height: 50%;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.18);
+  transition: opacity 0.15s ease;
+}
+
+.popup-tab:hover:not(.active)::before,
+.popup-tab.active + .popup-tab::before,
+.popup-tab:hover + .popup-tab:not(.active)::before {
+  opacity: 0;
+}
+
+.popup-tab.active {
+  background: var(--tab-surface);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Curved feet joining the active tab to the panel */
+.popup-tab.active::before,
+.popup-tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  top: auto;
+  width: var(--tab-radius);
+  height: var(--tab-radius);
+  opacity: 1;
+}
+
+.popup-tab.active::before {
+  left: calc(-1 * var(--tab-radius));
+  background: radial-gradient(circle at 0 0, transparent calc(var(--tab-radius) - 0.5px), var(--tab-surface) var(--tab-radius));
+}
+
+.popup-tab.active::after {
+  right: calc(-1 * var(--tab-radius));
+  background: radial-gradient(circle at 100% 0, transparent calc(var(--tab-radius) - 0.5px), var(--tab-surface) var(--tab-radius));
+}
+
+/* The first tab sits flush with the panel's left edge, so it has no left
+   foot; while it's active, the panel's top-left corner squares off to meet it. */
+.popup-tab.active:first-child::before {
+  display: none;
+}
+
+.popup-tab-panel {
+  background: var(--tab-surface);
+  border-radius: 14px;
+  padding: 28px 24px;
+}
+
+.popup-tabs:has(.popup-tab.active:first-child) .popup-tab-panel {
+  border-top-left-radius: 0;
+}
+
+@media (max-width: 768px) {
+  .popup-tab {
+    flex-basis: auto;
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .popup-tab-panel {
+    padding: 20px 14px;
+  }
+}
+
 .popup-section-left {
   display: flex;
   flex-direction: column;

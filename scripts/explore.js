@@ -26,7 +26,7 @@
     // Student Team bubbles branch directly off the center bubble (solo nodes:
     // clicking one opens its popup). mobileGroup bundles them back under one
     // "Student Teams" section in the mobile tap-list.
-    { id: "teams-3", label: "HEVT", size: 115, distance: 0.27, angleDeg: 105, textSize: 16, image: "assets/photos/hevt2.png", mobileGroup: "Student Teams", children: [] },
+    { id: "teams-3", label: "HEVT", size: 125, distance: 0.27, angleDeg: 105, textSize: 16, image: "assets/photos/hevt2.png", mobileGroup: "Student Teams", children: [] },
     { id: "teams-1", label: "VT BAJA SAE", size: 105, distance: 0.26, angleDeg: -175, textSize: 13, image: "assets/photos/baja1.jpg", mobileGroup: "Student Teams", children: [] },
     { id: "teams-5", label: "VT CRO CANOPY", size: 100, distance: 0.40, angleDeg: -135, textSize: 13, image: "assets/photos/cro1.png", mobileGroup: "Student Teams", children: [] },
     { id: "teams-2", label: "VT CRO WORKCELL", size: 115, distance: 0.25, angleDeg: -50, textSize: 13, image: "assets/photos/workcell1.png", mobileGroup: "Student Teams", children: [] },
@@ -93,7 +93,7 @@
    *
    * Add content for each child node using the child node's ID as the key.
    *
-   * Two layout options:
+   * Layout options:
    *
    * 1. HORIZONTAL GROUPS LAYOUT (Recommended for rich content):
    *    - sections: Array of horizontal groups with left/right content
@@ -102,6 +102,11 @@
    *
    * 2. SIMPLE LAYOUT:
    *    - description: HTML content in a single flow
+   *
+   * 3. TABS (optional, add alongside sections):
+   *    - tabs: [{ label, sections }] adds a tab bar below the shared sections
+   *    - Each tab's sections use the same format as layout 1
+   *    - The first tab opens by default (see "teams-3" / HEVT for an example)
    *
    * Example horizontal groups structure:
    * "child-id": {
@@ -306,19 +311,12 @@
       title: "Hybrid Electric Vehicle Team",
       sections: [
         {
-          customClass: "cols-1fr",
-          left: `
-            <img src="assets/photos/hevt3.jpg" alt="Andrew Stevens" style="width: 45%; height: auto; margin: 0 auto; display: block;">
-          `,
-          right: ``
-        },
-        {
           customClass: "cols-1fr-1fr",
           left: `
             <div style="font-size: 21px;">
               <p style="text-align:center;">Hybrid Electric Vehicle Team (HEVT) is a design team at Virginia Tech that participates in the EcoCar Challenge put on by General Motors. The goal of this competition is to develop the physical systems, propulsion systems, and connected and automated vehicle (CAV) systems of a General Motors provided vehicle.</p>
               <p></p>
-              <p style="text-align:center;">This competition runs on a 4-year cycle, where teams start over every 4 years. I joined on the 4th year of the Cadillac Lyriq where we proceded to win 3rd overall. HEVT has been selected to continue in the competition and will be working on a Chevy Blazer as the next cycle vehicle.</p>
+              <p style="text-align:center;">This competition runs on a 4-year cycle, where teams start over every 4 years. I joined for the 4th and final year of the Cadillac Lyriq, where we placed 3rd overall. HEVT was selected to continue, and I'm now in Year 1 of the new cycle with the Chevy Blazer.</p>
             </div>
           `,
           right:
@@ -327,62 +325,135 @@
             //   Your browser does not support the video tag.
             // </video>
             `
-              <img src="assets/photos/hevt2.png" alt="Andrew Stevens" style="width: 50%; height: auto; display: block; margin: 0 auto;">
-            `
-        },
-        {
-          customClass: "cols-1fr",
-          left: `
-            <h2 style="text-align:center;">Highlighted Projects:</h2>            
-          `,
-          right: ``
-        },
-        {
-          customClass: "cols-1fr-1fr",
-          right: `
-            <img src="assets/photos/hevt4.png" alt="Andrew Stevens" style="width: 50%; height: auto; display: block; margin: 0 auto;">
-            <img src="assets/photos/hevt5.png" alt="Andrew Stevens" style="width: 50%; height: auto; display: block; margin: 0 auto;">
+              <p style="text-align:center;"></p>
+              <p style="text-align:center;"></p>
+              <p style="text-align:center;"></p>
+              <img src="assets/photos/hevt16.png" alt="Andrew Stevens" style="width: 75%; height: auto; display: block; margin: 0 auto;">
             
-          `,
-          left: `
-            <h3 style="text-align:center;">CACC Simulink Model</h3> 
-            <p style="text-align:center;">Cooperative Adaptive Cruise Control (CACC) is a longitudinal control of the cars propulsion. The goal is to act like a cruise control that is responsive to the cars in front of the current vehicle. Using new Vehicle to Vehicle (V2V) technology provided by the competition, we can minimize energy consumption whilst keeping a safe distance from the closest vehicle.</p>
-            <p style="text-align:center;">I was tasked with creating a simulink model that achieves the goal above.</p>
-            <p style="text-align:center;">My goal was to minimize torque output request, since this is what uses up the energy. After my changes, I was able to reduce that output by 60.3%. The graph on the bottom (green and blue) shows the torque requested. The graph on the top shows the velocity (green) and distance to next car (orange).</p>
-          `
-        },
-        {
-          customClass: "cols-1fr-1fr",
-          left: `
-            <video controls width="65%" style="border-radius: 12px; display: block; margin: 0 auto;">
-              <source src="assets/videos/ain_simulation.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-            <img src="assets/photos/hevt9.png" alt="Andrew Stevens" style="width: 45%; height: auto; display: block; margin: 0 auto;">
-
-            `,
-          right: `
-            <h3 style="text-align:center;">Automatic Intersection Navigation (AIN)</h3> 
-            <p style="text-align:center;">AIN is another longitudinal control of the cars propulsion. The goal is to recieve inputs about an intersection's status and decide whether to cross or stop before it. Using Vehicle to Infrastructure (V2I) technology provided by the competition, we use the current phase, distance, and time until next phase to decide if we cross.</p>
-            <p style="text-align:center;">I was already provided with a model in simulink that can control stopping at a certain spot, but couldn't decide to cross or not well. My logic is to try to slow down just enough to make sure that we cross right as it turns green, conserving energy and momentum.</p>
-          
             `
         },
+      ],
+      // Year-by-year content. Tabs show in this order and the first one opens
+      // by default, so keep the newest year first.
+      tabs: [
         {
-          customClass: "cols-1fr-1fr",
-          left: `
-            <h3 style="text-align:center;">CACC in Python</h3> 
-            <p style="text-align:center;">After creating the CACC in simulink, I was tasked with improving the Python version of the controller and simulator to support three vehicles instead of the previous one vehicle.</p>
-            <p style="text-align:center;">This task was also challenging because I had to redo the data structure for which car information was passed from ROS2 node to node because up until this point, it only had one car's speed and position. This lead to a major haul of the system structure, which a graduate student kindly helped with.</p>
-          `,
-          right: `
-            <p style="text-align:center;"></p>
-            <img src="assets/photos/hevt11.png" alt="Andrew Stevens" style="width: 95%; height: auto; display: block; margin: 0 auto;">
-          `
+          label: "Blazer · Year 1 (2026–27)",
+          sections: [
+            {
+              customClass: "cols-1fr section-heading",
+              left: `
+                <h2 style="text-align:center;">Highlighted Projects:</h2>            
+              `,
+              right: ``
+            },
+            {
+              customClass: "cols-1fr-1fr",
+              right: `
+                <p style="text-align:center;"></p>
+                <p style="text-align:center;"></p>
+                <video controls width="70%" style="border-radius: 12px; display: block; margin: 0 auto;">
+                  <source src="assets/videos/acc_using_sensor_viz.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+                <img src="assets/photos/hevt17.png" alt="Andrew Stevens" style="width: 70%; height: auto; display: block; margin: 0 auto;">
+            
+              `,
+              left: `
+                <h3 style="text-align:center;">Simulink & RoadRunner MiL Setup</h3> 
+                <p style="text-align:center;">This competition cycle, we are trying to have model-in-the-loop (MiL) simulations use Simulink and RoadRunner. Last cycle, we only used Simulink because we were unable to connect RoadRunner to it properly. The benefit of using RoadRunner with Simulink is that we are able to more easily construct simulation scenarios as well as have a better environment for perception to work with.</p>
+                <p style="text-align:center;">I did some experimenting and found a way to properly connect them. A MATLAB script sets up the link: RoadRunner hosts a local server, and the Simulink controller reads from and publishes to the simulation through it.</p>
+                <p style="text-align:center;">In the video example, I created a sample scenario of driving through a city block. The lead vehicle (Mater) is on a preset drive cycle, and the ego vehicle (McQueen) runs my ACC controller from last semester to keep a safe following distance from the lead vehicle.</p>
+              `
+            },
+            {
+              customClass: "cols-1fr-1fr",
+              left: `
+                <p style="text-align:center;"></p>
+                <p style="text-align:center;"></p>
+                <video controls width="65%" style="border-radius: 12px; display: block; margin: 0 auto;">
+                  <source src="assets/videos/lidar_connection_test.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+                `,
+              right: `
+                <h3 style="text-align:center;">LiDAR Connection Setup</h3> 
+                <p style="text-align:center;">After finding an old LiDAR that was not used last competition, we were wondering if we could get it back up and running. No one knew how to use it, so we were trying to figure out how to get it connected and showing its collected data. It connects over ethernet to our Autera (the central onboard computer). We couldn't figure out how to visualize what it sees once we connect it.</p>
+                <p style="text-align:center;">After some port monitoring tests, I found which port it was trying to publish information in, but was refusing to. In order to fix it, I had to change the port IP address temporarily to match the LiDAR's IP. Then, using VeloView, we were able to see the point cloud.</p>
+                
+                <img src="assets/photos/hevt18.png" alt="Andrew Stevens" style="width: 85%; height: auto; display: block; margin: 0 auto;">
+
+                `
+            }
+          ]
+        },
+        {
+          label: "Lyriq · Year 4 (2025–26)",
+          sections: [
+            {
+              customClass: "cols-1fr-1fr-1fr",
+              left: `
+                <img src="assets/photos/hevt3.jpg" alt="Andrew Stevens" style="width: 80%; height: auto; margin: 0 auto; display: block;">
+              `,
+              center: `
+                <img src="assets/photos/hevt2.png" alt="Andrew Stevens" style="width: 45%; height: auto; margin: 0 auto; display: block;">
+              `,
+              right: `
+                <img src="assets/photos/hevt14.jpg" alt="Andrew Stevens" style="width: 85%; height: auto; margin: 0 auto; display: block;">
+              `
+            },
+            {
+              customClass: "cols-1fr section-heading",
+              left: `
+                <h2 style="text-align:center;">Highlighted Projects:</h2>            
+              `,
+              right: ``
+            },
+            {
+              customClass: "cols-1fr-1fr",
+              right: `
+                <img src="assets/photos/hevt4.png" alt="Andrew Stevens" style="width: 50%; height: auto; display: block; margin: 0 auto;">
+                <img src="assets/photos/hevt5.png" alt="Andrew Stevens" style="width: 50%; height: auto; display: block; margin: 0 auto;">
+            
+              `,
+              left: `
+                <h3 style="text-align:center;">CACC Simulink Model</h3> 
+                <p style="text-align:center;">Cooperative Adaptive Cruise Control (CACC) is a longitudinal control of the car's propulsion. The goal is to act like a cruise control that is responsive to the cars in front of the current vehicle. Using new Vehicle to Vehicle (V2V) technology provided by the competition, we can minimize energy consumption whilst keeping a safe distance from the closest vehicle.</p>
+                <p style="text-align:center;">I was tasked with creating a simulink model that achieves the goal above.</p>
+                <p style="text-align:center;">My goal was to minimize torque output request, since this is what uses up the energy. After my changes, I was able to reduce that output by 60.3%. The graph on the bottom (green and blue) shows the torque requested. The graph on the top shows the velocity (green) and distance to next car (orange).</p>
+              `
+            },
+            {
+              customClass: "cols-1fr-1fr",
+              left: `
+                <video controls width="65%" style="border-radius: 12px; display: block; margin: 0 auto;">
+                  <source src="assets/videos/ain_simulation.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+                <img src="assets/photos/hevt9.png" alt="Andrew Stevens" style="width: 45%; height: auto; display: block; margin: 0 auto;">
+
+                `,
+              right: `
+                <h3 style="text-align:center;">Automatic Intersection Navigation (AIN)</h3> 
+                <p style="text-align:center;">AIN is another longitudinal control of the car's propulsion. The goal is to receive inputs about an intersection's status and decide whether to cross or stop before it. Using Vehicle to Infrastructure (V2I) technology provided by the competition, we use the current phase, distance, and time until next phase to decide if we cross.</p>
+                <p style="text-align:center;">I was already provided with a model in simulink that can control stopping at a certain spot, but couldn't decide to cross or not well. My logic is to try to slow down just enough to make sure that we cross right as it turns green, conserving energy and momentum.</p>
+          
+                `
+            },
+            {
+              customClass: "cols-1fr-1fr",
+              left: `
+                <h3 style="text-align:center;">CACC in Python</h3> 
+                <p style="text-align:center;">After creating the CACC in simulink, I was tasked with improving the Python version of the controller and simulator to support three vehicles instead of the previous one vehicle.</p>
+                <p style="text-align:center;">This task was also challenging because I had to redo the data structure for which car information was passed from ROS2 node to node because up until this point, it only had one car's speed and position. This led to a major overhaul of the system structure, which a graduate student kindly helped with.</p>
+              `,
+              right: `
+                <p style="text-align:center;"></p>
+                <img src="assets/photos/hevt11.png" alt="Andrew Stevens" style="width: 95%; height: auto; display: block; margin: 0 auto;">
+              `
+            }
+          ]
         }
       ]
-
-
     },
     "teams-4": {
       title: "VEX ROBOTICS 2023-2025",
@@ -1529,6 +1600,104 @@
   // ----------------------------
   // Popup functions
   // ----------------------------
+  // Horizontal groups stacked vertically
+  function renderSections(sections) {
+    const sectionsHTML = sections.map(section => {
+      // Check if this is a 4-column layout
+      const hasCenter2 = section.center2 !== undefined;
+      // Check if this is a 3-column layout
+      const hasCenter = section.center !== undefined;
+
+      if (hasCenter2) {
+        // 4-column layout: left, center, center2, right
+        return `
+          <div class="popup-section ${section.customClass || ''}">
+            <div class="popup-section-left">
+              ${section.left || ''}
+            </div>
+            <div class="popup-section-center">
+              ${section.center || ''}
+            </div>
+            <div class="popup-section-center2">
+              ${section.center2 || ''}
+            </div>
+            <div class="popup-section-right">
+              ${section.right || ''}
+            </div>
+          </div>
+        `;
+      } else if (hasCenter) {
+        // 3-column layout: left, center, right
+        return `
+          <div class="popup-section ${section.customClass || ''}">
+            <div class="popup-section-left">
+              ${section.left || ''}
+            </div>
+            <div class="popup-section-center">
+              ${section.center || ''}
+            </div>
+            <div class="popup-section-right">
+              ${section.right || ''}
+            </div>
+          </div>
+        `;
+      } else {
+        // 2-column layout: left, right
+        return `
+          <div class="popup-section ${section.customClass || ''}">
+            <div class="popup-section-left">
+              ${section.left || ''}
+            </div>
+            <div class="popup-section-right">
+              ${section.right || ''}
+            </div>
+          </div>
+        `;
+      }
+    }).join('');
+
+    return `<div class="popup-sections-container">${sectionsHTML}</div>`;
+  }
+
+  // Tab bar + one panel per tab (e.g. one tab per competition year). Each
+  // tab's content uses the same sections format as a regular popup.
+  function renderTabs(tabs) {
+    const buttons = tabs.map((tab, i) => `
+      <button type="button" class="popup-tab${i === 0 ? " active" : ""}" role="tab" aria-selected="${i === 0}" data-tab="${i}" title="${tab.label}"><span class="popup-tab-label">${tab.label}</span></button>
+    `).join('');
+
+    const panels = tabs.map((tab, i) => `
+      <div class="popup-tab-panel" role="tabpanel" data-tab="${i}"${i === 0 ? "" : " hidden"}>
+        ${renderSections(tab.sections || [])}
+      </div>
+    `).join('');
+
+    return `<div class="popup-tabs"><div class="popup-tab-bar" role="tablist">${buttons}</div>${panels}</div>`;
+  }
+
+  function attachTabHandlers() {
+    popupBody.querySelectorAll(".popup-tabs").forEach((tabsEl) => {
+      const buttons = tabsEl.querySelectorAll(".popup-tab");
+      const panels = tabsEl.querySelectorAll(".popup-tab-panel");
+
+      buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          buttons.forEach((b) => {
+            const active = b === btn;
+            b.classList.toggle("active", active);
+            b.setAttribute("aria-selected", active);
+          });
+          panels.forEach((panel) => {
+            const active = panel.dataset.tab === btn.dataset.tab;
+            panel.hidden = !active;
+            // Don't leave a video playing in a tab that's no longer visible
+            if (!active) panel.querySelectorAll("video").forEach((v) => v.pause());
+          });
+        });
+      });
+    });
+  }
+
   function showPopup(childId) {
     const content = POPUP_CONTENT[childId];
     if (!content) {
@@ -1538,64 +1707,12 @@
 
     popupTitle.textContent = content.title;
 
-    // Check if using sections layout
-    if (content.sections && Array.isArray(content.sections)) {
-      // Horizontal groups stacked vertically
-      const sectionsHTML = content.sections.map(section => {
-        // Check if this is a 4-column layout
-        const hasCenter2 = section.center2 !== undefined;
-        // Check if this is a 3-column layout
-        const hasCenter = section.center !== undefined;
-
-        if (hasCenter2) {
-          // 4-column layout: left, center, center2, right
-          return `
-            <div class="popup-section ${section.customClass || ''}">
-              <div class="popup-section-left">
-                ${section.left || ''}
-              </div>
-              <div class="popup-section-center">
-                ${section.center || ''}
-              </div>
-              <div class="popup-section-center2">
-                ${section.center2 || ''}
-              </div>
-              <div class="popup-section-right">
-                ${section.right || ''}
-              </div>
-            </div>
-          `;
-        } else if (hasCenter) {
-          // 3-column layout: left, center, right
-          return `
-            <div class="popup-section ${section.customClass || ''}">
-              <div class="popup-section-left">
-                ${section.left || ''}
-              </div>
-              <div class="popup-section-center">
-                ${section.center || ''}
-              </div>
-              <div class="popup-section-right">
-                ${section.right || ''}
-              </div>
-            </div>
-          `;
-        } else {
-          // 2-column layout: left, right
-          return `
-            <div class="popup-section ${section.customClass || ''}">
-              <div class="popup-section-left">
-                ${section.left || ''}
-              </div>
-              <div class="popup-section-right">
-                ${section.right || ''}
-              </div>
-            </div>
-          `;
-        }
-      }).join('');
-
-      popupBody.innerHTML = `<div class="popup-sections-container">${sectionsHTML}</div>`;
+    // Sections layout, optionally followed by tabs (each tab has its own sections)
+    if (content.sections || content.tabs) {
+      popupBody.innerHTML =
+        (content.sections ? renderSections(content.sections) : '') +
+        (content.tabs ? renderTabs(content.tabs) : '');
+      attachTabHandlers();
     } else if (content.leftColumn || content.rightColumn) {
       // Legacy two-column layout support
       popupBody.innerHTML = `
@@ -2232,6 +2349,8 @@
  * 
  * Available customClass options:
  *
+ * section-heading - Compact row for a standalone heading; combine with a
+ *                   column class, e.g. "cols-1fr section-heading"
  * No class - 1fr 1fr (equal 50/50 split) - DEFAULT
  * cols-2fr-1fr - Text takes 2/3, image takes 1/3
  * cols-3fr-1fr - Text takes 3/4, image takes 1/4 (currently applied to your Bio)

@@ -32,6 +32,8 @@
     "hevt8.png",
     "hevt9.png",
     "hevt11.png",
+    "hevt14.jpg",
+    "hevt15.png",
 
     // Baja
     "baja1.jpg",
