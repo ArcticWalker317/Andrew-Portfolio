@@ -59,6 +59,7 @@
     // Other
     "hitachi1.png",
     "hitachi3.jpg",
+    "cat1.jpg",
     "patent1.png",
     "handtrack1.png",
     "cube1.png",

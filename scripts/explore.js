@@ -26,11 +26,11 @@
     // Student Team bubbles branch directly off the center bubble (solo nodes:
     // clicking one opens its popup). mobileGroup bundles them back under one
     // "Student Teams" section in the mobile tap-list.
-    { id: "teams-3", label: "HEVT", size: 125, distance: 0.27, angleDeg: 105, textSize: 16, image: "assets/photos/hevt2.png", mobileGroup: "Student Teams", children: [] },
-    { id: "teams-1", label: "VT BAJA SAE", size: 105, distance: 0.26, angleDeg: -175, textSize: 13, image: "assets/photos/baja1.jpg", mobileGroup: "Student Teams", children: [] },
-    { id: "teams-5", label: "VT CRO CANOPY", size: 100, distance: 0.40, angleDeg: -135, textSize: 13, image: "assets/photos/cro1.png", mobileGroup: "Student Teams", children: [] },
-    { id: "teams-2", label: "VT CRO WORKCELL", size: 115, distance: 0.25, angleDeg: -50, textSize: 13, image: "assets/photos/workcell1.png", mobileGroup: "Student Teams", children: [] },
-    { id: "teams-4", label: "VEX ROBOTICS", size: 105, distance: 0.26, angleDeg: 25, textSize: 13, image: "assets/photos/vex3.jpg", mobileGroup: "Student Teams", children: [] },
+    { id: "teams-3", label: "HEVT", size: 130, distance: 0.35, angleDeg: 105, textSize: 16, image: "assets/photos/hevt2.png", mobileGroup: "Student Teams", children: [] },
+    { id: "teams-1", label: "VT BAJA SAE", size: 105, distance: 0.22, angleDeg: -175, textSize: 13, image: "assets/photos/baja1.jpg", mobileGroup: "Student Teams", children: [] },
+    { id: "teams-5", label: "VT CRO CANOPY", size: 100, distance: 0.40, angleDeg: -130, textSize: 13, image: "assets/photos/cro1.png", mobileGroup: "Student Teams", children: [] },
+    { id: "teams-2", label: "VT CRO WORKCELL", size: 115, distance: 0.25, angleDeg: -60, textSize: 13, image: "assets/photos/workcell1.png", mobileGroup: "Student Teams", children: [] },
+    { id: "teams-4", label: "VEX ROBOTICS", size: 95, distance: 0.26, angleDeg: 70, textSize: 13, image: "assets/photos/vex3.jpg", mobileGroup: "Student Teams", children: [] },
     {
       id: "node-projects",
       label: "Projects",
@@ -47,7 +47,7 @@
       label: "About Me",
       size: 140,
       distance: 0.44,
-      angleDeg: -15,
+      angleDeg: -25,
       image: null, // e.g. "assets/photos/about.jpg"
       children: [
         //{ id: "about-1", label: "Bio", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 150 },
@@ -75,14 +75,17 @@
       ],
     },
     {
-      // Solo node: no children, clicking it opens its own popup directly.
+      // mobileFirst pins this group to the top of the mobile tap-list.
       id: "node-internship",
-      label: "Internship",
-      size: 140,
-      distance: 0.40,
-      angleDeg: 65,
-      image: "assets/photos/hitachi1.png",
-      children: [],
+      label: "Internships",
+      size: 150,
+      distance: 0.30,
+      angleDeg: 35,
+      mobileFirst: true,
+      children: [
+        { id: "intern-1", label: "Hitachi Energy", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: -10, image: "assets/photos/hitachi1.png" },
+        { id: "intern-2", label: "CAT", size: childNodeDefaultSize, distance: childNodeDefaultDist, angleDeg: 45, image: "assets/photos/cat1.jpg" },
+      ],
     },
   ];
 
@@ -912,14 +915,14 @@
 
       ]
     },
-    "node-internship": {
-      title: "Internship",
+    "intern-1": {
+      title: "Hitachi Energy",
       sections: [
         {
           customClass: "cols-1fr-1fr",
           left: `
             <div style="width: 66%; margin: 0 auto;">
-            <h3 style="text-align: center;">Hitachi Energy</h3>
+            <h3 style="text-align: center;">Software Engineering Intern · Summer 2026</h3>
             <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
             I spent the summer of 2026 in a 12 week software engineering internship with Hitachi Energy in Raleigh, NC.
             </p>
@@ -945,6 +948,18 @@
           `
         }
 
+      ]
+    },
+    "intern-2": {
+      title: "Caterpillar",
+      sections: [
+        {
+          customClass: "cols-1fr",
+          left: `
+            <p style="text-align: center;">I am proud to say that I will be working as a CAT Tech Intern with Caterpillar during the Summer of 2027!</p>
+            <p style="text-align: center;">More details coming soon!</p>
+          `
+        }
       ]
     }
   };
@@ -2151,10 +2166,10 @@
     applyFadeIn(header);
     mobileList.appendChild(header);
 
-    // Solo nodes (e.g. "Internship") float to the top of the mobile list;
-    // desktop bubble placement is untouched since that reads NODES directly.
-    // Team bubbles are separate solo nodes on desktop, but read better here
-    // bundled back into a single "Student Teams" section.
+    // Solo nodes and mobileFirst groups (e.g. "Internship") float to the top
+    // of the mobile list; desktop bubble placement is untouched since that
+    // reads NODES directly. Team bubbles are separate solo nodes on desktop,
+    // but read better here bundled back into a single "Student Teams" section.
     const teamNodes = NODES.filter((n) => n.mobileGroup);
     const teamsGroup = teamNodes.length
       ? { id: "mobile-teams", label: teamNodes[0].mobileGroup, children: teamNodes }
@@ -2162,7 +2177,9 @@
     const rest = NODES.filter((n) => !n.mobileGroup);
     const solos = rest.filter((n) => !n.children || n.children.length === 0);
     const groups = rest.filter((n) => n.children && n.children.length > 0);
-    const mobileOrder = [...solos, ...(teamsGroup ? [teamsGroup] : []), ...groups];
+    const pinnedGroups = groups.filter((n) => n.mobileFirst);
+    const otherGroups = groups.filter((n) => !n.mobileFirst);
+    const mobileOrder = [...solos, ...pinnedGroups, ...(teamsGroup ? [teamsGroup] : []), ...otherGroups];
 
     for (const group of mobileOrder) {
       const section = document.createElement("section");
