@@ -678,15 +678,39 @@ body {
   border-top-left-radius: 0;
 }
 
+/* Tabs can set a shortLabel for phones; desktop shows the full label */
+.popup-tab-label-short {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .popup-tab {
     flex-basis: auto;
-    padding: 8px 14px;
+    padding: 6px 14px;
     font-size: 13px;
+  }
+
+  .popup-tab-label-full {
+    display: none;
+  }
+
+  .popup-tab-label-short {
+    display: block;
   }
 
   .popup-tab-panel {
     padding: 20px 14px;
+  }
+}
+
+/* Larger intro text for a popup's overview; normal paragraph size on phones */
+.popup-lead {
+  font-size: 21px;
+}
+
+@media (max-width: 768px) {
+  .popup-lead {
+    font-size: inherit;
   }
 }
 

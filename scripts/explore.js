@@ -316,7 +316,7 @@
         {
           customClass: "cols-1fr-1fr",
           left: `
-            <div style="font-size: 21px;">
+            <div class="popup-lead">
               <p style="text-align:center;">Hybrid Electric Vehicle Team (HEVT) is a design team at Virginia Tech that participates in the EcoCar Challenge put on by General Motors. The goal of this competition is to develop the physical systems, propulsion systems, and connected and automated vehicle (CAV) systems of a General Motors provided vehicle.</p>
               <p></p>
               <p style="text-align:center;">This competition runs on a 4-year cycle, where teams start over every 4 years. I joined for the 4th and final year of the Cadillac Lyriq, where we placed 3rd overall. HEVT was selected to continue, and I'm now in Year 1 of the new cycle with the Chevy Blazer.</p>
@@ -341,6 +341,7 @@
       tabs: [
         {
           label: "Blazer · Year 1 (2026–27)",
+          shortLabel: "Blazer · Y1",
           sections: [
             {
               customClass: "cols-1fr section-heading",
@@ -391,6 +392,7 @@
         },
         {
           label: "Lyriq · Year 4 (2025–26)",
+          shortLabel: "Lyriq · Y4",
           sections: [
             {
               customClass: "cols-1fr-1fr-1fr",
@@ -1678,7 +1680,7 @@
   // tab's content uses the same sections format as a regular popup.
   function renderTabs(tabs) {
     const buttons = tabs.map((tab, i) => `
-      <button type="button" class="popup-tab${i === 0 ? " active" : ""}" role="tab" aria-selected="${i === 0}" data-tab="${i}" title="${tab.label}"><span class="popup-tab-label">${tab.label}</span></button>
+      <button type="button" class="popup-tab${i === 0 ? " active" : ""}" role="tab" aria-selected="${i === 0}" data-tab="${i}" title="${tab.label}"><span class="popup-tab-label popup-tab-label-full">${tab.label}</span><span class="popup-tab-label popup-tab-label-short">${tab.shortLabel || tab.label}</span></button>
     `).join('');
 
     const panels = tabs.map((tab, i) => `
