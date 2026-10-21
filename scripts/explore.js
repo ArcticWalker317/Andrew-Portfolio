@@ -280,7 +280,7 @@
         {
           customClass: "cols-1fr",
           left: `
-            <h3 style="text-align:center;">This project has been brought to a close as CRO limits each project to 2 years. However, this team is continuing on to create RePLA, our next project. 😉</h3> 
+            <h3 style="text-align:center;">This project has been brought to a close as CRO limits each project to 2 years. However, this team is continuing on to create Canopy, our next project. 😉</h3> 
             `
         }
       ]
@@ -289,7 +289,7 @@
       title: "VT CRO CANOPY",
       sections: [
         {
-          customClass: "cols-1fr-fr",
+          customClass: "cols-1fr-1fr",
           left: `
             <p style="text-align:center;">This project is still in the early phases. I am proud to say I will be the lead of the Electrical and Computer Engineering subteam. More details on this project are to come, but so far here is what is accomplished:</p>
             <p style="text-align:center;">Lead electrical and computer engineering architecture for an autonomous greenhouse robotic system, defining system structure, interfaces, and technical direction.</p>
@@ -657,7 +657,7 @@
           left: `
             <div style="font-size: 16px;">
               <p>I am Andrew Stevens. I'm a Electrical and Computer Engineering student at Virginia Tech with an interest in the mix between developing real-time systems for sensing, control, automation, and embedded systems in general. I am passionate about designing and building efficient, reliable systems, and love bringing ideas to life with hands on projects. </p>
-              <p>Through my academic coursework and personal projects, I have gained experience with microcontrollers as well as programming in Python, C++, and C#. One of my recent projects involved creating an Arduino-powered puzzle box, which deepened my understanding of embedded systems, circuit design, and logical programming. I am currently diving into Python by developing a hand tracking interface program powered by YoloV8.</p>
+              <p>Through my academic coursework and personal projects, I have gained experience with microcontrollers as well as programming in Python, C++, and C#. One of my recent projects involved creating an Arduino-powered puzzle box, which deepened my understanding of embedded systems, circuit design, and logical programming. I then dove into Python by developing a hand tracking interface program powered by YoloV8.</p>
               <p>As I continue to grow technically, I'm also working to expand my professional network in preparation for entering the industry. I am seeking internship opportunities in electrical and computer engineering. My goal is to contribute to innovative teams while growing my technical and problem solving skills. </p>
               <p>I am driven by curiosity, a passion for problem solving, and a desire to create innovative solutions to real-world problems.</p>
             </div>
@@ -810,15 +810,16 @@
             <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
             (Search "Andrew J. Stevens")
           
+            <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
+            <a href="https://news.vt.edu/awards/students/deans-list/deans-list-spring-2026.html">
+            Virginia Tech Spring 2026 Dean's List
+            </a>
+            </p>
             </p>
             <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
             <a href="https://news.vt.edu/awards/students/deans-list/deans-list-fall-2025.html">
             Virginia Tech Fall 2025 Dean's List
             </a>
-            </p>
-            <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
-            Virginia Tech Spring 2026 Dean's List (Not officially Posted Yet)
-          
             </p>
             
           `
@@ -827,12 +828,13 @@
           customClass: "cols-1fr-1fr",
           left: `
             
+            <img src="assets/photos/vt5.png" alt="Andrew Stevens" style="width: 75%; height: auto; margin: 0 auto; display: block;">
             <img src="assets/photos/vt2.png" alt="Andrew Stevens" style="width: 75%; height: auto; margin: 0 auto; display: block;">
-          
-          `,
+
+            `,
           right: `
             
-            <img src="assets/photos/vt3.jpg" alt="Andrew Stevens" style="width: 75%; height: auto; margin: 0 auto; display: block;">
+            <img src="assets/photos/vt3.jpg" alt="Andrew Stevens" style="width: 85%; height: auto; margin: 0 auto; display: block;">
           
           `
         }
@@ -848,10 +850,10 @@
             <div style="width: 66%; margin: 0 auto;">
             <h3 style="text-align: center;">Hitachi Energy</h3>
             <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
-            I am spending this summer (2026) in a 12 week software engineering internship with Hitachi Energy in Raleigh, NC.
+            I spent the summer of 2026 in a 12 week software engineering internship with Hitachi Energy in Raleigh, NC.
             </p>
             <p style="text-align: center; margin-bottom: 16px; font-size: 16px;">
-            So far, I have scoped, planned, and built a Python report generator that parses transformer service test files and generates formatted reports, which cuts documentation time from 4-6 hours, down to about 5 minutes.
+            During that internship, I have scoped, planned, and built a Python report generator that parses transformer service test files and generates formatted reports, which cuts documentation time from 4-6 hours, down to about 5 minutes.
             </p>
             </div>
 

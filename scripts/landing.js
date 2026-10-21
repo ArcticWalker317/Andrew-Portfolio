@@ -21,6 +21,7 @@
     "me3.jpg",
     "me4.jpg",
     "bioandrewlanding.jpg",
+    "me2.jpg",
 
     // HEVT
     "hevt1.png",

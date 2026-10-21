@@ -19,7 +19,7 @@ os.makedirs(OUT_DIR, exist_ok=True)
 MAX_DIM = 320
 QUALITY = 72
 
-AVATAR_FILE = os.path.join(os.path.dirname(__file__), "..", "assets", "me.jpg")
+AVATAR_FILE = os.path.join(BASE, "me5.jpg")
 AVATAR_MAX_DIM = 480
 AVATAR_QUALITY = 80
 
